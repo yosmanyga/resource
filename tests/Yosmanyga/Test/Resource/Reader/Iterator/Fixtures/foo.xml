@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<foos>
+    <foo id="foo1">
+        <foo11>bar11</foo11>
+        <foo12>bar12</foo12>
+    </foo>
+    <foo id="foo2">
+        <foo21>bar21</foo21>
+        <foo22>bar22</foo22>
+    </foo>
+</foos>

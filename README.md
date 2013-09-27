@@ -1,0 +1,64 @@
+Resource
+========
+
+This library provides tools for defining and loading a resource.
+
+A ```Resource``` is a class containing metadata that refers to something like
+ a file, a directory, a db table or anything else with data:
+
+    $resource = new Resource(array(
+        'file' => '/path/to/a/file'
+    ));
+
+## Reader
+
+You can read a resource by using a ``Reader``. The read is done usually
+iterating over the data:
+
+resource.yml:
+
+    item1:
+        item11: value11
+        item12: value12
+    item2:
+        item22: value22
+
+reader.php:
+
+    $reader = new YamlFileReader();
+    $reader->open($resource);
+    while ($item = $reader->current()) {
+        print_r($item);
+        $reader->next();
+    }
+    $reader->close();
+
+output:
+
+    Array
+    (
+        [key] => item1
+        [value] => Array
+            (
+                [item11] => value11
+                [item12] => value12
+            )
+    )
+    Array
+    (
+        [key] => item2
+        [value] => Array
+            (
+                [item22] => value22
+            )
+
+    )
+
+## Workflow
+
+This library proposes a workflow for loading a resource:
+
+Use a ```Reader``` to iterate over the resource data.
+Inside each iteration, use a ```Normalizer``` to normalize the data to a
+standard format. After getting all data, use a ```Cacher``` to cache resource
+for future loading.
