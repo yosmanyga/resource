@@ -1,3 +1,5 @@
+# Reader
+
 You can read a resource by using a ``Reader``. The read is done usually
 iterating over the data:
 
@@ -40,7 +42,7 @@ output:
 
     )
 
-# Delegator Reader
+## Delegator Reader
 
 You can create a ``Delegator Reader`` to delegate the read to the right
 ``Reader``:
@@ -55,7 +57,7 @@ You can create a ``Delegator Reader`` to delegate the read to the right
 
 Internally will be used the right reader, according to the resource type.
 
-# Directory Reader
+## Directory Reader
 
 You can create a ``Directory Reader`` to read files inside a directory:
 

@@ -58,7 +58,8 @@ output:
 
 This library proposes a workflow for loading a resource:
 
-Use a ```Reader``` to iterate over the resource data.
-Inside each iteration, use a ```Normalizer``` to normalize the data to a
-standard format. After getting all data, use a ```Cacher``` to cache resource
-for future loading.
+1. Use a ```Reader``` to iterate over the resource data.
+2. Inside each iteration, use a ```Normalizer``` to normalize the data to a
+standard format.
+3. After getting all data, use a ```Cacher``` to cache the data for future
+loading.
