@@ -1,6 +1,6 @@
 {
     "name": "yosmanyga/resource",
-    "description": "Library for loading resources",
+    "description": "Provides tools for defining and loading resources",
     "type": "library",
     "keywords": ["resource", "reader", "loader"],
     "license": "MIT",
@@ -20,8 +20,8 @@
         "symfony/finder": "~2.3"
     },
     "suggest": {
-        "symfony/yaml": "For reading yaml resources",
-        "symfony/config": "For reading xml resources",
+        "symfony/yaml": "For reading yaml file resources",
+        "symfony/config": "For reading xml file resources",
         "symfony/finder": "For reading directory resources"
     },
     "autoload": {
