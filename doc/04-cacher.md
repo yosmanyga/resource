@@ -14,7 +14,7 @@ use cache.
     }
 
 First and second arguments are ```Storer``` classes,
-used to store the resource data and version. Third argument is used to detect
-the resource version. This version determines if the resource has changed
-since it was cached. So, the cache is used just if the resource version is the
-same.
+used to store the resource data and version respectivelly. Third argument is
+a ```VersionChecker``` class, used to detect the resource version. This version
+determines if the resource has changed since it was cached. So, the cache is
+used just if the resource version is the same.

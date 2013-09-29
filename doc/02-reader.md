@@ -1,7 +1,7 @@
 # Reader
 
 You can read a resource by using a ``Reader``. The read is done usually
-iterating over the data:
+iterating over the data at first level:
 
 resource.yml:
 

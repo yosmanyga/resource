@@ -63,3 +63,7 @@ This library proposes a workflow for loading a resource:
 standard format.
 3. After getting all data, use a ```Cacher``` to cache the data for future
 loading.
+
+# Documentation
+
+Read the documentation for more information.
