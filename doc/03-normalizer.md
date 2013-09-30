@@ -15,8 +15,8 @@ it:
     }
     $reader->close();
 
-In the same way you use a ```DelegatorReader``` you can use a
-```DelegatorNormalizer```:
+In the same way you use a ```DelegatorReader``` you can use
+a ```DelegatorNormalizer```:
 
     $normalizer = new DelegatorNormalizer(array(
         new MyDataYamlFileNormalizer(),
