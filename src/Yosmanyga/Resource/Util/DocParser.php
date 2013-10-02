@@ -118,12 +118,13 @@ class DocParser implements DocParserInterface
             $data = str_replace("\n@", "\n@@", $data);
             $data = explode("\n@", $data);
             array_shift($data);
-            array_walk($data, function(&$value) {
-                $value = str_replace("\n", "", $value);
-            });
         } else {
             $data = array($data);
         }
+
+        array_walk($data, function(&$value) {
+            $value = str_replace("\n", "", $value);
+        });
 
         $annotations = array();
         foreach ($data as $d) {
