@@ -10,7 +10,7 @@ use Yosmanyga\Resource\ResourceInterface;
 interface CacherInterface
 {
     /**
-     * Cache given data from given resource.
+     * Caches given data from given resource.
      *
      * @param  \Yosmanyga\Resource\ResourceInterface $resource
      * @param  mixed                                 $data
@@ -27,7 +27,7 @@ interface CacherInterface
     public function retrieve(ResourceInterface $resource);
 
     /**
-     * Returns whether cachers has cached data for given resource.
+     * Returns whether cacher has cached data for given resource.
      *
      * @param  \Yosmanyga\Resource\ResourceInterface $resource
      * @return mixed true if the cacher has the cached data for given resource,
