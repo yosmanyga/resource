@@ -3,6 +3,7 @@
 namespace Yosmanyga\Resource\Normalizer;
 
 use Yosmanyga\Resource\Normalizer\NormalizerInterface;
+use Yosmanyga\Resource\ResourceInterface;
 
 class DelegatorNormalizer implements NormalizerInterface
 {
@@ -22,7 +23,7 @@ class DelegatorNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function supports($data, $resource)
+    public function supports($data, ResourceInterface $resource)
     {
         foreach ($this->normalizers as $i => $normalizer) {
             if ($normalizer->supports($data, $resource)) {
@@ -42,7 +43,7 @@ class DelegatorNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function normalize($data, $resource)
+    public function normalize($data, ResourceInterface $resource)
     {
         return $this->pickNormalizer($data, $resource)->normalize($data, $resource);
     }
@@ -54,7 +55,7 @@ class DelegatorNormalizer implements NormalizerInterface
      *         resource
      * @return \Yosmanyga\Resource\Normalizer\NormalizerInterface
      */
-    private function pickNormalizer($data, $resource)
+    private function pickNormalizer($data, ResourceInterface $resource)
     {
         foreach ($this->normalizers as $i => $normalizer) {
             if ($normalizer->supports($data, $resource)) {

@@ -24,7 +24,7 @@ class DirectoryNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function supports($data, $resource)
+    public function supports($data, ResourceInterface $resource)
     {
         if (!$resource->hasMetadata('dir') || !$resource->hasMetadata('type')) {
             return false;
@@ -36,7 +36,7 @@ class DirectoryNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function normalize($data, $resource)
+    public function normalize($data, ResourceInterface $resource)
     {
         return $this->normalizer->normalize($data, $this->convertResource($resource));
     }

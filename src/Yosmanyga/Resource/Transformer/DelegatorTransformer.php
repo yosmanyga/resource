@@ -3,6 +3,7 @@
 namespace Yosmanyga\Resource\Transformer;
 
 use Yosmanyga\Resource\Transformer\TransformerInterface;
+use Yosmanyga\Resource\ResourceInterface;
 
 class DelegatorTransformer implements TransformerInterface
 {
@@ -22,7 +23,7 @@ class DelegatorTransformer implements TransformerInterface
     /**
      * @inheritdoc
      */
-    public function supports($resource, $parentResource)
+    public function supports(ResourceInterface $resource, ResourceInterface $parentResource)
     {
         foreach ($this->transformers as $i => $transformer) {
             if ($transformer->supports($resource, $parentResource)) {
@@ -42,7 +43,7 @@ class DelegatorTransformer implements TransformerInterface
     /**
      * @inheritdoc
      */
-    public function transform($resource, $parentResource)
+    public function transform(ResourceInterface $resource, ResourceInterface $parentResource)
     {
         return $this->pickTransformer($resource, $parentResource)->transform($resource, $parentResource);
     }
@@ -54,7 +55,7 @@ class DelegatorTransformer implements TransformerInterface
      *         resource
      * @return \Yosmanyga\Resource\Transformer\TransformerInterface
      */
-    private function pickTransformer($resource, $parentResource)
+    private function pickTransformer(ResourceInterface $resource, ResourceInterface $parentResource)
     {
         foreach ($this->transformers as $i => $transformer) {
             if ($transformer->supports($resource, $parentResource)) {

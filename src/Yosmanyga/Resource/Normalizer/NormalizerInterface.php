@@ -2,6 +2,8 @@
 
 namespace Yosmanyga\Resource\Normalizer;
 
+use Yosmanyga\Resource\ResourceInterface;
+
 /**
  * Interface used by normalizers.
  */
@@ -15,7 +17,7 @@ interface NormalizerInterface
      * @return boolean true if the normalizer supports the data and resource,
      *         false otherwise
      */
-    public function supports($data, $resource);
+    public function supports($data, ResourceInterface $resource);
 
     /**
      * Normalizes and returns the data.
@@ -24,5 +26,5 @@ interface NormalizerInterface
      * @param  \Yosmanyga\Resource\ResourceInterface $resource
      * @return mixed
      */
-    public function normalize($data, $resource);
+    public function normalize($data, ResourceInterface $resource);
 }
