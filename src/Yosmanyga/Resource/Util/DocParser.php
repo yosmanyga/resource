@@ -4,9 +4,6 @@ namespace Yosmanyga\Resource\Util;
 
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * TODO: Improve this class with a descent parser
- */
 class DocParser implements DocParserInterface
 {
     /**
@@ -17,7 +14,7 @@ class DocParser implements DocParserInterface
         $data = array();
         $class = $this->findClass($file);
         $ref = new \ReflectionClass($class);
-        $annotations = $this->removeComment($ref->getDocComment());
+        $annotations = $this->resolveAnnotations($ref->getDocComment());
         foreach ($annotations as $annotation) {
             if (!$annotationName || $annotationName == $annotation['key']) {
                 $data[] = array(
@@ -29,7 +26,7 @@ class DocParser implements DocParserInterface
         }
 
         foreach ($ref->getProperties() as $property) {
-            $annotations = $this->removeComment($property->getDocComment());
+            $annotations = $this->resolveAnnotations($property->getDocComment());
             foreach ($annotations as $annotation) {
                 if (!$annotationName || $annotationName == $annotation['key']) {
                     $data[] = array(
@@ -42,7 +39,7 @@ class DocParser implements DocParserInterface
         }
 
         foreach ($ref->getMethods() as $method) {
-            $annotations = $this->removeComment($method->getDocComment());
+            $annotations = $this->resolveAnnotations($method->getDocComment());
             foreach ($annotations as $annotation) {
                 if (!$annotationName || $annotationName == $annotation['key']) {
                     $data[] = array(
@@ -98,44 +95,91 @@ class DocParser implements DocParserInterface
     }
 
     /**
-     * @param string $data
+     * @param string $comment
      * @return array
      */
-    private function removeComment($data)
+    private function resolveAnnotations($comment)
     {
-        // Internal comment
-        $data = preg_replace("/\n\s\s+/", "\n", $data);
-        $data = str_replace("\n* ", "\n", $data);
-        $data = str_replace("\n * ", "\n", $data);
-        // Top comment
-        $data = str_replace("/**\n", "", $data);
-        // Bottom comment
-        $data = str_replace("\n*/", "", $data);
-        $data = str_replace("\n */", "", $data);
-
-        if (strpos($data, "\n@")) {
-            $data = "\n" . $data;
-            $data = str_replace("\n@", "\n@@", $data);
-            $data = explode("\n@", $data);
-            array_shift($data);
-        } else {
-            $data = array($data);
+        if (!$comment) {
+            return array();
         }
 
-        array_walk($data, function(&$value) {
-            $value = str_replace("\n", "", $value);
-        });
+        $comment = $this->cleanAnnotations($comment);
+        $annotations = $this->splitAnnotations($comment);
+        $annotations = $this->cleanContents($annotations);
+        $annotations = $this->parseAnnotations($annotations);
 
-        $annotations = array();
-        foreach ($data as $d) {
-            $key = substr(strstr($d, '(', true), 1);
+        return $annotations;
+    }
+
+    /**
+     * Copied from phpDocumentor/ReflectionDocBlock/src/phpDocumentor/Reflection/DocBlock.php::cleanInput
+     * @codeCoverageIgnore
+     */
+    private function cleanAnnotations($comment)
+    {
+        $comment = trim(
+            preg_replace(
+                '#[ \t]*(?:\/\*\*|\*\/|\*)?[ \t]{0,1}(.*)?#u',
+                '$1',
+                $comment
+            )
+        );
+
+        // reg ex above is not able to remove */ from a single line docblock
+        if (substr($comment, -2) == '*/') {
+            $comment = trim(substr($comment, 0, -2));
+        }
+
+        // normalize strings
+        $comment = str_replace(array("\r\n", "\r"), "\n", $comment);
+
+        return $comment;
+    }
+
+    private function splitAnnotations($comment)
+    {
+        if (strpos($comment, "\n@")) {
+            $comment = "\n" . $comment;
+            $comment = str_replace("\n@", "\n@@", $comment);
+            $comment = explode("\n@", $comment);
+            array_shift($comment);
+        } else {
+            $comment = array($comment);
+        }
+
+        return $comment;
+    }
+
+    private function cleanContents($annotations)
+    {
+        $data = array();
+        foreach ($annotations as $annotation) {
+            $data[] = str_replace("\n", "", $annotation);
+        }
+
+        return $data;
+    }
+
+    private function parseAnnotations($annotations)
+    {
+        $parsedAnnotations = array();
+        foreach ($annotations as $annotation) {
+            $key = substr(strstr($annotation, '(', true), 1);
             if ($key) {
-                $annotation['key'] = $key;
-                $annotation['value'] = substr(strstr($d, '('), 1, -1);
-                $annotations[] = $annotation;
+                $parsedAnnotation['key'] = $key;
+                $parsedAnnotation['value'] = substr(strstr($annotation, '('), 1, -1);
+                $parsedAnnotations[] = $parsedAnnotation;
+            } else {
+                $key = substr($annotation, 1);
+                if ($key) {
+                    $parsedAnnotation['key'] = $key;
+                    $parsedAnnotation['value'] = '';
+                    $parsedAnnotations[] = $parsedAnnotation;
+                }
             }
         }
 
-        return $annotations;
+        return $parsedAnnotations;
     }
 }
