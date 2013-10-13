@@ -4,6 +4,7 @@ namespace Yosmanyga\Test\Resource\Reader\Iterator\Fixtures;
 
 /**
  * @AnnotationX({foo11: 'bar11', foo12: 'bar12'})
+ * @AnnotationY({foo1: 'bar1', foo2: 'bar2'})
  */
 class Foo
 {
