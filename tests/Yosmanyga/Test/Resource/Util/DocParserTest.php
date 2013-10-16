@@ -17,6 +17,9 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
                     'value' => array(
                         'foo11' => 'bar11',
                         'foo12' => 'bar12'
+                    ),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Util\Fixtures\Foo'
                     )
                 ),
                 1 => array(
@@ -25,6 +28,9 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
                     'value' => array(
                         'foo1' => 'bar1',
                         'foo2' => 'bar2'
+                    ),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Util\Fixtures\Foo'
                     )
                 ),
                 2 => array(
@@ -33,6 +39,9 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
                     'value' => array(
                         'foo21' => 'bar21',
                         'foo22' => 'bar22'
+                    ),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Util\Fixtures\Foo'
                     )
                 ),
                 3 => array(
@@ -41,6 +50,9 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
                     'value' => array(
                         'foo1' => 'bar1',
                         'foo2' => 'bar2'
+                    ),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Util\Fixtures\Foo'
                     )
                 )
             ),

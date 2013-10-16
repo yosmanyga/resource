@@ -54,6 +54,9 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
                     'value' => array(
                         'foo11' => 'bar11',
                         'foo12' => 'bar12'
+                    ),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Reader\Iterator\Fixtures\Foo'
                     )
                 )
             ),
@@ -100,6 +103,9 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
                     'value' => array(
                         'foo21' => 'bar21',
                         'foo22' => 'bar22'
+                    ),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Reader\Iterator\Fixtures\Foo'
                     )
                 )
             ),
