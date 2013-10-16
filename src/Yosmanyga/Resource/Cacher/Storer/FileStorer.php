@@ -31,7 +31,7 @@ class FileStorer implements StorerInterface
      */
     public function add($data, ResourceInterface $resource)
     {
-        return file_put_contents($this->getFilename($resource), serialize($data));
+        file_put_contents($this->getFilename($resource), serialize($data));
     }
 
     /**

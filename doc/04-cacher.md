@@ -4,17 +4,20 @@ The process of read a resource can be very slow, that's why you should always
 use cache.
 
     $cacher = new Cacher(
-        new DataFileStorer('path/to/cache/')
-        new VersionFileStorer('path/to/cache/', '.meta')
-        new FileVersionChecker()
+        new FileVersionChecker('path/to/cache/', '.check')
+        new FileStorer('path/to/cache/')
     );
 
     if ($cacher->check($resource)) {
         return $cacher->retrieve($resource);
     }
 
-First and second arguments are ```Storer``` classes,
-used to store the resource data and version respectivelly. Third argument is
-a ```VersionChecker``` class, used to detect the resource version. This version
+First argument is a ```Checker``` class, used to check if a resource has valid
+cache or not.
+
+A common ```Checker``` is the ```FileVersionChecker```, it
 determines if the resource has changed since it was cached. So, the cache is
-used just if the resource version is the same.
+used just if the file is the same.
+
+Another common ```Checker``` is the ```TtlChecker```, it validates the cache by
+a number of seconds, after that time the cache is considered invalid.

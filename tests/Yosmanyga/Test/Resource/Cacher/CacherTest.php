@@ -12,16 +12,13 @@ class CacherTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
-        $dataStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $versionStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $versionChecker = $this->getMock('Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface');
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $dataStorer */
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $versionStorer */
-        /** @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker */
-        $cacher = new Cacher($dataStorer, $versionStorer, $versionChecker);
-        $this->assertAttributeEquals($dataStorer, 'dataStorer', $cacher);
-        $this->assertAttributeEquals($versionStorer, 'versionStorer', $cacher);
-        $this->assertAttributeEquals($versionChecker, 'versionChecker', $cacher);
+        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
+        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
+        $cacher = new Cacher($checker, $storer);
+        $this->assertAttributeEquals($checker, 'checker', $cacher);
+        $this->assertAttributeEquals($storer, 'storer', $cacher);
     }
 
     /**
@@ -32,16 +29,13 @@ class CacherTest extends \PHPUnit_Framework_TestCase
         $data = array();
         $resource = new Resource();
 
-        $dataStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $dataStorer->expects($this->once())->method('add')->with($data, $resource);
-        $versionChecker = $this->getMock('Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface');
-        $versionChecker->expects($this->once())->method('get')->with($resource)->will($this->returnValue('111'));
-        $versionStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $versionStorer->expects($this->once())->method('add')->with(111, $resource);
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $dataStorer */
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $versionStorer */
-        /** @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker */
-        $cacher = new Cacher($dataStorer, $versionStorer, $versionChecker);
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
+        $checker->expects($this->once())->method('add')->with($resource);
+        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
+        $storer->expects($this->once())->method('add')->with($data, $resource);
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
+        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
+        $cacher = new Cacher($checker, $storer);
         $cacher->store($data, $resource);
     }
 
@@ -52,103 +46,70 @@ class CacherTest extends \PHPUnit_Framework_TestCase
     {
         $resource = new Resource();
 
-        $dataStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $dataStorer->expects($this->once())->method('get')->with($resource);
-        $versionChecker = $this->getMock('Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface');
-        $versionStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $dataStorer */
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $versionStorer */
-        /** @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker */
-        $cacher = new Cacher($dataStorer, $versionStorer, $versionChecker);
+        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
+        $storer->expects($this->once())->method('get')->with($resource);
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
+        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
+        $cacher = new Cacher($checker, $storer);
         $cacher->retrieve($resource);
     }
 
     /**
      * @covers Yosmanyga\Resource\Cacher\Cacher::check
      */
-    public function testCheckWithNoVersionCache()
+    public function testCheck()
     {
         $resource = new Resource();
 
-        $dataStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $versionChecker = $this->getMock('Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface');
-        $versionStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $dataStorer */
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $versionStorer */
-        /** @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker */
-        $cacher = new Cacher($dataStorer, $versionStorer, $versionChecker);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $versionChecker */
-        /** @var \PHPUnit_Framework_MockObject_MockObject $versionStorer */
-        $versionStorer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(false));
-        $this->assertFalse($cacher->check($resource));
-    }
-
-    /**
-     * @covers Yosmanyga\Resource\Cacher\Cacher::check
-     */
-    public function testCheckWithDifferentVersions()
-    {
-        $resource = new Resource();
-
-        $dataStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $versionChecker = $this->getMock('Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface');
-        $versionStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $dataStorer */
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $versionStorer */
-        /** @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker */
-        $cacher = new Cacher($dataStorer, $versionStorer, $versionChecker);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $versionChecker */
-        /** @var \PHPUnit_Framework_MockObject_MockObject $versionStorer */
-        $versionStorer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(true));
-        $versionChecker->expects($this->once())->method('get')->with($resource)->will($this->returnValue(111));
-        $versionStorer->expects($this->once())->method('get')->with($resource)->will($this->returnValue(112));
-        $this->assertFalse($cacher->check($resource));
-    }
-
-    /**
-     * @covers Yosmanyga\Resource\Cacher\Cacher::check
-     */
-    public function testCheckWithSameVersions()
-    {
-        $resource = new Resource();
-
-        $dataStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $versionChecker = $this->getMock('Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface');
-        $versionStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $dataStorer */
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $versionStorer */
-        /** @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker */
-        $cacher = new Cacher($dataStorer, $versionStorer, $versionChecker);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $versionChecker */
-        /** @var \PHPUnit_Framework_MockObject_MockObject $versionStorer */
-        $versionStorer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(true));
-        $versionChecker->expects($this->once())->method('get')->with($resource)->will($this->returnValue(111));
-        $versionStorer->expects($this->once())->method('get')->with($resource)->will($this->returnValue(111));
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
+        $checker->expects($this->once())->method('check')->with($resource)->will($this->returnValue(true));
+        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
+        $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(true));
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
+        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
+        $cacher = new Cacher($checker, $storer);
         $this->assertTrue($cacher->check($resource));
+
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
+        /** @var \PHPUnit_Framework_MockObject_MockObject $checker */
+        $checker->expects($this->once())->method('check')->with($resource)->will($this->returnValue(false));
+        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
+        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
+        $cacher = new Cacher($checker, $storer);
+        $this->assertFalse($cacher->check($resource));
+
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
+        /** @var \PHPUnit_Framework_MockObject_MockObject $checker */
+        $checker->expects($this->once())->method('check')->with($resource)->will($this->returnValue(true));
+        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
+        /** @var \PHPUnit_Framework_MockObject_MockObject $storer */
+        $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(false));
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
+        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
+        $cacher = new Cacher($checker, $storer);
+        $this->assertFalse($cacher->check($resource));
     }
+
 
     /**
      * @covers Yosmanyga\Resource\Cacher\Cacher::__clone
      */
     public function testClone()
     {
-        $dataStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        $versionChecker = $this->getMock('Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface');
-        $versionStorer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $dataStorer */
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $versionStorer */
-        /** @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker */
-        $cacher = new Cacher($dataStorer, $versionStorer, $versionChecker);
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
+        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
+        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
+        $cacher = new Cacher($checker, $storer);
         $r = new \ReflectionClass('Yosmanyga\Resource\Cacher\Cacher');
-        $p1 = $r->getProperty('dataStorer');
+        $p1 = $r->getProperty('storer');
         $p1->setAccessible(true);
-        $p2 = $r->getProperty('versionStorer');
+        $p2 = $r->getProperty('checker');
         $p2->setAccessible(true);
-        $p3 = $r->getProperty('versionChecker');
-        $p3->setAccessible(true);
         $clone = clone $cacher;
         $this->assertNotSame($p1->getValue($cacher), $p1->getValue($clone));
         $this->assertNotSame($p2->getValue($cacher), $p2->getValue($clone));
-        $this->assertNotSame($p3->getValue($cacher), $p3->getValue($clone));
     }
 }

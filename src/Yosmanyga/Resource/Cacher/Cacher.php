@@ -3,41 +3,33 @@
 namespace Yosmanyga\Resource\Cacher;
 
 use Yosmanyga\Resource\Cacher\CacherInterface;
-use Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface;
+use Yosmanyga\Resource\Cacher\Checker\CheckerInterface;
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
 use Yosmanyga\Resource\ResourceInterface;
 
 class Cacher implements CacherInterface
 {
     /**
-     * @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface
+     * @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface
      */
-    private $dataStorer;
+    private $checker;
 
     /**
      * @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface
      */
-    private $versionStorer;
+    private $storer;
 
     /**
-     * @var \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface
-     */
-    private $versionChecker;
-
-    /**
-     * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface                 $dataStorer
-     * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface                 $versionStorer
-     * @param \Yosmanyga\Resource\Cacher\VersionChecker\VersionCheckerInterface $versionChecker
+     * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface   $storer
+     * @param \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker
      */
     public function __construct(
-        StorerInterface $dataStorer,
-        StorerInterface $versionStorer,
-        VersionCheckerInterface $versionChecker
+        CheckerInterface $checker,
+        StorerInterface $storer
     )
     {
-        $this->dataStorer = $dataStorer;
-        $this->versionStorer = $versionStorer;
-        $this->versionChecker = $versionChecker;
+        $this->checker = $checker;
+        $this->storer = $storer;
     }
 
     /**
@@ -45,8 +37,8 @@ class Cacher implements CacherInterface
      */
     public function store($data, ResourceInterface $resource)
     {
-        $this->dataStorer->add($data, $resource);
-        $this->versionStorer->add($this->versionChecker->get($resource), $resource);
+        $this->checker->add($resource);
+        $this->storer->add($data, $resource);
     }
 
     /**
@@ -54,7 +46,7 @@ class Cacher implements CacherInterface
      */
     public function retrieve(ResourceInterface $resource)
     {
-        return $this->dataStorer->get($resource);
+        return $this->storer->get($resource);
     }
 
     /**
@@ -62,21 +54,16 @@ class Cacher implements CacherInterface
      */
     public function check(ResourceInterface $resource)
     {
-        if (!$this->versionStorer->has($resource)) {
-            return false;
+        if ($this->checker->check($resource) && $this->storer->has($resource)) {
+            return true;
         }
 
-        if ($this->versionChecker->get($resource) != $this->versionStorer->get($resource)) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     public function __clone()
     {
-        $this->versionChecker = clone $this->versionChecker;
-        $this->dataStorer = clone $this->dataStorer;
-        $this->versionStorer = clone $this->versionStorer;
+        $this->checker = clone $this->checker;
+        $this->storer = clone $this->storer;
     }
 }

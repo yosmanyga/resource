@@ -1,22 +1,29 @@
 <?php
 
-namespace Yosmanyga\Resource\Cacher\VersionChecker;
+namespace Yosmanyga\Resource\Cacher\Checker;
 
 use Yosmanyga\Resource\ResourceInterface;
 use Symfony\Component\Finder\Finder;
 
-class DirectoryVersionChecker implements VersionCheckerInterface
+class DirectoryVersionChecker implements CheckerInterface
 {
+    /**
+     * @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface
+     */
+    private $storer;
+
     /**
      * @var \Symfony\Component\Finder\Finder
      */
     private $finder;
 
     /**
+     * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer
      * @param \Symfony\Component\Finder\Finder $finder
      */
-    public function __construct($finder = null)
+    public function __construct($storer, $finder = null)
     {
+        $this->storer = $storer;
         $this->finder = $finder ?: new Finder();
     }
 
@@ -35,7 +42,27 @@ class DirectoryVersionChecker implements VersionCheckerInterface
     /**
      * @inheritdoc
      */
-    public function get(ResourceInterface $resource)
+    public function add(ResourceInterface $resource)
+    {
+        $this->storer->add(
+            $this->calculateDirVersion($resource),
+            $resource
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function check(ResourceInterface $resource)
+    {
+        if (!$this->storer->has($resource)) {
+            return false;
+        }
+
+        return $this->storer->get($resource) == $this->calculateDirVersion($resource);
+    }
+
+    private function calculateDirVersion(ResourceInterface $resource)
     {
         // Adjust finder
         $dir = $resource->getMetadata('dir');
@@ -53,12 +80,12 @@ class DirectoryVersionChecker implements VersionCheckerInterface
             $this->finder->depth('>= 0');
         }
 
-        $versions = array();
+        $version = array();
         /** @var \SplFileInfo $file */
         foreach ($this->finder->getIterator() as $file) {
-            $versions[md5($file->getRealPath())] = filemtime($file);
+            $version[md5($file->getRealPath())] = filemtime($file);
         }
 
-        return $versions;
+        return $version;
     }
 }
