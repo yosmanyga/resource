@@ -126,25 +126,4 @@ class DelegatorReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new DelegatorReader(array($internalReader1));
         $m->invoke($reader, new Resource());
     }
-
-    /**
-     * @covers Yosmanyga\Resource\Reader\Iterator\DelegatorReader::__clone
-     */
-    public function testClone()
-    {
-        $reader = new DelegatorReader();
-
-        $r = new \ReflectionClass('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        $p1 = $r->getProperty('readers');
-        $p1->setAccessible(true);
-        $p1->setValue($reader, array($this->getMock('Yosmanyga\Resource\Reader\Iterator\ReaderInterface')));
-        $p2 = $r->getProperty('reader');
-        $p2->setAccessible(true);
-        $p2->setValue($reader, $this->getMock('Yosmanyga\Resource\Reader\Iterator\ReaderInterface'));
-        $clone = clone $reader;
-        $internalReaders = $p1->getValue($reader);
-        $clonedInternalReaders = $p1->getValue($clone);
-        $this->assertNotSame($internalReaders[0], $clonedInternalReaders[0]);
-        $this->assertNotSame($p2->getValue($reader), $p2->getValue($clone));
-    }
 }

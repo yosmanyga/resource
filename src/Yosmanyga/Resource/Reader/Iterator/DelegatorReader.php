@@ -100,17 +100,4 @@ class DelegatorReader implements ReaderInterface
 
         throw new \RuntimeException('No reader is able to support the resource.');
     }
-
-    public function __clone()
-    {
-        $readers = array();
-        foreach ($this->readers as $reader) {
-            $readers[] = clone $reader;
-        }
-
-        $this->readers = $readers;
-        if (isset($this->reader)) {
-            $this->reader = clone $this->reader;
-        }
-    }
 }

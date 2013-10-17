@@ -193,30 +193,4 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
         $m->setAccessible(true);
         $this->assertEquals(new Resource(array('file' => $filename), 'yaml'), $m->invoke($reader, $resource, $file));
     }
-
-    /**
-     * @covers Yosmanyga\Resource\Reader\Iterator\DirectoryReader::__clone
-     */
-    public function testClone()
-    {
-        $reader = new DirectoryReader(new DelegatorReader());
-        $r = new \ReflectionClass('Yosmanyga\Resource\Reader\Iterator\DirectoryReader');
-        $p1 = $r->getProperty('delegatorReader');
-        $p1->setAccessible(true);
-        $p1->setValue($reader, new \stdClass());
-        $p2 = $r->getProperty('finder');
-        $p2->setAccessible(true);
-        $p2->setValue($reader, new \stdClass());
-        $p3 = $r->getProperty('resource');
-        $p3->setAccessible(true);
-        $p3->setValue($reader, new \stdClass());
-        $p4 = $r->getProperty('iterator');
-        $p4->setAccessible(true);
-        $p4->setValue($reader, new \stdClass());
-        $clone = clone $reader;
-        $this->assertNotSame($p1->getValue($reader), $p1->getValue($clone));
-        $this->assertNotSame($p2->getValue($reader), $p2->getValue($clone));
-        $this->assertNotSame($p3->getValue($reader), $p3->getValue($clone));
-        $this->assertNotSame($p4->getValue($reader), $p4->getValue($clone));
-    }
 }

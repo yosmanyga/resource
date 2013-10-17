@@ -156,23 +156,4 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new AnnotationFileReader();
         $reader->close();
     }
-
-    /**
-     * @covers Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader::__clone
-     */
-    public function testClone()
-    {
-        $reader = new AnnotationFileReader();
-
-        $r = new \ReflectionClass('Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader');
-        $p1 = $r->getProperty('inMemoryReader');
-        $p1->setAccessible(true);
-        $p1->setValue($reader, new \stdClass());
-        $p2 = $r->getProperty('docParser');
-        $p2->setAccessible(true);
-        $p2->setValue($reader, new \stdClass());
-        $clone = clone $reader;
-        $this->assertNotSame($p1->getValue($reader), $p1->getValue($clone));
-        $this->assertNotSame($p2->getValue($reader), $p2->getValue($clone));
-    }
 }

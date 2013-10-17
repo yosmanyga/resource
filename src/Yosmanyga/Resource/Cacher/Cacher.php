@@ -60,10 +60,4 @@ class Cacher implements CacherInterface
 
         return false;
     }
-
-    public function __clone()
-    {
-        $this->checker = clone $this->checker;
-        $this->storer = clone $this->storer;
-    }
 }

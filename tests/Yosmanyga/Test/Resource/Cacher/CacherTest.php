@@ -91,25 +91,4 @@ class CacherTest extends \PHPUnit_Framework_TestCase
         $cacher = new Cacher($checker, $storer);
         $this->assertFalse($cacher->check($resource));
     }
-
-
-    /**
-     * @covers Yosmanyga\Resource\Cacher\Cacher::__clone
-     */
-    public function testClone()
-    {
-        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
-        $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
-        /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
-        $cacher = new Cacher($checker, $storer);
-        $r = new \ReflectionClass('Yosmanyga\Resource\Cacher\Cacher');
-        $p1 = $r->getProperty('storer');
-        $p1->setAccessible(true);
-        $p2 = $r->getProperty('checker');
-        $p2->setAccessible(true);
-        $clone = clone $cacher;
-        $this->assertNotSame($p1->getValue($cacher), $p1->getValue($clone));
-        $this->assertNotSame($p2->getValue($cacher), $p2->getValue($clone));
-    }
 }

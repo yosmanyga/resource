@@ -111,11 +111,4 @@ class XmlFileReader implements ReaderInterface
         $this->xmlReader->close();
         unset($this->xmlReader);
     }
-
-    public function __clone()
-    {
-        if (isset($this->xmlReader)) {
-            $this->xmlReader = clone $this->xmlReader;
-        }
-    }
 }

@@ -97,10 +97,4 @@ class AnnotationFileReader implements ReaderInterface
         $this->inMemoryReader->close();
         unset($this->inMemoryReader);
     }
-
-    public function __clone()
-    {
-        $this->inMemoryReader = clone $this->inMemoryReader;
-        $this->docParser = clone $this->docParser;
-    }
 }

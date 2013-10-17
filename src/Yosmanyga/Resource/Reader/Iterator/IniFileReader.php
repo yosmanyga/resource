@@ -89,9 +89,4 @@ class IniFileReader implements ReaderInterface
         $this->inMemoryReader->close();
         unset($this->inMemoryReader);
     }
-
-    public function __clone()
-    {
-        $this->inMemoryReader = clone $this->inMemoryReader;
-    }
 }

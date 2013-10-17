@@ -115,18 +115,4 @@ class YamlFileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new YamlFileReader();
         $reader->close();
     }
-
-    /**
-     * @covers Yosmanyga\Resource\Reader\Iterator\YamlFileReader::__clone
-     */
-    public function testClone()
-    {
-        $reader = new YamlFileReader();
-        $r = new \ReflectionClass('Yosmanyga\Resource\Reader\Iterator\YamlFileReader');
-        $p = $r->getProperty('inMemoryReader');
-        $p->setAccessible(true);
-        $p->setValue($reader, new \stdClass());
-        $clone = clone $reader;
-        $this->assertNotSame($p->getValue($reader), $p->getValue($clone));
-    }
 }

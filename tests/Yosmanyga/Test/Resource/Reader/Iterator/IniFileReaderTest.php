@@ -115,18 +115,4 @@ class IniFileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new IniFileReader();
         $reader->close();
     }
-
-    /**
-     * @covers Yosmanyga\Resource\Reader\Iterator\IniFileReader::__clone
-     */
-    public function testClone()
-    {
-        $reader = new IniFileReader();
-        $r = new \ReflectionClass('Yosmanyga\Resource\Reader\Iterator\IniFileReader');
-        $p = $r->getProperty('inMemoryReader');
-        $p->setAccessible(true);
-        $p->setValue($reader, new \stdClass());
-        $clone = clone $reader;
-        $this->assertNotSame($p->getValue($reader), $p->getValue($clone));
-    }
 }

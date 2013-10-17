@@ -115,18 +115,4 @@ class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new XmlFileReader();
         $reader->close();
     }
-
-    /**
-     * @covers Yosmanyga\Resource\Reader\Iterator\XmlFileReader::__clone
-     */
-    public function testClone()
-    {
-        $reader = new XmlFileReader();
-        $r = new \ReflectionClass('Yosmanyga\Resource\Reader\Iterator\XmlFileReader');
-        $p = $r->getProperty('xmlReader');
-        $p->setAccessible(true);
-        $p->setValue($reader, new \stdClass());
-        $clone = clone $reader;
-        $this->assertNotSame($p->getValue($reader), $p->getValue($clone));
-    }
 }

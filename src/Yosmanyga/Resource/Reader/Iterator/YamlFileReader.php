@@ -90,11 +90,4 @@ class YamlFileReader implements ReaderInterface
         $this->inMemoryReader->close();
         unset($this->inMemoryReader);
     }
-
-    public function __clone()
-    {
-        if (isset($this->inMemoryReader)) {
-            $this->inMemoryReader = clone $this->inMemoryReader;
-        }
-    }
 }

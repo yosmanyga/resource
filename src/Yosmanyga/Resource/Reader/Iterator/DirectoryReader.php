@@ -140,16 +140,4 @@ class DirectoryReader implements ReaderInterface
             $resource->getMetadata('type')
         );
     }
-
-    public function __clone()
-    {
-        $this->delegatorReader = clone $this->delegatorReader;
-        $this->finder = clone $this->finder;
-        if (isset($this->resource)) {
-            $this->resource = clone $this->resource;
-        }
-        if (isset($this->iterator)) {
-            $this->iterator = clone $this->iterator;
-        }
-    }
 }
