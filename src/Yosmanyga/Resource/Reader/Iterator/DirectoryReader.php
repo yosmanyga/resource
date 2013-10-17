@@ -65,7 +65,9 @@ class DirectoryReader implements ReaderInterface
     {
         $this->resource = $resource;
         $this->prepareFinder();
-        $this->delegatorReader->open($this->createResource());
+
+        $resource = $this->convertResource($resource, $this->iterator->current());
+        $this->delegatorReader->open($resource);
     }
 
     /**
@@ -85,7 +87,8 @@ class DirectoryReader implements ReaderInterface
         if (!$this->delegatorReader->current()) {
             $this->iterator->next();
             if ($this->iterator->valid()) {
-                $this->delegatorReader->open($this->createResource());
+                $resource = $this->convertResource($this->resource, $this->iterator->current());
+                $this->delegatorReader->open($resource);
             }
         }
     }
@@ -123,19 +126,18 @@ class DirectoryReader implements ReaderInterface
         $this->iterator->rewind();
     }
 
-    private function createResource()
+    /**
+     * @param \Yosmanyga\Resource\ResourceInterface $resource
+     * @param \SplFileInfo $file
+     * @return \Yosmanyga\Resource\ResourceInterface
+     */
+    private function convertResource(ResourceInterface $resource, \SplFileInfo $file)
     {
-        /** @var \SplFileInfo $file */
-        $file = $this->iterator->current();
-
         return new Resource(
-            array_merge(
-                $this->resource->getMetadata(),
-                array(
-                    'file' => $file->getRealpath()
-                )
+            array(
+                'file' => $file->getRealpath()
             ),
-            $this->resource->hasMetadata('type') ? $this->resource->getMetadata('type') : null
+            $resource->getMetadata('type')
         );
     }
 

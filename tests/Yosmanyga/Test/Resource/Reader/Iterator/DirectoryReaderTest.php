@@ -52,7 +52,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpen()
     {
-        $resource = new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml'));
+        $resource = new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'type' => 'yaml'));
         $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
         /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
         $reader = new DirectoryReader($delegatorReader);
@@ -94,7 +94,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new DirectoryReader($delegatorReader);
         $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'resource');
         $p->setAccessible(true);
-        $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1')));
+        $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1', 'type' => 'yaml')));
         $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'iterator');
         $p->setAccessible(true);
         $p->setValue($reader, $iterator);
@@ -183,47 +183,15 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
         $m->invoke($reader);
     }
 
-    public function testCreateResource()
+    public function testConvertResource()
     {
-        $resource = $this->getMock('Yosmanyga\Resource\ResourceInterface');
-        $iterator = $this->getMock('\AppendIterator');
-        $file = $this->getMockBuilder('\SplFileInfo')->disableOriginalConstructor()->getMock();
+        $resource = new Resource(array('type' => 'yaml'));
+        $filename = sprintf("%s/Fixtures/foo.yml", dirname(__FILE__));
+        $file = new \SplFileInfo($filename);
         $reader = new DirectoryReader(new DelegatorReader());
-        $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'iterator');
-        $p->setAccessible(true);
-        $p->setValue($reader, $iterator);
-        $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'resource');
-        $p->setAccessible(true);
-        $p->setValue($reader, $resource);
-        $m = new \ReflectionMethod('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'createResource');
+        $m = new \ReflectionMethod($reader, 'convertResource');
         $m->setAccessible(true);
-        $iterator->expects($this->once())->method('current')->will($this->returnValue($file));
-        $file->expects($this->once())->method('getRealpath')->will($this->returnValue('foo.bar'));
-        $resource->expects($this->once())->method('hasMetadata')->will($this->returnValue(true));
-        $resource->expects($this->exactly(2))->method('getMetadata')->will($this->returnValueMap(array(
-            array('', array()),
-            array('type', 'foo')
-        )));
-        $this->assertEquals(new Resource(array('file' => 'foo.bar'), 'foo'), $m->invoke($reader));
-
-        // No type
-        $resource = $this->getMock('Yosmanyga\Resource\ResourceInterface');
-        $iterator = $this->getMock('\AppendIterator');
-        $file = $this->getMockBuilder('\SplFileInfo')->disableOriginalConstructor()->getMock();
-        $reader = new DirectoryReader(new DelegatorReader());
-        $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'iterator');
-        $p->setAccessible(true);
-        $p->setValue($reader, $iterator);
-        $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'resource');
-        $p->setAccessible(true);
-        $p->setValue($reader, $resource);
-        $m = new \ReflectionMethod('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'createResource');
-        $m->setAccessible(true);
-        $iterator->expects($this->once())->method('current')->will($this->returnValue($file));
-        $file->expects($this->once())->method('getRealpath')->will($this->returnValue('foo.bar'));
-        $resource->expects($this->once())->method('hasMetadata')->will($this->returnValue(false));
-        $resource->expects($this->once())->method('getMetadata')->will($this->returnValue(array('file' => 'foo.bar')));
-        $this->assertEquals(new Resource(array('file' => 'foo.bar')), $m->invoke($reader));
+        $this->assertEquals(new Resource(array('file' => $filename), 'yaml'), $m->invoke($reader, $resource, $file));
     }
 
     /**
