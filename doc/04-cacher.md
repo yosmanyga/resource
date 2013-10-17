@@ -21,3 +21,8 @@ used just if the file is the same.
 
 Another common ```Checker``` is the ```TtlChecker```, it validates the cache by
 a number of seconds, after that time the cache is considered invalid.
+
+Second argument is a ```Storer``` class, used to store cache data.
+
+A common ```Storer``` is the ```FileStorer``` class. It uses the filesystem to
+store the cache.
