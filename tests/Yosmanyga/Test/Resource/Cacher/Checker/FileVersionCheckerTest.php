@@ -62,7 +62,7 @@ class FileVersionCheckerTest extends \PHPUnit_Framework_TestCase
         /** @var \PHPUnit_Framework_MockObject_MockObject $storer */
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(true));
-        $storer->expects($this->once())->method('get')->with($resource)->will($this->returnValue(1381709237));
+        $storer->expects($this->once())->method('get')->with($resource)->will($this->returnValue(filemtime($resource->getMetadata('file'))));
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $checker = new FileVersionChecker($storer);
         $checker->add($resource);
