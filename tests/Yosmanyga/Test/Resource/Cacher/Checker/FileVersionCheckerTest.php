@@ -23,6 +23,7 @@ class FileVersionCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
+        /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $checker = new FileVersionChecker($storer);
 
