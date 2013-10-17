@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Reader\Iterator;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class InMemoryReader implements ReaderInterface
 {
@@ -14,7 +14,7 @@ class InMemoryReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if ($resource->hasType('type')) {
             if ('in_memory' == $resource->getType()) {
@@ -35,7 +35,7 @@ class InMemoryReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function open(ResourceInterface $resource)
+    public function open(Resource $resource)
     {
         $this->data = $resource->getMetadata('data');
 

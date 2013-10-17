@@ -3,7 +3,6 @@
 namespace Yosmanyga\Resource\Reader\Iterator;
 
 use Yosmanyga\Resource\Resource;
-use Yosmanyga\Resource\ResourceInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlFileReader implements ReaderInterface
@@ -16,7 +15,7 @@ class YamlFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if ($resource->hasType('type')) {
             if ('yaml' == $resource->getType()) {
@@ -36,7 +35,7 @@ class YamlFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function open(ResourceInterface $resource)
+    public function open(Resource $resource)
     {
         $file = $resource->getMetadata('file');
 

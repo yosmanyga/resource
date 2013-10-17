@@ -3,7 +3,7 @@
 namespace Yosmanyga\Resource\Cacher\Checker;
 
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class TtlChecker implements CheckerInterface
 {
@@ -26,7 +26,7 @@ class TtlChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         return true;
     }
@@ -34,7 +34,7 @@ class TtlChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function add(ResourceInterface $resource)
+    public function add(Resource $resource)
     {
         $this->storer->add(
             time() + $this->ttl,
@@ -45,7 +45,7 @@ class TtlChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function check(ResourceInterface $resource)
+    public function check(Resource $resource)
     {
         if (!$this->storer->has($resource)) {
             return false;

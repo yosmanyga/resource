@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource;
 
-class Resource implements ResourceInterface
+class Resource
 {
     /**
      * @var array

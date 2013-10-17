@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Reader\Iterator;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 /**
  * Interface used by iterator readers.
@@ -12,19 +12,19 @@ interface ReaderInterface
     /**
      * Returns whether reader supports the given resource.
      *
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
+     * @param  \Yosmanyga\Resource\Resource $resource
      * @return boolean true if the reader supports the resource, false otherwise
      */
-    public function supports(ResourceInterface $resource);
+    public function supports(Resource $resource);
 
     /**
      * Opens and prepares reader to be iterated.
      *
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
+     * @param  \Yosmanyga\Resource\Resource $resource
      * @throws \InvalidArgumentException If the resource has invalid metadata
      * @return void
      */
-    public function open(ResourceInterface $resource);
+    public function open(Resource $resource);
 
     /**
      * Returns current item in the iteration.

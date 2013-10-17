@@ -2,14 +2,14 @@
 
 namespace Yosmanyga\Resource\Reader\Flat;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class FileReader implements ReaderInterface
 {
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if ($resource->hasType('type')) {
             if ('file' == $resource->getType()) {
@@ -30,7 +30,7 @@ class FileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function read(ResourceInterface $resource)
+    public function read(Resource $resource)
     {
         $file = $resource->getMetadata('file');
 

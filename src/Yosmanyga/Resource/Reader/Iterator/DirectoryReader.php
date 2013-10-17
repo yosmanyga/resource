@@ -3,7 +3,6 @@
 namespace Yosmanyga\Resource\Reader\Iterator;
 
 use Yosmanyga\Resource\Resource;
-use Yosmanyga\Resource\ResourceInterface;
 use Symfony\Component\Finder\Finder;
 
 class DirectoryReader implements ReaderInterface
@@ -19,7 +18,7 @@ class DirectoryReader implements ReaderInterface
     private $finder;
 
     /**
-     * @var \Yosmanyga\Resource\ResourceInterface
+     * @var \Yosmanyga\Resource\Resource
      */
     private $resource;
 
@@ -41,7 +40,7 @@ class DirectoryReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if ($resource->hasType('type')) {
             if ('directory' == $resource->getType()) {
@@ -61,7 +60,7 @@ class DirectoryReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function open(ResourceInterface $resource)
+    public function open(Resource $resource)
     {
         $this->resource = $resource;
         $this->prepareFinder();
@@ -127,11 +126,11 @@ class DirectoryReader implements ReaderInterface
     }
 
     /**
-     * @param \Yosmanyga\Resource\ResourceInterface $resource
+     * @param \Yosmanyga\Resource\Resource $resource
      * @param \SplFileInfo $file
-     * @return \Yosmanyga\Resource\ResourceInterface
+     * @return \Yosmanyga\Resource\Resource
      */
-    private function convertResource(ResourceInterface $resource, \SplFileInfo $file)
+    private function convertResource(Resource $resource, \SplFileInfo $file)
     {
         return new Resource(
             array(

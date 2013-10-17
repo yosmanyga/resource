@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Cacher\Checker;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class DelegatorChecker implements CheckerInterface
 {
@@ -22,7 +22,7 @@ class DelegatorChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         foreach ($this->checkers as $i => $checkers) {
             if ($checkers->supports($resource)) {
@@ -42,7 +42,7 @@ class DelegatorChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function add(ResourceInterface $resource)
+    public function add(Resource $resource)
     {
         $this->pickChecker($resource)->add($resource);
     }
@@ -50,13 +50,13 @@ class DelegatorChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function check(ResourceInterface $resource)
+    public function check(Resource $resource)
     {
         return $this->pickChecker($resource)->check($resource);
     }
 
     /**
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
+     * @param  \Yosmanyga\Resource\Resource $resource
      * @throws \RuntimeException If no checker is able to support the
      *         resource
      * @return \Yosmanyga\Resource\Cacher\Checker\CheckerInterface

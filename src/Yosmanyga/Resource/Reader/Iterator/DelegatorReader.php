@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Reader\Iterator;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class DelegatorReader implements ReaderInterface
 {
@@ -27,7 +27,7 @@ class DelegatorReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         foreach ($this->readers as $i => $reader) {
             if ($reader->supports($resource)) {
@@ -47,7 +47,7 @@ class DelegatorReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function open(ResourceInterface $resource)
+    public function open(Resource $resource)
     {
         $this->reader = $this->pickReader($resource);
         $this->reader->open($resource);
@@ -80,7 +80,7 @@ class DelegatorReader implements ReaderInterface
     }
 
     /**
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
+     * @param  \Yosmanyga\Resource\Resource $resource
      * @throws \RuntimeException If no reader is able to support the resource
      * @return \Yosmanyga\Resource\Reader\Iterator\ReaderInterface
      */

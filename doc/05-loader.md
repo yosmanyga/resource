@@ -30,7 +30,7 @@ You can implement all the workflow inside a ```Loader```:
         }
 
         /**
-         * @param $resource \Yosmanyga\Resource\ResourceInterface
+         * @param $resource \Yosmanyga\Resource\Resource
          * @return array
          */
         public function load($resource)

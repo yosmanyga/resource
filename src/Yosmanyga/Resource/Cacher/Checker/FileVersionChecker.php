@@ -3,7 +3,7 @@
 namespace Yosmanyga\Resource\Cacher\Checker;
 
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class FileVersionChecker implements CheckerInterface
 {
@@ -23,7 +23,7 @@ class FileVersionChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if (!$resource->hasMetadata('file')) {
             return false;
@@ -35,7 +35,7 @@ class FileVersionChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function add(ResourceInterface $resource)
+    public function add(Resource $resource)
     {
         $this->storer->add(
             filemtime($resource->getMetadata('file')),
@@ -46,7 +46,7 @@ class FileVersionChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function check(ResourceInterface $resource)
+    public function check(Resource $resource)
     {
         if (!$this->storer->has($resource)) {
             return false;

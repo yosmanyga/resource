@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Cacher\Storer;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class FileStorer implements StorerInterface
 {
@@ -29,7 +29,7 @@ class FileStorer implements StorerInterface
     /**
      * @inheritdoc
      */
-    public function add($data, ResourceInterface $resource)
+    public function add($data, Resource $resource)
     {
         file_put_contents($this->getFilename($resource), serialize($data));
     }
@@ -37,7 +37,7 @@ class FileStorer implements StorerInterface
     /**
      * @inheritdoc
      */
-    public function has(ResourceInterface $resource)
+    public function has(Resource $resource)
     {
         $file = $this->getFilename($resource);
 
@@ -47,7 +47,7 @@ class FileStorer implements StorerInterface
     /**
      * @inheritdoc
      */
-    public function get(ResourceInterface $resource)
+    public function get(Resource $resource)
     {
         $file = $this->getFilename($resource);
 
@@ -55,10 +55,10 @@ class FileStorer implements StorerInterface
     }
 
     /**
-     * @param \Yosmanyga\Resource\ResourceInterface $resource
+     * @param \Yosmanyga\Resource\Resource $resource
      * @return string
      */
-    private function getFilename(ResourceInterface $resource)
+    private function getFilename(Resource $resource)
     {
         return sprintf(
             "%s/%s%s",

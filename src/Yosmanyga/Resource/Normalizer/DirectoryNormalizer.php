@@ -4,7 +4,6 @@ namespace Yosmanyga\Resource\Normalizer;
 
 use Yosmanyga\Resource\Normalizer\NormalizerInterface;
 use Yosmanyga\Resource\Resource;
-use Yosmanyga\Resource\ResourceInterface;
 
 class DirectoryNormalizer implements NormalizerInterface
 {
@@ -24,7 +23,7 @@ class DirectoryNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function supports($data, ResourceInterface $resource)
+    public function supports($data, Resource $resource)
     {
         if (!$resource->hasMetadata('dir') || !$resource->hasMetadata('type')) {
             return false;
@@ -36,16 +35,16 @@ class DirectoryNormalizer implements NormalizerInterface
     /**
      * @inheritdoc
      */
-    public function normalize($data, ResourceInterface $resource)
+    public function normalize($data, Resource $resource)
     {
         return $this->normalizer->normalize($data, $this->convertResource($resource));
     }
 
     /**
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
+     * @param  \Yosmanyga\Resource\Resource $resource
      * @return \Yosmanyga\Resource\Resource
      */
-    private function convertResource(ResourceInterface $resource)
+    private function convertResource(Resource $resource)
     {
         return new Resource($resource->getMetadata(), $resource->getMetadata('type'));
     }

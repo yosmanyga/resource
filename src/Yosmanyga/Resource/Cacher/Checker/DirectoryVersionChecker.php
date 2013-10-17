@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Cacher\Checker;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 use Symfony\Component\Finder\Finder;
 
 class DirectoryVersionChecker implements CheckerInterface
@@ -30,7 +30,7 @@ class DirectoryVersionChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if (!$resource->hasMetadata('dir')) {
             return false;
@@ -42,7 +42,7 @@ class DirectoryVersionChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function add(ResourceInterface $resource)
+    public function add(Resource $resource)
     {
         $this->storer->add(
             $this->calculateDirVersion($resource),
@@ -53,7 +53,7 @@ class DirectoryVersionChecker implements CheckerInterface
     /**
      * @inheritdoc
      */
-    public function check(ResourceInterface $resource)
+    public function check(Resource $resource)
     {
         if (!$this->storer->has($resource)) {
             return false;
@@ -62,7 +62,7 @@ class DirectoryVersionChecker implements CheckerInterface
         return $this->storer->get($resource) == $this->calculateDirVersion($resource);
     }
 
-    private function calculateDirVersion(ResourceInterface $resource)
+    private function calculateDirVersion(Resource $resource)
     {
         // Adjust finder
         $dir = $resource->getMetadata('dir');

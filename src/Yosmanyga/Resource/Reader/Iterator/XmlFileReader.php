@@ -3,7 +3,7 @@
 namespace Yosmanyga\Resource\Reader\Iterator;
 
 use Symfony\Component\Config\Util\XmlUtils;
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class XmlFileReader implements ReaderInterface
 {
@@ -15,7 +15,7 @@ class XmlFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if ($resource->hasType('type')) {
             if ('xml' == $resource->getType()) {
@@ -35,7 +35,7 @@ class XmlFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function open(ResourceInterface $resource)
+    public function open(Resource $resource)
     {
         $file = $resource->getMetadata('file');
 

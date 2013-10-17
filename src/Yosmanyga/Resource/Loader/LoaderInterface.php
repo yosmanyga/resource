@@ -10,7 +10,7 @@ interface LoaderInterface
     /**
      * Loads the resource and returns the content.
      *
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
+     * @param  \Yosmanyga\Resource\Resource $resource
      * @return mixed The resource content
      */
     public function load($resource);

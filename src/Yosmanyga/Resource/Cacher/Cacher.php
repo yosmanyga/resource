@@ -5,7 +5,7 @@ namespace Yosmanyga\Resource\Cacher;
 use Yosmanyga\Resource\Cacher\CacherInterface;
 use Yosmanyga\Resource\Cacher\Checker\CheckerInterface;
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class Cacher implements CacherInterface
 {
@@ -35,7 +35,7 @@ class Cacher implements CacherInterface
     /**
      * @inheritdoc
      */
-    public function store($data, ResourceInterface $resource)
+    public function store($data, Resource $resource)
     {
         $this->checker->add($resource);
         $this->storer->add($data, $resource);
@@ -44,7 +44,7 @@ class Cacher implements CacherInterface
     /**
      * @inheritdoc
      */
-    public function retrieve(ResourceInterface $resource)
+    public function retrieve(Resource $resource)
     {
         return $this->storer->get($resource);
     }
@@ -52,7 +52,7 @@ class Cacher implements CacherInterface
     /**
      * @inheritdoc
      */
-    public function check(ResourceInterface $resource)
+    public function check(Resource $resource)
     {
         if ($this->checker->check($resource) && $this->storer->has($resource)) {
             return true;

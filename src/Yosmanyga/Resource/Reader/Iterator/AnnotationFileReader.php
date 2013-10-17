@@ -3,7 +3,6 @@
 namespace Yosmanyga\Resource\Reader\Iterator;
 
 use Yosmanyga\Resource\Resource;
-use Yosmanyga\Resource\ResourceInterface;
 use Yosmanyga\Resource\Util\DocParser;
 use Yosmanyga\Resource\Util\DocParserInterface;
 
@@ -30,7 +29,7 @@ class AnnotationFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if ($resource->hasType('type') && 'annotation' == $resource->getType()) {
             return true;
@@ -42,7 +41,7 @@ class AnnotationFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function open(ResourceInterface $resource)
+    public function open(Resource $resource)
     {
         $file = $resource->getMetadata('file');
 

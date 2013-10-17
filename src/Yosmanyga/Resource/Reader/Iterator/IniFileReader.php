@@ -3,7 +3,6 @@
 namespace Yosmanyga\Resource\Reader\Iterator;
 
 use Yosmanyga\Resource\Resource;
-use Yosmanyga\Resource\ResourceInterface;
 
 class IniFileReader implements ReaderInterface
 {
@@ -15,7 +14,7 @@ class IniFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function supports(ResourceInterface $resource)
+    public function supports(Resource $resource)
     {
         if ($resource->hasType('type')) {
             if ('ini' == $resource->getType()) {
@@ -35,7 +34,7 @@ class IniFileReader implements ReaderInterface
     /**
      * @inheritdoc
      */
-    public function open(ResourceInterface $resource)
+    public function open(Resource $resource)
     {
         $file = $resource->getMetadata('file');
 

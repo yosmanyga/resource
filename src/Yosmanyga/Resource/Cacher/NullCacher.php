@@ -3,21 +3,21 @@
 namespace Yosmanyga\Resource\Cacher;
 
 use Yosmanyga\Resource\Cacher\CacherInterface;
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 class NullCacher implements CacherInterface
 {
     /**
      * @inheritdoc
      */
-    public function store($data, ResourceInterface $resource)
+    public function store($data, Resource $resource)
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function retrieve(ResourceInterface $resource)
+    public function retrieve(Resource $resource)
     {
         return null;
     }
@@ -25,7 +25,7 @@ class NullCacher implements CacherInterface
     /**
      * @inheritdoc
      */
-    public function check(ResourceInterface $resource)
+    public function check(Resource $resource)
     {
         return false;
     }

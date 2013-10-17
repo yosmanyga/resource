@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Transformer;
 
-use Yosmanyga\Resource\ResourceInterface;
+use Yosmanyga\Resource\Resource;
 
 /**
  * Interface used by transformers.
@@ -13,19 +13,19 @@ interface TransformerInterface
      * Returns whether transformer supports the given resource and parent
      * resource.
      *
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
-     * @param  \Yosmanyga\Resource\ResourceInterface $parentResource
+     * @param  \Yosmanyga\Resource\Resource $resource
+     * @param  \Yosmanyga\Resource\Resource $parentResource
      * @return boolean true if the reader supports the resource and parent
      *         resource, false otherwise
      */
-    public function supports(ResourceInterface $resource, ResourceInterface $parentResource);
+    public function supports(Resource $resource, Resource $parentResource);
 
     /**
      * Transforms the resource into another resource.
      *
-     * @param  \Yosmanyga\Resource\ResourceInterface $resource
-     * @param  \Yosmanyga\Resource\ResourceInterface $parentResource
-     * @return \Yosmanyga\Resource\ResourceInterface The transformed resource
+     * @param  \Yosmanyga\Resource\Resource $resource
+     * @param  \Yosmanyga\Resource\Resource $parentResource
+     * @return \Yosmanyga\Resource\Resource The transformed resource
      */
-    public function transform(ResourceInterface $resource, ResourceInterface $parentResource);
+    public function transform(Resource $resource, Resource $parentResource);
 }
