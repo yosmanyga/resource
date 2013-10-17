@@ -44,7 +44,7 @@ class DelegatorChecker implements CheckerInterface
      */
     public function add(ResourceInterface $resource)
     {
-        return $this->pickChecker($resource)->add($resource);
+        $this->pickChecker($resource)->add($resource);
     }
 
     /**
