@@ -4,7 +4,7 @@ namespace Yosmanyga\Test\Resource\Util;
 
 use Yosmanyga\Resource\Util\DocParser;
 
-class ResourceTest extends \PHPUnit_Framework_TestCase
+class DocParseTest extends \PHPUnit_Framework_TestCase
 {
     public function testParse()
     {
