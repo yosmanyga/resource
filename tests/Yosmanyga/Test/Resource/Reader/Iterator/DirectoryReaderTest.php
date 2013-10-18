@@ -191,6 +191,6 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new DirectoryReader(new DelegatorReader());
         $m = new \ReflectionMethod($reader, 'convertResource');
         $m->setAccessible(true);
-        $this->assertEquals(new Resource(array('file' => $filename), 'yaml'), $m->invoke($reader, $resource, $file));
+        $this->assertEquals(new Resource(array('file' => $filename, 'type' => 'yaml'), 'yaml'), $m->invoke($reader, $resource, $file));
     }
 }

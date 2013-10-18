@@ -133,8 +133,11 @@ class DirectoryReader implements ReaderInterface
     private function convertResource(Resource $resource, \SplFileInfo $file)
     {
         return new Resource(
-            array(
-                'file' => $file->getRealpath()
+            array_merge(
+                $resource->getMetadata(),
+                array(
+                    'file' => $file->getRealpath()
+                )
             ),
             $resource->getMetadata('type')
         );
