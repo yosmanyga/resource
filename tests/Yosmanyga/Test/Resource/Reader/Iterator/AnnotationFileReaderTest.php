@@ -41,7 +41,7 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpen()
     {
-        $resource = new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => 'AnnotationX'));
+        $resource = new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => '/AnnotationX/'));
         $reader = new AnnotationFileReader();
 
         $reader->open($resource);
@@ -91,7 +91,7 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testNext()
     {
         $reader = new AnnotationFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => 'AnnotationX')));
+        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => '/AnnotationX/')));
 
         $reader->next();
         $this->assertEquals(
@@ -142,7 +142,7 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testClose()
     {
         $reader = new AnnotationFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => 'AnnotationX')));
+        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => '/AnnotationX/')));
         $reader->close();
         $reader->current();
     }

@@ -16,7 +16,7 @@ class DocParser implements DocParserInterface
         $ref = new \ReflectionClass($class);
         $annotations = $this->resolveAnnotations($ref->getDocComment());
         foreach ($annotations as $annotation) {
-            if (!$annotationName || $annotationName == $annotation['key']) {
+            if (!$annotationName || preg_match($annotationName, $annotation['key'])) {
                 $data[] = array(
                     'class' => $class,
                     'key' => $annotation['key'],
@@ -31,7 +31,7 @@ class DocParser implements DocParserInterface
         foreach ($ref->getProperties() as $property) {
             $annotations = $this->resolveAnnotations($property->getDocComment());
             foreach ($annotations as $annotation) {
-                if (!$annotationName || $annotationName == $annotation['key']) {
+                if (!$annotationName || preg_match($annotationName, $annotation['key'])) {
                     $data[] = array(
                         'property' => $property->getName(),
                         'key' => $annotation['key'],
@@ -47,7 +47,7 @@ class DocParser implements DocParserInterface
         foreach ($ref->getMethods() as $method) {
             $annotations = $this->resolveAnnotations($method->getDocComment());
             foreach ($annotations as $annotation) {
-                if (!$annotationName || $annotationName == $annotation['key']) {
+                if (!$annotationName || preg_match($annotationName, $annotation['key'])) {
                     $data[] = array(
                         'method' => $method->getName(),
                         'key' => $annotation['key'],

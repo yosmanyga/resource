@@ -17,7 +17,7 @@ class Foo
      *  foo21: 'bar21',
      *  foo22: 'bar22'
      * })
-     * @AnnotationZ({foo1: 'bar1', foo2: 'bar2'})
+     * @AnnotationZ\Foo({foo1: 'bar1', foo2: 'bar2'})
      */
     public function bar()
     {

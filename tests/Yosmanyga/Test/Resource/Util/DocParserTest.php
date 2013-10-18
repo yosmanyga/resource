@@ -46,7 +46,7 @@ class DocParseTest extends \PHPUnit_Framework_TestCase
                 ),
                 3 => array(
                     'method' => 'bar',
-                    'key' => 'AnnotationZ',
+                    'key' => 'AnnotationZ\Foo',
                     'value' => array(
                         'foo1' => 'bar1',
                         'foo2' => 'bar2'
@@ -57,6 +57,23 @@ class DocParseTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             $docParser->parse(sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)))
+        );
+
+        $this->assertEquals(
+            array(
+                0 => array(
+                    'method' => 'bar',
+                    'key' => 'AnnotationZ\Foo',
+                    'value' => array(
+                        'foo1' => 'bar1',
+                        'foo2' => 'bar2'
+                    ),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Util\Fixtures\Foo'
+                    )
+                )
+            ),
+            $docParser->parse(sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), "/AnnotationZ\\\\Foo/")
         );
     }
 
