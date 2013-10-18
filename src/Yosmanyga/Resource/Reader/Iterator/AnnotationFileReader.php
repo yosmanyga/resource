@@ -16,7 +16,7 @@ class AnnotationFileReader implements ReaderInterface
     /**
      * @var \Yosmanyga\Resource\Util\DocParserInterface
      */
-    private $docParser;
+    protected $docParser;
 
     /**
      * @param \Yosmanyga\Resource\Util\DocParserInterface $docParser
@@ -51,7 +51,7 @@ class AnnotationFileReader implements ReaderInterface
 
         try {
             $annotation = $resource->hasMetadata('annotation') ? $resource->getMetadata('annotation') : '';
-            $data = $this->docParser->parse($file, $annotation);
+            $data = $this->getData($file, $annotation);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException($e->getMessage(), 0, $e);
         }
@@ -95,5 +95,10 @@ class AnnotationFileReader implements ReaderInterface
 
         $this->inMemoryReader->close();
         unset($this->inMemoryReader);
+    }
+
+    protected function getData($file, $annotation)
+    {
+        return $this->docParser->parse($file, $annotation);
     }
 }
