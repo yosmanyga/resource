@@ -38,6 +38,7 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader::open
+     * @covers Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader::getData
      */
     public function testOpen()
     {

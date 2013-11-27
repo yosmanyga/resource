@@ -9,6 +9,7 @@ class SuddenAnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Yosmanyga\Resource\Reader\Iterator\SuddenAnnotationFileReader::open
+     * @covers Yosmanyga\Resource\Reader\Iterator\SuddenAnnotationFileReader::getData
      */
     public function testOpen()
     {
