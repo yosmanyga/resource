@@ -42,7 +42,7 @@ class DirectoryReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        if ($resource->hasType('type')) {
+        if ($resource->hasType()) {
             if ('directory' == $resource->getType()) {
                 return true;
             }

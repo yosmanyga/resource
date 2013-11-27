@@ -17,7 +17,7 @@ class YamlFileReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        if ($resource->hasType('type')) {
+        if ($resource->hasType()) {
             if ('yaml' == $resource->getType()) {
                 return true;
             }

@@ -16,7 +16,7 @@ class IniFileReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        if ($resource->hasType('type')) {
+        if ($resource->hasType()) {
             if ('ini' == $resource->getType()) {
                 return true;
             }

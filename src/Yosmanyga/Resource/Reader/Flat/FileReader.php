@@ -11,7 +11,7 @@ class FileReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        if ($resource->hasType('type')) {
+        if ($resource->hasType()) {
             if ('file' == $resource->getType()) {
                 return true;
             }

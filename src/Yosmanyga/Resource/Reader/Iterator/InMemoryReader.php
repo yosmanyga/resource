@@ -16,7 +16,7 @@ class InMemoryReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        if ($resource->hasType('type')) {
+        if ($resource->hasType()) {
             if ('in_memory' == $resource->getType()) {
                 return true;
             }

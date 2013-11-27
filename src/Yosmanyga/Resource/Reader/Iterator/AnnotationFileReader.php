@@ -31,7 +31,7 @@ class AnnotationFileReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        if ($resource->hasType('type') && 'annotation' == $resource->getType()) {
+        if ($resource->hasType() && 'annotation' == $resource->getType()) {
             return true;
         }
 

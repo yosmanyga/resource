@@ -17,7 +17,7 @@ class XmlFileReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        if ($resource->hasType('type')) {
+        if ($resource->hasType()) {
             if ('xml' == $resource->getType()) {
                 return true;
             }
