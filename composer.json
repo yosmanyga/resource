@@ -1,6 +1,6 @@
 {
     "name": "yosmanyga/resource",
-    "description": "Provides tools for defining and loading resources",
+    "description": "Provides tools to define and load resources",
     "type": "library",
     "keywords": ["resource", "reader", "loader"],
     "license": "MIT",
