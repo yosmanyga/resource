@@ -1,7 +1,7 @@
 Resource
 ========
 
-This library provides tools for defining and loading a resource.
+This library provides tools to define and load resources.
 
 A ```Resource``` is a class containing metadata that refers to something like
  a file, a directory, a db table or anything else with data:
