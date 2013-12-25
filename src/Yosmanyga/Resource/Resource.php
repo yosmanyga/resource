@@ -34,7 +34,8 @@ class Resource
     }
 
     /**
-     * @inheritdoc
+     * @param null|string $key
+     * @return string|array
      */
     public function getMetadata($key = null)
     {
@@ -46,7 +47,8 @@ class Resource
     }
 
     /**
-     * @inheritdoc
+     * @param string $key
+     * @return boolean
      */
     public function hasMetadata($key)
     {
@@ -62,7 +64,7 @@ class Resource
     }
 
     /**
-     * @inheritdoc
+     * @return string
      */
     public function getType()
     {
@@ -70,7 +72,7 @@ class Resource
     }
 
     /**
-     * @inheritdoc
+     * @return boolean
      */
     public function hasType()
     {
