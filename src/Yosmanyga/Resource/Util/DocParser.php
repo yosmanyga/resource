@@ -20,7 +20,7 @@ class DocParser implements DocParserInterface
                 $data[] = array(
                     'class' => $class,
                     'key' => $annotation['key'],
-                    'value' => Yaml::parse($annotation['value']),
+                    'value' => (array) Yaml::parse($annotation['value']),
                     'metadata' => array(
                         'class' => $class
                     )
@@ -35,7 +35,7 @@ class DocParser implements DocParserInterface
                     $data[] = array(
                         'property' => $property->getName(),
                         'key' => $annotation['key'],
-                        'value' => Yaml::parse($annotation['value']),
+                        'value' => (array) Yaml::parse($annotation['value']),
                         'metadata' => array(
                             'class' => $class
                         )
@@ -51,7 +51,7 @@ class DocParser implements DocParserInterface
                     $data[] = array(
                         'method' => $method->getName(),
                         'key' => $annotation['key'],
-                        'value' => Yaml::parse($annotation['value']),
+                        'value' => (array) Yaml::parse($annotation['value']),
                         'metadata' => array(
                             'class' => $class
                         )

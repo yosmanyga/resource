@@ -34,6 +34,14 @@ class DocParseTest extends \PHPUnit_Framework_TestCase
                     )
                 ),
                 2 => array(
+                    'property' => 'p',
+                    'key' => 'AnnotationX',
+                    'value' => array(),
+                    'metadata' => array(
+                        'class' => 'Yosmanyga\Test\Resource\Util\Fixtures\Foo'
+                    )
+                ),
+                3 => array(
                     'method' => 'bar',
                     'key' => 'AnnotationX',
                     'value' => array(
@@ -44,7 +52,7 @@ class DocParseTest extends \PHPUnit_Framework_TestCase
                         'class' => 'Yosmanyga\Test\Resource\Util\Fixtures\Foo'
                     )
                 ),
-                3 => array(
+                4 => array(
                     'method' => 'bar',
                     'key' => 'AnnotationZ\Foo',
                     'value' => array(

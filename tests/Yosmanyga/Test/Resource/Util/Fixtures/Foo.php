@@ -9,6 +9,7 @@ class Foo
 {
     /**
      * @AnnotationY({foo1: 'bar1', foo2: 'bar2'})
+     * @AnnotationX()
      */
     private $p;
 
