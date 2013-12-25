@@ -2,6 +2,7 @@
 
 namespace Yosmanyga\Resource\Cacher\Checker;
 
+use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Resource;
 use Symfony\Component\Finder\Finder;
 
@@ -21,9 +22,9 @@ class DirectoryVersionChecker implements CheckerInterface
      * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer
      * @param \Symfony\Component\Finder\Finder $finder
      */
-    public function __construct($storer, $finder = null)
+    public function __construct($storer = null, $finder = null)
     {
-        $this->storer = $storer;
+        $this->storer = $storer ?: new FileStorer();
         $this->finder = $finder ?: new Finder();
     }
 

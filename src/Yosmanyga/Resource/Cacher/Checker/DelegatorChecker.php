@@ -16,7 +16,11 @@ class DelegatorChecker implements CheckerInterface
      */
     public function __construct($checkers = array())
     {
-        $this->checkers = $checkers;
+        $this->checkers = $checkers ?: array(
+            new FileVersionChecker(),
+            new DirectoryVersionChecker(),
+            new SerializedDataChecker()
+        );
     }
 
     /**

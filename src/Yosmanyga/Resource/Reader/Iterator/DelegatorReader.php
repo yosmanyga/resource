@@ -21,7 +21,13 @@ class DelegatorReader implements ReaderInterface
      */
     public function __construct($readers = array())
     {
-        $this->readers = $readers;
+        $this->readers = $readers ?: array(
+            new IniFileReader(),
+            new YamlFileReader(),
+            new XmlFileReader(),
+            new SuddenAnnotationFileReader(),
+            new DirectoryReader()
+        );
     }
 
     /**

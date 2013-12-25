@@ -28,12 +28,19 @@ class DirectoryReader implements ReaderInterface
     private $iterator;
 
     /**
-     * @param \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader
+     * @param \Yosmanyga\Resource\Reader\Iterator\ReaderInterface[] $readers
      * @param \Symfony\Component\Finder\Finder $finder
      */
-    public function __construct(DelegatorReader $delegatorReader, $finder = null)
+    public function __construct($readers = array(), $finder = null)
     {
-        $this->delegatorReader = $delegatorReader;
+        $readers = $readers ?: array(
+            new IniFileReader(),
+            new YamlFileReader(),
+            new XmlFileReader(),
+            new SuddenAnnotationFileReader(),
+        );
+
+        $this->delegatorReader = new DelegatorReader($readers);
         $this->finder = $finder ?: new Finder();
     }
 

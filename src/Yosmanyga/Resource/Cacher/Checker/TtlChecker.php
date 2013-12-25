@@ -2,6 +2,7 @@
 
 namespace Yosmanyga\Resource\Cacher\Checker;
 
+use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
 use Yosmanyga\Resource\Resource;
 
@@ -17,9 +18,9 @@ class TtlChecker implements CheckerInterface
      */
     private $ttl;
 
-    public function __construct(StorerInterface $storer, $ttl = 3600)
+    public function __construct(StorerInterface $storer = null, $ttl = 3600)
     {
-        $this->storer = $storer;
+        $this->storer = $storer ?: new FileStorer();
         $this->ttl = $ttl;
     }
 

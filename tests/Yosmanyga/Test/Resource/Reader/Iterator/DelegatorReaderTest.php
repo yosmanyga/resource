@@ -3,6 +3,11 @@
 namespace Yosmanyga\Test\Resource\Reader\Iterator;
 
 use Yosmanyga\Resource\Reader\Iterator\DelegatorReader;
+use Yosmanyga\Resource\Reader\Iterator\IniFileReader;
+use Yosmanyga\Resource\Reader\Iterator\YamlFileReader;
+use Yosmanyga\Resource\Reader\Iterator\XmlFileReader;
+use Yosmanyga\Resource\Reader\Iterator\SuddenAnnotationFileReader;
+use Yosmanyga\Resource\Reader\Iterator\DirectoryReader;
 use Yosmanyga\Resource\Resource;
 
 class DelegatorReaderTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +18,17 @@ class DelegatorReaderTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $reader = new DelegatorReader();
-        $this->assertAttributeEquals(array(), 'readers', $reader);
+        $this->assertAttributeEquals(
+            array(
+                new IniFileReader(),
+                new YamlFileReader(),
+                new XmlFileReader(),
+                new SuddenAnnotationFileReader(),
+                new DirectoryReader()
+            ),
+            'readers',
+            $reader
+        );
 
         $internalReader1 = $this->getMock('Yosmanyga\Resource\Reader\Iterator\ReaderInterface');
         $reader = new DelegatorReader(array($internalReader1));

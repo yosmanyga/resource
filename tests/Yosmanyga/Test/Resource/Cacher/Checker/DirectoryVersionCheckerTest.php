@@ -3,6 +3,7 @@
 namespace Yosmanyga\Test\Resource\Cacher\VersionChecker;
 
 use Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker;
+use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Resource;
 use Symfony\Component\Finder\Finder;
 
@@ -13,6 +14,10 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
+        $checker = new DirectoryVersionChecker();
+        $this->assertAttributeEquals(new FileStorer(), 'storer', $checker);
+        $this->assertAttributeEquals(new Finder(), 'finder', $checker);
+
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $finder = $this->getMockBuilder('Symfony\Component\Finder\Finder')->disableOriginalConstructor()->getMock();
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
@@ -20,9 +25,6 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $checker = new DirectoryVersionChecker($storer, $finder);
         $this->assertAttributeEquals($storer, 'storer', $checker);
         $this->assertAttributeEquals($finder, 'finder', $checker);
-
-        $checker = new DirectoryVersionChecker($storer);
-        $this->assertAttributeEquals(new Finder(), 'finder', $checker);
     }
 
     /**

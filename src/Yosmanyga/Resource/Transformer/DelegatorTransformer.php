@@ -2,7 +2,6 @@
 
 namespace Yosmanyga\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\TransformerInterface;
 use Yosmanyga\Resource\Resource;
 
 class DelegatorTransformer implements TransformerInterface
@@ -17,7 +16,12 @@ class DelegatorTransformer implements TransformerInterface
      */
     public function __construct($transformers = array())
     {
-        $this->transformers = $transformers;
+        $this->transformers = $transformers ?: array(
+            new RelativeFileTransformer(),
+            new RelativeDirectoryTransformer(),
+            new AbsoluteFileTransformer(),
+            new AbsoluteDirectoryTransformer()
+        );
     }
 
     /**

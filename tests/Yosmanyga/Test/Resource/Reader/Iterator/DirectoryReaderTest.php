@@ -3,7 +3,10 @@
 namespace Yosmanyga\Test\Resource\Reader\Iterator;
 
 use Symfony\Component\Finder\Finder;
-use Yosmanyga\Resource\Reader\Iterator\DelegatorReader;
+use Yosmanyga\Resource\Reader\Iterator\IniFileReader;
+use Yosmanyga\Resource\Reader\Iterator\YamlFileReader;
+use Yosmanyga\Resource\Reader\Iterator\XmlFileReader;
+use Yosmanyga\Resource\Reader\Iterator\SuddenAnnotationFileReader;
 use Yosmanyga\Resource\Reader\Iterator\DirectoryReader;
 use Yosmanyga\Resource\Resource;
 
@@ -14,18 +17,31 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
-        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        $finder = $this->getMockBuilder('Symfony\Component\Finder\Finder')->disableOriginalConstructor()->getMock();
-        /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
-        /** @var \Symfony\Component\Finder\Finder $finder */
-        $reader = new DirectoryReader($delegatorReader, $finder);
-        $this->assertAttributeEquals($delegatorReader, 'delegatorReader', $reader);
-        $this->assertAttributeEquals($finder, 'finder', $reader);
-
-        /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
-        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        $reader = new DirectoryReader($delegatorReader);
+        $reader = new DirectoryReader();
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $delegatorReader = $p->getValue($reader);
+        $this->assertAttributeEquals(
+            array(
+                new IniFileReader(),
+                new YamlFileReader(),
+                new XmlFileReader(),
+                new SuddenAnnotationFileReader(),
+            ),
+            'readers',
+            $delegatorReader
+        );
         $this->assertAttributeEquals(new Finder(), 'finder', $reader);
+
+        $finder = $this->getMockBuilder('Symfony\Component\Finder\Finder')->disableOriginalConstructor()->getMock();
+        /** @var \Symfony\Component\Finder\Finder $finder */
+        $readers = array(new IniFileReader());
+        $reader = new DirectoryReader($readers, $finder);
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $delegatorReader = $p->getValue($reader);
+        $this->assertAttributeEquals($readers, 'readers', $delegatorReader);
+        $this->assertAttributeEquals($finder, 'finder', $reader);
     }
 
     /**
@@ -33,7 +49,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
-        $reader = new DirectoryReader(new DelegatorReader());
+        $reader = new DirectoryReader();
 
         // Right type
         $this->assertTrue($reader->supports(new Resource(array(), 'directory')));
@@ -54,9 +70,10 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
     {
         $resource = new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'type' => 'yaml'));
         $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
-        $reader = new DirectoryReader($delegatorReader);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $delegatorReader */
+        $reader = new DirectoryReader();
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
         $delegatorReader->expects($this->once())->method('open');
         $reader->open($resource);
         $this->assertAttributeEquals($resource, 'resource', $reader);
@@ -68,9 +85,11 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
     public function testCurrent()
     {
         $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
+        $reader = new DirectoryReader();
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
         $delegatorReader->expects($this->once())->method('current');
-        /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
-        $reader = new DirectoryReader($delegatorReader);
         $reader->current();
     }
 
@@ -80,30 +99,54 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
     public function testNext()
     {
         $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
-        $reader = new DirectoryReader($delegatorReader);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $delegatorReader */
+        $iterator = $this->getMock('\AppendIterator');
+        $reader = new DirectoryReader();
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
         $delegatorReader->expects($this->once())->method('next');
         $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(true));
+        $iterator->expects($this->never())->method('next');
+        $reader->next();
+
+        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
+        $iterator = $this->getMock('\AppendIterator');
+        $reader = new DirectoryReader();
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
+        $p = new \ReflectionProperty($reader, 'resource');
+        $p->setAccessible(true);
+        $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1', 'type' => 'yaml')));
+        $p = new \ReflectionProperty($reader, 'iterator');
+        $p->setAccessible(true);
+        $p->setValue($reader, $iterator);
+        $delegatorReader->expects($this->once())->method('next');
+        $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(false));
+        $iterator->expects($this->once())->method('next');
+        $iterator->expects($this->once())->method('valid');
+        $delegatorReader->expects($this->never())->method('open');
         $reader->next();
 
         $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
         $iterator = $this->getMock('\AppendIterator');
         $file = $this->getMockBuilder('\SplFileInfo')->disableOriginalConstructor()->getMock();
-        /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
-        $reader = new DirectoryReader($delegatorReader);
-        $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'resource');
+        $reader = new DirectoryReader();
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
+        $p = new \ReflectionProperty($reader, 'resource');
         $p->setAccessible(true);
         $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1', 'type' => 'yaml')));
-        $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'iterator');
+        $p = new \ReflectionProperty($reader, 'iterator');
         $p->setAccessible(true);
         $p->setValue($reader, $iterator);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $delegatorReader */
-        $delegatorReader->expects($this->once())->method('next')->will($this->returnValue(false));
+        $delegatorReader->expects($this->once())->method('next');
         $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(false));
+        $iterator->expects($this->once())->method('next');
         $iterator->expects($this->once())->method('valid')->will($this->returnValue(true));
         $iterator->expects($this->once())->method('current')->will($this->returnValue($file));
-        $file->expects($this->once())->method('getRealpath')->will($this->returnValue('foo2.bar'));
+        $delegatorReader->expects($this->once())->method('open');
         $reader->next();
     }
 
@@ -113,9 +156,11 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
     public function testClose()
     {
         $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
+        $reader = new DirectoryReader();
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
         $delegatorReader->expects($this->once())->method('close');
-        /** @var \Yosmanyga\Resource\Reader\Iterator\DelegatorReader $delegatorReader */
-        $reader = new DirectoryReader($delegatorReader);
         $reader->close();
     }
 
@@ -124,7 +169,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareFinderThrowsExceptionWhenResourceNotSet()
     {
-        $reader = new DirectoryReader(new DelegatorReader());
+        $reader = new DirectoryReader();
         $m = new \ReflectionMethod('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'prepareFinder');
         $m->setAccessible(true);
         $m->invoke($reader);
@@ -135,7 +180,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareFinderThrowsExceptionWhenInvalidDir()
     {
-        $reader = new DirectoryReader(new DelegatorReader());
+        $reader = new DirectoryReader();
         $m = new \ReflectionMethod('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'prepareFinder');
         $m->setAccessible(true);
         $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'resource');
@@ -149,7 +194,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
         $finder = $this->getMockBuilder('Symfony\Component\Finder\Finder')->disableOriginalConstructor()->getMock();
         $iterator = $this->getMock('\AppendIterator');
         /** @var \Symfony\Component\Finder\Finder $finder */
-        $reader = new DirectoryReader(new DelegatorReader(), $finder);
+        $reader = new DirectoryReader(array(), $finder);
         $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'resource');
         $p->setAccessible(true);
         $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1')));
@@ -168,7 +213,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
         $finder = $this->getMockBuilder('Symfony\Component\Finder\Finder')->disableOriginalConstructor()->getMock();
         $iterator = $this->getMock('\AppendIterator');
         /** @var \Symfony\Component\Finder\Finder $finder */
-        $reader = new DirectoryReader(new DelegatorReader(), $finder);
+        $reader = new DirectoryReader(array(), $finder);
         $p = new \ReflectionProperty('Yosmanyga\Resource\Reader\Iterator\DirectoryReader', 'resource');
         $p->setAccessible(true);
         $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml')));
@@ -188,7 +233,7 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
         $resource = new Resource(array('type' => 'yaml'));
         $filename = sprintf("%s/Fixtures/foo.yml", dirname(__FILE__));
         $file = new \SplFileInfo($filename);
-        $reader = new DirectoryReader(new DelegatorReader());
+        $reader = new DirectoryReader();
         $m = new \ReflectionMethod($reader, 'convertResource');
         $m->setAccessible(true);
         $this->assertEquals(new Resource(array('file' => $filename, 'type' => 'yaml'), 'yaml'), $m->invoke($reader, $resource, $file));

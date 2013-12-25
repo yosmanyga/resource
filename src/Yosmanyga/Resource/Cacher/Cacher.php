@@ -2,9 +2,10 @@
 
 namespace Yosmanyga\Resource\Cacher;
 
-use Yosmanyga\Resource\Cacher\CacherInterface;
 use Yosmanyga\Resource\Cacher\Checker\CheckerInterface;
+use Yosmanyga\Resource\Cacher\Checker\DelegatorChecker;
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
+use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Resource;
 
 class Cacher implements CacherInterface
@@ -23,13 +24,10 @@ class Cacher implements CacherInterface
      * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface   $storer
      * @param \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker
      */
-    public function __construct(
-        CheckerInterface $checker,
-        StorerInterface $storer
-    )
+    public function __construct(CheckerInterface $checker = null, StorerInterface $storer = null)
     {
-        $this->checker = $checker;
-        $this->storer = $storer;
+        $this->checker = $checker ?: new DelegatorChecker();
+        $this->storer = $storer ?: new FileStorer();
     }
 
     /**

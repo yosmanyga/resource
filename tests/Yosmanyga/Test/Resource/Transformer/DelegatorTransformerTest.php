@@ -3,6 +3,10 @@
 namespace Yosmanyga\Test\Resource\Transformer;
 
 use Yosmanyga\Resource\Transformer\DelegatorTransformer;
+use Yosmanyga\Resource\Transformer\RelativeFileTransformer;
+use Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer;
+use Yosmanyga\Resource\Transformer\AbsoluteFileTransformer;
+use Yosmanyga\Resource\Transformer\AbsoluteDirectoryTransformer;
 use Yosmanyga\Resource\Resource;
 
 class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +17,16 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $delegatorTransformer = new DelegatorTransformer();
-        $this->assertAttributeEquals(array(), 'transformers', $delegatorTransformer);
+        $this->assertAttributeEquals(
+            array(
+                new RelativeFileTransformer(),
+                new RelativeDirectoryTransformer(),
+                new AbsoluteFileTransformer(),
+                new AbsoluteDirectoryTransformer()
+            ),
+            'transformers',
+            $delegatorTransformer
+        );
 
         $internalTransformer1 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
         $delegatorTransformer = new DelegatorTransformer(array($internalTransformer1));

@@ -3,6 +3,8 @@
 namespace Yosmanyga\Test\Resource\Cacher;
 
 use Yosmanyga\Resource\Cacher\Cacher;
+use Yosmanyga\Resource\Cacher\Checker\DelegatorChecker;
+use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Resource;
 
 class CacherTest extends \PHPUnit_Framework_TestCase
@@ -12,6 +14,10 @@ class CacherTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
+        $cacher = new Cacher();
+        $this->assertAttributeEquals(new DelegatorChecker(), 'checker', $cacher);
+        $this->assertAttributeEquals(new FileStorer(), 'storer', $cacher);
+
         /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */
         $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */

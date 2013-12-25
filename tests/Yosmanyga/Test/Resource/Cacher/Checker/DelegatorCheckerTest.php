@@ -3,6 +3,9 @@
 namespace Yosmanyga\Test\Resource\Cacher\Checker;
 
 use Yosmanyga\Resource\Cacher\Checker\DelegatorChecker;
+use Yosmanyga\Resource\Cacher\Checker\FileVersionChecker;
+use Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker;
+use Yosmanyga\Resource\Cacher\Checker\SerializedDataChecker;
 use Yosmanyga\Resource\Resource;
 
 class DelegatorCheckerTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +16,15 @@ class DelegatorCheckerTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $checker = new DelegatorChecker();
-        $this->assertAttributeEquals(array(), 'checkers', $checker);
+        $this->assertAttributeEquals(
+            array(
+                new FileVersionChecker(),
+                new DirectoryVersionChecker(),
+                new SerializedDataChecker()
+            ),
+            'checkers',
+            $checker
+        );
 
         $internalChecker1 = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
         $checker = new DelegatorChecker(array($internalChecker1));

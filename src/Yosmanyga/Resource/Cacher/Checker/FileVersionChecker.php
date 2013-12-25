@@ -2,6 +2,7 @@
 
 namespace Yosmanyga\Resource\Cacher\Checker;
 
+use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
 use Yosmanyga\Resource\Resource;
 
@@ -15,9 +16,9 @@ class FileVersionChecker implements CheckerInterface
     /**
      * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer
      */
-    public function __construct(StorerInterface $storer)
+    public function __construct(StorerInterface $storer = null)
     {
-        $this->storer = $storer;
+        $this->storer = $storer ?: new FileStorer();
     }
 
     /**
