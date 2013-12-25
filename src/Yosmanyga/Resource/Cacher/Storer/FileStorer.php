@@ -9,21 +9,14 @@ class FileStorer implements StorerInterface
     /**
      * @var string
      */
-    private $dir;
-
-    /**
-     * @var string
-     */
-    private $suffix;
+    protected $dir;
 
     /**
      * @param string $dir
-     * @param string $suffix
      */
-    public function __construct($dir, $suffix = '')
+    public function __construct($dir = null)
     {
-        $this->dir = $dir;
-        $this->suffix = $suffix;
+        $this->dir = $dir ?: sys_get_temp_dir();
     }
 
     /**
@@ -58,13 +51,12 @@ class FileStorer implements StorerInterface
      * @param \Yosmanyga\Resource\Resource $resource
      * @return string
      */
-    private function getFilename(Resource $resource)
+    protected function getFilename(Resource $resource)
     {
         return sprintf(
-            "%s/%s%s",
+            "%s/%s",
             $this->dir,
-            md5(serialize($resource)),
-            $this->suffix
+            md5(serialize($resource))
         );
     }
 }
