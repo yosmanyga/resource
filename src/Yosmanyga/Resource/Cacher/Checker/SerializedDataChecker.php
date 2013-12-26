@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Cacher\Checker;
 
-use Yosmanyga\Resource\Cacher\Storer\FileStorer;
+use Yosmanyga\Resource\Cacher\Storer\CheckFileStorer;
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
 use Yosmanyga\Resource\Resource;
 
@@ -18,7 +18,7 @@ class SerializedDataChecker implements CheckerInterface
      */
     public function __construct(StorerInterface $storer = null)
     {
-        $this->storer = $storer ?: new FileStorer();
+        $this->storer = $storer ?: new CheckFileStorer();
     }
 
     /**

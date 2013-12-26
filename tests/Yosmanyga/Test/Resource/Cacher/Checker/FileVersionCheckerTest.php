@@ -3,7 +3,7 @@
 namespace Yosmanyga\Test\Resource\Cacher\Checker;
 
 use Yosmanyga\Resource\Cacher\Checker\FileVersionChecker;
-use Yosmanyga\Resource\Cacher\Storer\FileStorer;
+use Yosmanyga\Resource\Cacher\Storer\CheckFileStorer;
 use Yosmanyga\Resource\Resource;
 
 class FileVersionCheckerTest extends \PHPUnit_Framework_TestCase
@@ -14,7 +14,7 @@ class FileVersionCheckerTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $checker = new FileVersionChecker();
-        $this->assertAttributeEquals(new FileStorer(), 'storer', $checker);
+        $this->assertAttributeEquals(new CheckFileStorer(), 'storer', $checker);
 
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */

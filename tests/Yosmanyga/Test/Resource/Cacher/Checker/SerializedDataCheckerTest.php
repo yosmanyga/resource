@@ -3,7 +3,7 @@
 namespace Yosmanyga\Test\Resource\Cacher\Checker;
 
 use Yosmanyga\Resource\Cacher\Checker\SerializedDataChecker;
-use Yosmanyga\Resource\Cacher\Storer\FileStorer;
+use Yosmanyga\Resource\Cacher\Storer\CheckFileStorer;
 use Yosmanyga\Resource\Resource;
 
 class SerializedDataCheckerTest extends \PHPUnit_Framework_TestCase
@@ -14,7 +14,7 @@ class SerializedDataCheckerTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $checker = new SerializedDataChecker();
-        $this->assertAttributeEquals(new FileStorer(), 'storer', $checker);
+        $this->assertAttributeEquals(new CheckFileStorer(), 'storer', $checker);
 
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
