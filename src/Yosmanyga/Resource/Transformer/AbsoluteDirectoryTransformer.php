@@ -2,7 +2,6 @@
 
 namespace Yosmanyga\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\TransformerInterface;
 use Yosmanyga\Resource\Resource;
 
 class AbsoluteDirectoryTransformer implements TransformerInterface
