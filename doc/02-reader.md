@@ -48,12 +48,7 @@ You can create a ``Delegator Reader`` to delegate the read to the right
 ``Reader``:
 
     $resource = new Resource(array('file' => '/path/to/resource.ini'));
-    $reader = new DelegatorReader(array(
-        new YamlFileReader(),
-        new XmlFileReader(),
-        new IniFileReader(),
-        new AnnotationFileReader()
-    ));
+    $reader = new DelegatorReader();
 
 Internally will be used the right reader, according to the resource type.
 
@@ -68,11 +63,6 @@ You can create a ``Directory Reader`` to read files inside a directory:
         'type' => 'annotation'
     ));
 
-    $reader = new DirectoryReader(array(
-        new YamlFileReader(),
-        new XmlFileReader(),
-        new IniFileReader(),
-        new AnnotationFileReader()
-    ));
+    $reader = new DirectoryReader();
 
 This reader has a restriction, as it can only read resources of same type.
