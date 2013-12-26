@@ -42,7 +42,7 @@ class DelegatorCheckerTest extends \PHPUnit_Framework_TestCase
         $internalChecker2->expects($this->once())->method('supports')->will($this->returnValue(true));
         $checker = new DelegatorChecker(array($internalChecker1, $internalChecker2, $internalChecker3));
         $this->assertTrue($checker->supports(new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalChecker2, 1 => $internalChecker1, 3 => $internalChecker3), 'checkers', $checker);
+        $this->assertAttributeEquals(array(0 => $internalChecker2, 1 => $internalChecker1, 2 => $internalChecker3), 'checkers', $checker);
 
         $internalChecker1 = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
         $internalChecker1->expects($this->once())->method('supports')->will($this->returnValue(false));
@@ -94,7 +94,7 @@ class DelegatorCheckerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($internalChecker2, $m->invoke($checker, new Resource()));
         $p = $r->getProperty('checkers');
         $p->setAccessible(true);
-        $this->assertEquals(array(0 => $internalChecker2, 1 => $internalChecker1, 3 => $internalChecker3), $p->getValue($checker));
+        $this->assertEquals(array(0 => $internalChecker2, 1 => $internalChecker1, 2 => $internalChecker3), $p->getValue($checker));
     }
 
     /**

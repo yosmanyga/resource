@@ -32,8 +32,8 @@ class DelegatorChecker implements CheckerInterface
             if ($checkers->supports($resource)) {
                 if (0 != $i) {
                     // Move checkers to top to improve next pick
+                    unset($this->checkers[$i]);
                     array_unshift($this->checkers, $checkers);
-                    unset($this->checkers[$i + 1]);
                 }
 
                 return true;
@@ -71,8 +71,8 @@ class DelegatorChecker implements CheckerInterface
             if ($checker->supports($resource)) {
                 if (0 != $i) {
                     // Move checkers to top to improve next pick
+                    unset($this->checkers[$i]);
                     array_unshift($this->checkers, $checker);
-                    unset($this->checkers[$i + 1]);
                 }
 
                 return $checker;

@@ -31,7 +31,7 @@ class DelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
         $internalNormalizer2->expects($this->once())->method('supports')->will($this->returnValue(true));
         $normalizer = new DelegatorNormalizer(array($internalNormalizer1, $internalNormalizer2, $internalNormalizer3));
         $this->assertTrue($normalizer->supports('', new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalNormalizer2, 1 => $internalNormalizer1, 3 => $internalNormalizer3), 'normalizers', $normalizer);
+        $this->assertAttributeEquals(array(0 => $internalNormalizer2, 1 => $internalNormalizer1, 2 => $internalNormalizer3), 'normalizers', $normalizer);
 
         $internalNormalizer1 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
         $internalNormalizer1->expects($this->once())->method('supports')->will($this->returnValue(false));
@@ -69,7 +69,7 @@ class DelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($internalNormalizer2, $m->invoke($normalizer, '', new Resource()));
         $p = $r->getProperty('normalizers');
         $p->setAccessible(true);
-        $this->assertEquals(array(0 => $internalNormalizer2, 1 => $internalNormalizer1, 3 => $internalNormalizer3), $p->getValue($normalizer));
+        $this->assertEquals(array(0 => $internalNormalizer2, 1 => $internalNormalizer1, 2 => $internalNormalizer3), $p->getValue($normalizer));
     }
 
     /**

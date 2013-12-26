@@ -46,7 +46,7 @@ class DelegatorReaderTest extends \PHPUnit_Framework_TestCase
         $internalReader2->expects($this->once())->method('supports')->will($this->returnValue(true));
         $reader = new DelegatorReader(array($internalReader1, $internalReader2, $internalReader3));
         $this->assertTrue($reader->supports(new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalReader2, 1 => $internalReader1, 3 => $internalReader3), 'readers', $reader);
+        $this->assertAttributeEquals(array(0 => $internalReader2, 1 => $internalReader1, 2 => $internalReader3), 'readers', $reader);
 
         $internalReader1 = $this->getMock('Yosmanyga\Resource\Reader\Iterator\ReaderInterface');
         $internalReader1->expects($this->once())->method('supports')->will($this->returnValue(false));
@@ -124,7 +124,7 @@ class DelegatorReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($internalReader2, $m->invoke($reader, new Resource()));
         $p = $r->getProperty('readers');
         $p->setAccessible(true);
-        $this->assertEquals(array(0 => $internalReader2, 1 => $internalReader1, 3 => $internalReader3), $p->getValue($reader));
+        $this->assertEquals(array(0 => $internalReader2, 1 => $internalReader1, 2 => $internalReader3), $p->getValue($reader));
     }
 
     /**

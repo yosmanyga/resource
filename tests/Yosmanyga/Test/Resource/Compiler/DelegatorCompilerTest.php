@@ -28,7 +28,7 @@ class DelegatorCompilerTest extends \PHPUnit_Framework_TestCase
         $internalCompiler2->expects($this->once())->method('supports')->will($this->returnValue(true));
         $compiler = new DelegatorCompiler(array($internalCompiler1, $internalCompiler2, $internalCompiler3));
         $this->assertTrue($compiler->supports(new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalCompiler2, 1 => $internalCompiler1, 3 => $internalCompiler3), 'compilers', $compiler);
+        $this->assertAttributeEquals(array(0 => $internalCompiler2, 1 => $internalCompiler1, 2 => $internalCompiler3), 'compilers', $compiler);
 
         $internalCompiler1 = $this->getMock('Yosmanyga\Resource\Compiler\CompilerInterface');
         $internalCompiler1->expects($this->once())->method('supports')->will($this->returnValue(false));
@@ -64,7 +64,7 @@ class DelegatorCompilerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($internalCompiler2, $m->invoke($compiler, new Resource()));
         $p = $r->getProperty('compilers');
         $p->setAccessible(true);
-        $this->assertEquals(array(0 => $internalCompiler2, 1 => $internalCompiler1, 3 => $internalCompiler3), $p->getValue($compiler));
+        $this->assertEquals(array(0 => $internalCompiler2, 1 => $internalCompiler1, 2 => $internalCompiler3), $p->getValue($compiler));
     }
 
     /**

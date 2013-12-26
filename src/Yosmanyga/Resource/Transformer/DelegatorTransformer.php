@@ -33,8 +33,8 @@ class DelegatorTransformer implements TransformerInterface
             if ($transformer->supports($resource, $parentResource)) {
                 if (0 != $i) {
                     // Move transformer to top to improve next pick
+                    unset($this->transformers[$i]);
                     array_unshift($this->transformers, $transformer);
-                    unset($this->transformers[$i + 1]);
                 }
 
                 return true;
@@ -65,8 +65,8 @@ class DelegatorTransformer implements TransformerInterface
             if ($transformer->supports($resource, $parentResource)) {
                 if (0 != $i) {
                     // Move transformer to top to improve next pick
+                    unset($this->transformers[$i]);
                     array_unshift($this->transformers, $transformer);
-                    unset($this->transformers[$i + 1]);
                 }
 
                 return $transformer;

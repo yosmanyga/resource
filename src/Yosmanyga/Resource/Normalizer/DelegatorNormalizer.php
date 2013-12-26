@@ -28,8 +28,8 @@ class DelegatorNormalizer implements NormalizerInterface
             if ($normalizer->supports($data, $resource)) {
                 if (0 != $i) {
                     // Move normalizer to top to improve next pick
+                    unset($this->normalizers[$i]);
                     array_unshift($this->normalizers, $normalizer);
-                    unset($this->normalizers[$i + 1]);
                 }
 
                 return true;
@@ -60,8 +60,8 @@ class DelegatorNormalizer implements NormalizerInterface
             if ($normalizer->supports($data, $resource)) {
                 if (0 != $i) {
                     // Move normalizer to top to improve next pick
+                    unset($this->normalizers[$i]);
                     array_unshift($this->normalizers, $normalizer);
-                    unset($this->normalizers[$i + 1]);
                 }
 
                 return $this->normalizers[0];

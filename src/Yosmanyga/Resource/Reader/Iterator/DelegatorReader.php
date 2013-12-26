@@ -39,8 +39,8 @@ class DelegatorReader implements ReaderInterface
             if ($reader->supports($resource)) {
                 if (0 != $i) {
                     // Move reader to top to improve next pick
+                    unset($this->readers[$i]);
                     array_unshift($this->readers, $reader);
-                    unset($this->readers[$i + 1]);
                 }
 
                 return true;
@@ -97,8 +97,8 @@ class DelegatorReader implements ReaderInterface
             if ($reader->supports($resource)) {
                 if (0 != $i) {
                     // Move reader to top to improve next pick
+                    unset($this->readers[$i]);
                     array_unshift($this->readers, $reader);
-                    unset($this->readers[$i + 1]);
                 }
 
                 return $reader;

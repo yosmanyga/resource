@@ -23,8 +23,8 @@ class DelegatorCompiler implements CompilerInterface
             if ($compiler->supports($definition)) {
                 if (0 != $i) {
                     // Move compiler to top to improve next pick
+                    unset($this->compilers[$i]);
                     array_unshift($this->compilers, $compiler);
-                    unset($this->compilers[$i + 1]);
                 }
 
                 return true;
@@ -54,8 +54,8 @@ class DelegatorCompiler implements CompilerInterface
             if ($compiler->supports($definition)) {
                 if (0 != $i) {
                     // Move compiler to top to improve next pick
+                    unset($this->compilers[$i]);
                     array_unshift($this->compilers, $compiler);
-                    unset($this->compilers[$i + 1]);
                 }
 
                 return $this->compilers[0];
