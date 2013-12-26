@@ -2,7 +2,6 @@
 
 namespace Yosmanyga\Resource\Normalizer;
 
-use Yosmanyga\Resource\Normalizer\NormalizerInterface;
 use Yosmanyga\Resource\Resource;
 
 class DirectoryNormalizer implements NormalizerInterface

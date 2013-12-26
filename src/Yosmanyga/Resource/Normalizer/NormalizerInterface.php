@@ -12,17 +12,17 @@ interface NormalizerInterface
     /**
      * Returns whether normalizer supports the given data and resource.
      *
-     * @param  mixed                                 $data
+     * @param  mixed                        $data
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @return boolean true if the normalizer supports the data and resource,
-     *         false otherwise
+     * @return boolean                      true if the normalizer supports the
+     *                                      data and resource, false otherwise
      */
     public function supports($data, Resource $resource);
 
     /**
      * Normalizes and returns the data.
      *
-     * @param  mixed                                 $data
+     * @param  mixed                        $data
      * @param  \Yosmanyga\Resource\Resource $resource
      * @return mixed
      */

@@ -104,7 +104,7 @@ class DocParser implements DocParserInterface
     }
 
     /**
-     * @param string $comment
+     * @param  string $comment
      * @return array
      */
     private function resolveAnnotations($comment)

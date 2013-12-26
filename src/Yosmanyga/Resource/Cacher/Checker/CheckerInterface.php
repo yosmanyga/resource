@@ -13,8 +13,8 @@ interface CheckerInterface
      * Returns whether checker supports the given resource.
      *
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @return boolean true if the checker supports the resource, false
-     *         otherwise
+     * @return boolean                      true if the checker supports the
+     *                                      resource, false otherwise
      */
     public function supports(Resource $resource);
 
@@ -30,8 +30,8 @@ interface CheckerInterface
      * Returns whether cache is valid for given resource.
      *
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @return boolean true if the cache is still valid, false
-     *         otherwise
+     * @return boolean                      true if the cache is still valid,
+     *                                      false otherwise
      */
     public function check(Resource $resource);
 }

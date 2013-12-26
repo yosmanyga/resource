@@ -87,7 +87,8 @@ class DelegatorReader implements ReaderInterface
 
     /**
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @throws \RuntimeException If no reader is able to support the resource
+     * @throws \RuntimeException            If no reader is able to support the
+     *                                      resource
      * @return \Yosmanyga\Resource\Reader\Iterator\ReaderInterface
      */
     private function pickReader($resource)

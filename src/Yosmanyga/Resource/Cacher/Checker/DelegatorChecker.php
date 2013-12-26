@@ -61,8 +61,8 @@ class DelegatorChecker implements CheckerInterface
 
     /**
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @throws \RuntimeException If no checker is able to support the
-     *         resource
+     * @throws \RuntimeException            If no checker is able to support the
+     *                                      resource
      * @return \Yosmanyga\Resource\Cacher\Checker\CheckerInterface
      */
     private function pickChecker($resource)

@@ -34,7 +34,7 @@ class Resource
     }
 
     /**
-     * @param null|string $key
+     * @param  null|string  $key
      * @return string|array
      */
     public function getMetadata($key = null)
@@ -47,7 +47,7 @@ class Resource
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      * @return boolean
      */
     public function hasMetadata($key)

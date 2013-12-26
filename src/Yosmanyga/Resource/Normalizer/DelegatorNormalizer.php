@@ -2,7 +2,6 @@
 
 namespace Yosmanyga\Resource\Normalizer;
 
-use Yosmanyga\Resource\Normalizer\NormalizerInterface;
 use Yosmanyga\Resource\Resource;
 
 class DelegatorNormalizer implements NormalizerInterface
@@ -49,10 +48,10 @@ class DelegatorNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param  mixed                                 $data
+     * @param  mixed                        $data
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @throws \RuntimeException If no normalizer is able to support the
-     *         resource
+     * @throws \RuntimeException            If no normalizer is able to support
+     *                                      the resource
      * @return \Yosmanyga\Resource\Normalizer\NormalizerInterface
      */
     private function pickNormalizer($data, Resource $resource)

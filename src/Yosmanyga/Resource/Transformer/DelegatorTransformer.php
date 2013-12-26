@@ -55,8 +55,8 @@ class DelegatorTransformer implements TransformerInterface
     /**
      * @param  \Yosmanyga\Resource\Resource $resource
      * @param  \Yosmanyga\Resource\Resource $parentResource
-     * @throws \RuntimeException If no transformer is able to support the
-     *         resource
+     * @throws \RuntimeException            If no transformer is able to support
+     *                                      the resource
      * @return \Yosmanyga\Resource\Transformer\TransformerInterface
      */
     private function pickTransformer(Resource $resource, Resource $parentResource)

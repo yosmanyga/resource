@@ -12,7 +12,7 @@ interface StorerInterface
     /**
      * Adds given data from given resource to the storer.
      *
-     * @param  mixed                                 $data
+     * @param  mixed                        $data
      * @param  \Yosmanyga\Resource\Resource $resource
      * @return void
      */
@@ -22,8 +22,8 @@ interface StorerInterface
      * Returns whether storer has data for given resource.
      *
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @return boolean true if the storer has the data for given resource, false
-     *         otherwise
+     * @return boolean                      true if the storer has the data for
+     *                                      given resource, false otherwise
      */
     public function has(Resource $resource);
 
@@ -31,7 +31,7 @@ interface StorerInterface
      * Gets data for given resource.
      *
      * @param  \Yosmanyga\Resource\Resource $resource
-     * @return mixed The resource data
+     * @return mixed                        The resource data
      */
     public function get(Resource $resource);
 }

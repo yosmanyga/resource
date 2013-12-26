@@ -15,8 +15,9 @@ interface TransformerInterface
      *
      * @param  \Yosmanyga\Resource\Resource $resource
      * @param  \Yosmanyga\Resource\Resource $parentResource
-     * @return boolean true if the reader supports the resource and parent
-     *         resource, false otherwise
+     * @return boolean                      true if the reader supports the
+     *                                      resource and parent resource,
+     *                                      false otherwise
      */
     public function supports(Resource $resource, Resource $parentResource);
 

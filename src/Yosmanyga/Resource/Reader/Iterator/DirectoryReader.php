@@ -29,7 +29,7 @@ class DirectoryReader implements ReaderInterface
 
     /**
      * @param \Yosmanyga\Resource\Reader\Iterator\ReaderInterface[] $readers
-     * @param \Symfony\Component\Finder\Finder $finder
+     * @param \Symfony\Component\Finder\Finder                      $finder
      */
     public function __construct($readers = array(), $finder = null)
     {
@@ -133,8 +133,8 @@ class DirectoryReader implements ReaderInterface
     }
 
     /**
-     * @param \Yosmanyga\Resource\Resource $resource
-     * @param \SplFileInfo $file
+     * @param  \Yosmanyga\Resource\Resource $resource
+     * @param  \SplFileInfo                 $file
      * @return \Yosmanyga\Resource\Resource
      */
     private function convertResource(Resource $resource, \SplFileInfo $file)

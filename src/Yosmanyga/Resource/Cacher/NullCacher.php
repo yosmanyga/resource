@@ -2,7 +2,6 @@
 
 namespace Yosmanyga\Resource\Cacher;
 
-use Yosmanyga\Resource\Cacher\CacherInterface;
 use Yosmanyga\Resource\Resource;
 
 class NullCacher implements CacherInterface

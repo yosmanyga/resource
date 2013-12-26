@@ -90,7 +90,6 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($checker->check($resource));
     }
 
-
     /**
      * @covers Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker::calculateDirVersion
      */
@@ -99,7 +98,7 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $r = new \ReflectionClass('Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker');
         $m = $r->getMethod('calculateDirVersion');
         $m->setAccessible(true);
-        
+
         // With filter and depth metadata
         $resource = new Resource(array('dir' => sprintf("%s/Fixtures", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '== 0', 'type' => 'yaml'));
         $iterator = $this->getMock('\AppendIterator');

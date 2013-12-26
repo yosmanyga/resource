@@ -20,7 +20,7 @@ class DirectoryVersionChecker implements CheckerInterface
 
     /**
      * @param \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer
-     * @param \Symfony\Component\Finder\Finder $finder
+     * @param \Symfony\Component\Finder\Finder                  $finder
      */
     public function __construct($storer = null, $finder = null)
     {

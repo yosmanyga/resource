@@ -12,8 +12,8 @@ interface DocParserInterface
      * If $annotationName is null, it returns all annotations.
      *
      * @param $file
-     * @param string|null $annotationName
-     * @return array The array of annotations
+     * @param  string|null $annotationName
+     * @return array       The array of annotations
      */
     public function parse($file, $annotationName = null);
 }
