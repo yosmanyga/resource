@@ -4,6 +4,8 @@ namespace Yosmanyga\Resource\Cacher;
 
 use Yosmanyga\Resource\Cacher\Checker\CheckerInterface;
 use Yosmanyga\Resource\Cacher\Checker\DelegatorChecker;
+use Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker;
+use Yosmanyga\Resource\Cacher\Checker\FileVersionChecker;
 use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
 use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Resource;
@@ -26,7 +28,10 @@ class Cacher implements CacherInterface
      */
     public function __construct(CheckerInterface $checker = null, StorerInterface $storer = null)
     {
-        $this->checker = $checker ?: new DelegatorChecker();
+        $this->checker = $checker ?: new DelegatorChecker(array(
+            new FileVersionChecker(),
+            new DirectoryVersionChecker()
+        ));
         $this->storer = $storer ?: new FileStorer();
     }
 
