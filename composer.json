@@ -17,12 +17,14 @@
         "phpunit/phpunit": "3.7.*",
         "symfony/yaml": "~2.3",
         "symfony/config": "~2.3",
-        "symfony/finder": "~2.3"
+        "symfony/finder": "~2.3",
+        "yosmanyga/validation": "dev-master"
     },
     "suggest": {
         "symfony/yaml": "For reading yaml file resources",
         "symfony/config": "For reading xml file resources",
-        "symfony/finder": "For reading directory resources"
+        "symfony/finder": "For reading directory resources",
+        "yosmanyga/validation": "For using base definition"
     },
     "autoload": {
         "psr-0": { "Yosmanyga\\Resource": "src/" }
