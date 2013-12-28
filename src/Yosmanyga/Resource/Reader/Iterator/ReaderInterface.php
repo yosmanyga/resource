@@ -27,9 +27,11 @@ interface ReaderInterface
     public function open(Resource $resource);
 
     /**
-     * Returns current item in the iteration.
+     * Returns current item in the iteration or false if there are no more
+     * items.
      *
-     * @return mixed The current item in the iteration
+     * @return mixed The current item in the iteration or false if there are no
+     *               more items
      */
     public function current();
 
