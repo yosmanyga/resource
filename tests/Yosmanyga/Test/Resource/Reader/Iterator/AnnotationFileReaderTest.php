@@ -38,7 +38,6 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader::open
-     * @covers Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader::getData
      */
     public function testOpen()
     {
@@ -156,5 +155,21 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new AnnotationFileReader();
         $reader->close();
+    }
+
+    /**
+     * @covers Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader::getData
+     */
+    public function testGetData()
+    {
+        $reader = new AnnotationFileReader();
+        $docParser = $this->getMock('\Yosmanyga\Resource\Util\DocParserInterface');
+        $p = new \ReflectionProperty($reader, 'docParser');
+        $p->setAccessible(true);
+        $p->setValue($reader, $docParser);
+        $docParser->expects($this->once())->method('parse')->will($this->returnValue('foo'));
+        $m = new \ReflectionMethod($reader, 'getData');
+        $m->setAccessible(true);
+        $this->assertEquals('foo', $m->invoke($reader, '', ''));
     }
 }
