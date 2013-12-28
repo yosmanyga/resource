@@ -81,7 +81,21 @@ class DirectoryReader implements ReaderInterface
      */
     public function current()
     {
-        return $this->delegatorReader->current();
+        $current = $this->delegatorReader->current();
+
+        if (!$current) {
+            $this->iterator->next();
+            if (!$this->iterator->valid()) {
+                return false;
+            }
+
+            $resource = $this->convertResource($this->resource, $this->iterator->current());
+            $this->delegatorReader->open($resource);
+
+            return $this->current();
+        }
+
+        return $current;
     }
 
     /**
@@ -90,13 +104,6 @@ class DirectoryReader implements ReaderInterface
     public function next()
     {
         $this->delegatorReader->next();
-        if (!$this->delegatorReader->current()) {
-            $this->iterator->next();
-            if ($this->iterator->valid()) {
-                $resource = $this->convertResource($this->resource, $this->iterator->current());
-                $this->delegatorReader->open($resource);
-            }
-        }
     }
 
     /**

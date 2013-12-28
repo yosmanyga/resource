@@ -84,12 +84,52 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testCurrent()
     {
-        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
         $reader = new DirectoryReader();
+        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
         $p = new \ReflectionProperty($reader, 'delegatorReader');
         $p->setAccessible(true);
         $p->setValue($reader, $delegatorReader);
-        $delegatorReader->expects($this->once())->method('current');
+        $iterator = $this->getMock('\AppendIterator');
+        $p = new \ReflectionProperty($reader, 'iterator');
+        $p->setAccessible(true);
+        $p->setValue($reader, $iterator);
+        $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(array('foo')));
+        $iterator->expects($this->never())->method('next');
+        $reader->current();
+
+        $reader = new DirectoryReader();
+        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
+        $iterator = $this->getMock('\AppendIterator');
+        $p = new \ReflectionProperty($reader, 'iterator');
+        $p->setAccessible(true);
+        $p->setValue($reader, $iterator);
+        $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(false));
+        $iterator->expects($this->once())->method('next');
+        $iterator->expects($this->once())->method('valid')->will($this->returnValue(false));
+        $this->assertFalse($reader->current());
+
+        $reader = new DirectoryReader();
+        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
+        $p = new \ReflectionProperty($reader, 'delegatorReader');
+        $p->setAccessible(true);
+        $p->setValue($reader, $delegatorReader);
+        $iterator = $this->getMock('\AppendIterator');
+        $p = new \ReflectionProperty($reader, 'iterator');
+        $p->setAccessible(true);
+        $p->setValue($reader, $iterator);
+        $p = new \ReflectionProperty($reader, 'resource');
+        $p->setAccessible(true);
+        $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1', 'type' => 'yaml')));
+        $delegatorReader->expects($this->at(1))->method('current')->will($this->returnValue(false));
+        $iterator->expects($this->once())->method('next');
+        $iterator->expects($this->once())->method('valid')->will($this->returnValue(true));
+        $file = $this->getMockBuilder('\SplFileInfo')->disableOriginalConstructor()->getMock();
+        $iterator->expects($this->once())->method('current')->will($this->returnValue($file));
+        $delegatorReader->expects($this->once())->method('open');
+        $delegatorReader->expects($this->at(2))->method('current')->will($this->returnValue(true));
         $reader->current();
     }
 
@@ -99,54 +139,11 @@ class DirectoryReaderTest extends \PHPUnit_Framework_TestCase
     public function testNext()
     {
         $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        $iterator = $this->getMock('\AppendIterator');
         $reader = new DirectoryReader();
         $p = new \ReflectionProperty($reader, 'delegatorReader');
         $p->setAccessible(true);
         $p->setValue($reader, $delegatorReader);
         $delegatorReader->expects($this->once())->method('next');
-        $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(true));
-        $iterator->expects($this->never())->method('next');
-        $reader->next();
-
-        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        $iterator = $this->getMock('\AppendIterator');
-        $reader = new DirectoryReader();
-        $p = new \ReflectionProperty($reader, 'delegatorReader');
-        $p->setAccessible(true);
-        $p->setValue($reader, $delegatorReader);
-        $p = new \ReflectionProperty($reader, 'resource');
-        $p->setAccessible(true);
-        $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1', 'type' => 'yaml')));
-        $p = new \ReflectionProperty($reader, 'iterator');
-        $p->setAccessible(true);
-        $p->setValue($reader, $iterator);
-        $delegatorReader->expects($this->once())->method('next');
-        $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(false));
-        $iterator->expects($this->once())->method('next');
-        $iterator->expects($this->once())->method('valid');
-        $delegatorReader->expects($this->never())->method('open');
-        $reader->next();
-
-        $delegatorReader = $this->getMock('Yosmanyga\Resource\Reader\Iterator\DelegatorReader');
-        $iterator = $this->getMock('\AppendIterator');
-        $file = $this->getMockBuilder('\SplFileInfo')->disableOriginalConstructor()->getMock();
-        $reader = new DirectoryReader();
-        $p = new \ReflectionProperty($reader, 'delegatorReader');
-        $p->setAccessible(true);
-        $p->setValue($reader, $delegatorReader);
-        $p = new \ReflectionProperty($reader, 'resource');
-        $p->setAccessible(true);
-        $p->setValue($reader, new Resource(array('dir' => sprintf("%s/Fixtures/directory/", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '1', 'type' => 'yaml')));
-        $p = new \ReflectionProperty($reader, 'iterator');
-        $p->setAccessible(true);
-        $p->setValue($reader, $iterator);
-        $delegatorReader->expects($this->once())->method('next');
-        $delegatorReader->expects($this->once())->method('current')->will($this->returnValue(false));
-        $iterator->expects($this->once())->method('next');
-        $iterator->expects($this->once())->method('valid')->will($this->returnValue(true));
-        $iterator->expects($this->once())->method('current')->will($this->returnValue($file));
-        $delegatorReader->expects($this->once())->method('open');
         $reader->next();
     }
 
