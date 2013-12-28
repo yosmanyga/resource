@@ -9,7 +9,6 @@ class SuddenAnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Yosmanyga\Resource\Reader\Iterator\SuddenAnnotationFileReader::open
-     * @covers Yosmanyga\Resource\Reader\Iterator\SuddenAnnotationFileReader::getData
      */
     public function testOpen()
     {
@@ -47,5 +46,31 @@ class SuddenAnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
             ),
             $reader->current()
         );
+    }
+
+    /**
+     * @covers Yosmanyga\Resource\Reader\Iterator\SuddenAnnotationFileReader::getData
+     */
+    public function testGetData()
+    {
+        $reader = new SuddenAnnotationFileReader();
+        $docParser = $this->getMock('\Yosmanyga\Resource\Util\DocParserInterface');
+        $p = new \ReflectionProperty($reader, 'docParser');
+        $p->setAccessible(true);
+        $p->setValue($reader, $docParser);
+        $docParser->expects($this->once())->method('parse')->will($this->returnValue('foo'));
+        $m = new \ReflectionMethod($reader, 'getData');
+        $m->setAccessible(true);
+        $this->assertEquals(array(0 => 'foo'), $m->invoke($reader, '', ''));
+
+        $reader = new SuddenAnnotationFileReader();
+        $docParser = $this->getMock('\Yosmanyga\Resource\Util\DocParserInterface');
+        $p = new \ReflectionProperty($reader, 'docParser');
+        $p->setAccessible(true);
+        $p->setValue($reader, $docParser);
+        $docParser->expects($this->once())->method('parse')->will($this->returnValue(false));
+        $m = new \ReflectionMethod($reader, 'getData');
+        $m->setAccessible(true);
+        $this->assertEquals(array(), $m->invoke($reader, '', ''));
     }
 }

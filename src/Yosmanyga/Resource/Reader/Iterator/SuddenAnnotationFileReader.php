@@ -6,8 +6,14 @@ class SuddenAnnotationFileReader extends AnnotationFileReader
 {
     protected function getData($file, $annotation)
     {
+        $data = $this->docParser->parse($file, $annotation);
+
+        if (!$data) {
+            return array();
+        }
+
         return array(
-            0 => $this->docParser->parse($file, $annotation)
+            0 => $data
         );
     }
 }
