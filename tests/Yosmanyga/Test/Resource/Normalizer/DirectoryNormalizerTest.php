@@ -9,19 +9,6 @@ use Yosmanyga\Resource\Resource;
 class DirectoryNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Yosmanyga\Resource\Normalizer\DirectoryNormalizer::__construct
-     */
-    public function testConstructor()
-    {
-        $directoryNormalizer = new DirectoryNormalizer();
-        $this->assertAttributeEquals(new DelegatorNormalizer(array()), 'normalizer', $directoryNormalizer);
-
-        $internalNormalizer1 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
-        $directoryNormalizer = new DirectoryNormalizer(array($internalNormalizer1));
-        $this->assertAttributeEquals(new DelegatorNormalizer(array($internalNormalizer1)), 'normalizer', $directoryNormalizer);
-    }
-
-    /**
      * @covers Yosmanyga\Resource\Normalizer\DirectoryNormalizer::supports
      */
     public function testSupports()

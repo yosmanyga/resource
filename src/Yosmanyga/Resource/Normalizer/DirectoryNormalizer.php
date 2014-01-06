@@ -4,21 +4,8 @@ namespace Yosmanyga\Resource\Normalizer;
 
 use Yosmanyga\Resource\Resource;
 
-class DirectoryNormalizer implements NormalizerInterface
+class DirectoryNormalizer extends DelegatorNormalizer
 {
-    /**
-     * @var \Yosmanyga\Resource\Normalizer\DelegatorNormalizer
-     */
-    private $normalizer;
-
-    /**
-     * @param \Yosmanyga\Resource\Normalizer\NormalizerInterface[] $normalizers
-     */
-    public function __construct($normalizers = array())
-    {
-        $this->normalizer = new DelegatorNormalizer($normalizers);
-    }
-
     /**
      * @inheritdoc
      */
@@ -28,7 +15,7 @@ class DirectoryNormalizer implements NormalizerInterface
             return false;
         }
 
-        return $this->normalizer->supports($data, $this->convertResource($resource));
+        return parent::supports($data, $this->convertResource($resource));
     }
 
     /**
@@ -36,7 +23,7 @@ class DirectoryNormalizer implements NormalizerInterface
      */
     public function normalize($data, Resource $resource)
     {
-        return $this->normalizer->normalize($data, $this->convertResource($resource));
+        return parent::normalize($data, $this->convertResource($resource));
     }
 
     /**
