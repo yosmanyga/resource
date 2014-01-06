@@ -30,6 +30,10 @@ class RelativeFileTransformerTest extends \PHPUnit_Framework_TestCase
             new Resource(array('file' => 'c:/bar/foo1.x')),
             new Resource()
         ));
+        $this->assertFalse($transformer->supports(
+            new Resource(array('file' => '@bar/foo1.x')),
+            new Resource()
+        ));
     }
 
     /**

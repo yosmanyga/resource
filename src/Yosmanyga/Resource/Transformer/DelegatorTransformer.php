@@ -20,7 +20,8 @@ class DelegatorTransformer implements TransformerInterface
             new RelativeFileTransformer(),
             new RelativeDirectoryTransformer(),
             new AbsoluteFileTransformer(),
-            new AbsoluteDirectoryTransformer()
+            new AbsoluteDirectoryTransformer(),
+            new ComposerVendorFileTransformer()
         );
     }
 

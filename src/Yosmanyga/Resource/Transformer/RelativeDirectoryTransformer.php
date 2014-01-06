@@ -11,7 +11,9 @@ class RelativeDirectoryTransformer implements TransformerInterface
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
-        if ($resource->hasMetadata('dir') && 0 !== strpos(parse_url($resource->getMetadata('dir'), PHP_URL_PATH), '/')) {
+        if ($resource->hasMetadata('dir')
+                && 0 !== strpos(parse_url($resource->getMetadata('dir'), PHP_URL_PATH), '/')
+                && 0 !== strpos($resource->getMetadata('dir'), '@')) {
             return true;
         }
 

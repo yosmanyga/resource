@@ -11,7 +11,9 @@ class RelativeFileTransformer implements TransformerInterface
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
-        if ($resource->hasMetadata('file') && 0 !== strpos(parse_url($resource->getMetadata('file'), PHP_URL_PATH), '/')) {
+        if ($resource->hasMetadata('file')
+                && 0 !== strpos(parse_url($resource->getMetadata('file'), PHP_URL_PATH), '/')
+                && 0 !== strpos($resource->getMetadata('file'), '@')) {
             return true;
         }
 

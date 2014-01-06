@@ -7,6 +7,7 @@ use Yosmanyga\Resource\Transformer\RelativeFileTransformer;
 use Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer;
 use Yosmanyga\Resource\Transformer\AbsoluteFileTransformer;
 use Yosmanyga\Resource\Transformer\AbsoluteDirectoryTransformer;
+use Yosmanyga\Resource\Transformer\ComposerVendorFileTransformer;
 use Yosmanyga\Resource\Resource;
 
 class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +23,8 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
                 new RelativeFileTransformer(),
                 new RelativeDirectoryTransformer(),
                 new AbsoluteFileTransformer(),
-                new AbsoluteDirectoryTransformer()
+                new AbsoluteDirectoryTransformer(),
+                new ComposerVendorFileTransformer()
             ),
             'transformers',
             $delegatorTransformer

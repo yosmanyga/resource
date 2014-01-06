@@ -30,7 +30,10 @@ class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
             new Resource(array('dir' => 'c:/bar/foo1')),
             new Resource()
         ));
-
+        $this->assertFalse($transformer->supports(
+            new Resource(array('dir' => '@bar/foo1')),
+            new Resource()
+        ));
     }
 
     /**
