@@ -8,6 +8,18 @@ use Yosmanyga\Resource\Resource;
 class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @covers Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer::construct
+     */
+    public function testConstructor()
+    {
+        $transformer = new RelativeDirectoryTransformer();
+        $this->assertAttributeEquals(array('@'), 'firstCharacters', $transformer);
+
+        $transformer = new RelativeDirectoryTransformer(array('foo'));
+        $this->assertAttributeEquals(array('foo'), 'firstCharacters', $transformer);
+    }
+
+    /**
      * @covers Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer::supports
      */
     public function testSupports()
@@ -16,10 +28,6 @@ class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($transformer->supports(
             new Resource(),
-            new Resource()
-        ));
-        $this->assertTrue($transformer->supports(
-            new Resource(array('dir' => 'bar/foo1')),
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
@@ -32,6 +40,10 @@ class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
         ));
         $this->assertFalse($transformer->supports(
             new Resource(array('dir' => '@bar/foo1')),
+            new Resource()
+        ));
+        $this->assertTrue($transformer->supports(
+            new Resource(array('dir' => 'bar/foo1')),
             new Resource()
         ));
     }

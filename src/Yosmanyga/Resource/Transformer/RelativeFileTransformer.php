@@ -6,18 +6,29 @@ use Yosmanyga\Resource\Resource;
 
 class RelativeFileTransformer implements TransformerInterface
 {
+    private $firstCharacters;
+
+    public function __construct($firstCharacters = array())
+    {
+        $this->firstCharacters = $firstCharacters ?: array('@');
+    }
+
     /**
      * @inheritdoc
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
-        if ($resource->hasMetadata('file')
-                && 0 !== strpos(parse_url($resource->getMetadata('file'), PHP_URL_PATH), '/')
-                && 0 !== strpos($resource->getMetadata('file'), '@')) {
-            return true;
+        if (!$resource->hasMetadata('file') || 0 === strpos(parse_url($resource->getMetadata('file'), PHP_URL_PATH), '/')) {
+            return false;
         }
 
-        return false;
+        foreach ($this->firstCharacters as $character) {
+            if (0 === strpos($resource->getMetadata('file'), $character)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
