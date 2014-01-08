@@ -64,8 +64,15 @@ class DocParser implements DocParserInterface
     }
 
     /**
-     * Copied from symfony/symfony/src/Symfony/Component/Routing/Loader/AnnotationFileLoader.php::findClass
+     * Copied from Symfony/Component/Routing/Loader/AnnotationFileLoader.php
+     * @author Fabien Potencier <fabien@symfony.com>
+     *
+     * Returns the full class name for the first class in the file.
+     *
+     * @param string $file A PHP file path
      * @codeCoverageIgnore
+     *
+     * @return string|false Full class name if found, false otherwise
      */
     private function findClass($file)
     {
