@@ -2,7 +2,7 @@
 
 namespace Yosmanyga\Resource\Reader\Iterator;
 
-use Symfony\Component\Config\Util\XmlUtils;
+use Yosmanyga\Resource\Util\XmlKit;
 use Yosmanyga\Resource\Resource;
 
 class XmlFileReader implements ReaderInterface
@@ -11,6 +11,16 @@ class XmlFileReader implements ReaderInterface
      * @var \XMLReader
      */
     private $xmlReader;
+
+    /**
+     * @var \Yosmanyga\Resource\Util\XmlKit
+     */
+    private $xmlKit;
+
+    public function __construct(XmlKit $xmlKit = null)
+    {
+        $this->xmlKit = $xmlKit ?: new XmlKit();
+    }
 
     /**
      * @inheritdoc
@@ -76,7 +86,7 @@ class XmlFileReader implements ReaderInterface
 
         /** @var \DOMElement $data */
         $data = $this->xmlReader->expand();
-        $data = XmlUtils::convertDomElementToArray($data);
+        $data = $this->xmlKit->convertDomElementToArray($data);
 
         return array('value' => $data);
     }
