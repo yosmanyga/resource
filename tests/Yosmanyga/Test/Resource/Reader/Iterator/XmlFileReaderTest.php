@@ -4,9 +4,31 @@ namespace Yosmanyga\Test\Resource\Reader\Iterator;
 
 use Yosmanyga\Resource\Reader\Iterator\XmlFileReader;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Util\XmlKit;
 
 class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers Yosmanyga\Resource\Reader\Iterator\DirectoryReader::__construct
+     */
+    public function testConstructor()
+    {
+        $reader = new XmlFileReader();
+        $this->assertAttributeEquals(
+            new XmlKit(),
+            'xmlKit',
+            $reader
+        );
+
+        $xmlKit = $this->getMock('Yosmanyga\Resource\Util\XmlKit');
+        $reader = new XmlFileReader($xmlKit);
+        $this->assertAttributeEquals(
+            $xmlKit,
+            'xmlKit',
+            $reader
+        );
+    }
+
     /**
      * @covers Yosmanyga\Resource\Reader\Iterator\XmlFileReader::supports
      */
