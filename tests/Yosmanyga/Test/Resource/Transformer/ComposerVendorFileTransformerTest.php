@@ -70,7 +70,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('owner1/package1'));
         $package1
             ->expects($this->once())->method('getAutoload')
-            ->will($this->returnValue(array('psr-0' => array('src'))));
+            ->will($this->returnValue(array('psr-0' => array('src/'))));
         $repository = $this
             ->getMockBuilder('\Composer\Repository\FilesystemRepository')
             ->disableOriginalConstructor()
@@ -129,7 +129,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('owner1/package1'));
         $package1
             ->expects($this->once())->method('getAutoload')
-            ->will($this->returnValue(array('psr-0' => array('src'))));
+            ->will($this->returnValue(array('psr-0' => array('src/'))));
         $repository = $this
             ->getMockBuilder('\Composer\Repository\FilesystemRepository')
             ->disableOriginalConstructor()
@@ -143,7 +143,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
         $method = new \ReflectionMethod($transformer, 'resolveSrc');
         $method->setAccessible(true);
         $this->assertEquals(
-            'src',
+            'src/',
             $method->invoke($transformer, 'owner1/package1')
         );
     }

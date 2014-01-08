@@ -47,7 +47,7 @@ class ComposerVendorFileTransformer implements TransformerInterface
         list($vendor, $path) = $this->parseFile($resource->getMetadata('file'));
 
         $file = sprintf(
-            "%s/%s/%s/%s",
+            "%s/%s/%s%s",
             dirname(dirname($this->file)),
             $vendor,
             $this->resolveSrc($vendor),
