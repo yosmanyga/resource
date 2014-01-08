@@ -8,7 +8,7 @@ use Yosmanyga\Resource\Resource;
 class RelativeFileTransformerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Yosmanyga\Resource\Transformer\RelativeFileTransformer::construct
+     * @covers Yosmanyga\Resource\Transformer\RelativeFileTransformer::__construct
      */
     public function testConstructor()
     {

@@ -8,7 +8,7 @@ use Yosmanyga\Resource\Resource;
 class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer::construct
+     * @covers Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer::__construct
      */
     public function testConstructor()
     {
