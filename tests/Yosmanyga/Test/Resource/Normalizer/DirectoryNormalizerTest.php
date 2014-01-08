@@ -3,7 +3,6 @@
 namespace Yosmanyga\Test\Resource\Normalizer;
 
 use Yosmanyga\Resource\Normalizer\DirectoryNormalizer;
-use Yosmanyga\Resource\Normalizer\DelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
 class DirectoryNormalizerTest extends \PHPUnit_Framework_TestCase

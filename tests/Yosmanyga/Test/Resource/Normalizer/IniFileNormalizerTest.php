@@ -2,18 +2,17 @@
 
 namespace Yosmanyga\Test\Resource\Normalizer;
 
-use Yosmanyga\Resource\Normalizer\IniFileNormalizer;
-use Yosmanyga\Resource\Normalizer\DelegatorNormalizer;
+use Yosmanyga\Resource\Normalizer\IniFileDelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
-class IniFileNormalizerTest extends \PHPUnit_Framework_TestCase
+class IniFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Yosmanyga\Resource\Normalizer\IniFileNormalizer::supports
+     * @covers Yosmanyga\Resource\Normalizer\IniFileDelegatorNormalizer::supports
      */
     public function testSupports()
     {
-        $normalizer = new IniFileNormalizer();
+        $normalizer = new IniFileDelegatorNormalizer();
 
         // Right type
         $this->assertTrue($normalizer->supports(null, new Resource(array(), 'ini')));

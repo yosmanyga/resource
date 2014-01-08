@@ -4,7 +4,7 @@ namespace Yosmanyga\Resource\Normalizer;
 
 use Yosmanyga\Resource\Resource;
 
-class SuddenAnnotationFileNormalizer extends DelegatorNormalizer
+class SuddenAnnotationFileDelegatorNormalizer extends DelegatorNormalizer
 {
     /**
      * @inheritdoc

@@ -2,18 +2,17 @@
 
 namespace Yosmanyga\Test\Resource\Normalizer;
 
-use Yosmanyga\Resource\Normalizer\YamlFileNormalizer;
-use Yosmanyga\Resource\Normalizer\DelegatorNormalizer;
+use Yosmanyga\Resource\Normalizer\YamlFileDelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
-class YamlFileNormalizerTest extends \PHPUnit_Framework_TestCase
+class YamlFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Yosmanyga\Resource\Normalizer\YamlFileNormalizer::supports
+     * @covers Yosmanyga\Resource\Normalizer\YamlFileDelegatorNormalizer::supports
      */
     public function testSupports()
     {
-        $normalizer = new YamlFileNormalizer();
+        $normalizer = new YamlFileDelegatorNormalizer();
 
         // Right type
         $this->assertTrue($normalizer->supports(null, new Resource(array(), 'yaml')));

@@ -2,18 +2,17 @@
 
 namespace Yosmanyga\Test\Resource\Normalizer;
 
-use Yosmanyga\Resource\Normalizer\XmlFileNormalizer;
-use Yosmanyga\Resource\Normalizer\DelegatorNormalizer;
+use Yosmanyga\Resource\Normalizer\XmlFileDelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
-class XmlFileNormalizerTest extends \PHPUnit_Framework_TestCase
+class XmlFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Yosmanyga\Resource\Normalizer\XmlFileNormalizer::supports
+     * @covers Yosmanyga\Resource\Normalizer\XmlFileDelegatorNormalizer::supports
      */
     public function testSupports()
     {
-        $normalizer = new XmlFileNormalizer();
+        $normalizer = new XmlFileDelegatorNormalizer();
 
         // Right type
         $this->assertTrue($normalizer->supports(null, new Resource(array(), 'xml')));

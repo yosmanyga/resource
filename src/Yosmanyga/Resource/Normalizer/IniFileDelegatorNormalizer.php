@@ -4,7 +4,7 @@ namespace Yosmanyga\Resource\Normalizer;
 
 use Yosmanyga\Resource\Resource;
 
-class XmlFileNormalizer extends DelegatorNormalizer
+class IniFileDelegatorNormalizer extends DelegatorNormalizer
 {
     /**
      * @inheritdoc
@@ -12,14 +12,14 @@ class XmlFileNormalizer extends DelegatorNormalizer
     public function supports($data, Resource $resource)
     {
         if ($resource->hasType('type')) {
-            if ('xml' == $resource->getType()) {
+            if ('ini' == $resource->getType()) {
                 return true;
             }
 
             return false;
         }
 
-        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('xml'))) {
+        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('ini'))) {
             return true;
         }
 
