@@ -28,17 +28,11 @@ class DelegatorChecker implements CheckerInterface
      */
     public function supports(Resource $resource)
     {
-        foreach ($this->checkers as $i => $checkers) {
-            if ($checkers->supports($resource)) {
-                if (0 != $i) {
-                    // Move checkers to top to improve next pick
-                    unset($this->checkers[$i]);
-                    array_unshift($this->checkers, $checkers);
-                }
-
+        try {
+            if ($this->pickChecker($resource)) {
                 return true;
             }
-        }
+        } catch (\RuntimeException $e) {}
 
         return false;
     }
@@ -65,7 +59,7 @@ class DelegatorChecker implements CheckerInterface
      *                                      resource
      * @return \Yosmanyga\Resource\Cacher\Checker\CheckerInterface
      */
-    private function pickChecker($resource)
+    protected function pickChecker($resource)
     {
         foreach ($this->checkers as $i => $checker) {
             if ($checker->supports($resource)) {

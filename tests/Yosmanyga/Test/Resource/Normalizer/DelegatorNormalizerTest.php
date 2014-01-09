@@ -25,18 +25,16 @@ class DelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
-        $internalNormalizer1 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
-        $internalNormalizer2 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
-        $internalNormalizer3 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
-        $internalNormalizer2->expects($this->once())->method('supports')->will($this->returnValue(true));
-        $normalizer = new DelegatorNormalizer(array($internalNormalizer1, $internalNormalizer2, $internalNormalizer3));
-        $this->assertTrue($normalizer->supports('', new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalNormalizer2, 1 => $internalNormalizer1, 2 => $internalNormalizer3), 'normalizers', $normalizer);
+        $data = array();
+        $resource = new Resource();
 
-        $internalNormalizer1 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
-        $internalNormalizer1->expects($this->once())->method('supports')->will($this->returnValue(false));
-        $normalizer = new DelegatorNormalizer(array($internalNormalizer1));
-        $this->assertFalse($normalizer->supports('', new Resource()));
+        $normalizer = $this->getMock('Yosmanyga\Resource\Normalizer\DelegatorNormalizer', array('pickNormalizer'));
+        $normalizer->expects($this->once())->method('pickNormalizer')->with($data, $resource)->will($this->returnValue(true));
+        $this->assertTrue($normalizer->supports($data, $resource));
+
+        $normalizer = $this->getMock('Yosmanyga\Resource\Normalizer\DelegatorNormalizer', array('pickNormalizer'));
+        $normalizer->expects($this->once())->method('pickNormalizer')->with($data, $resource)->will($this->returnValue(false));
+        $this->assertFalse($normalizer->supports($data, $resource));
     }
 
     /**

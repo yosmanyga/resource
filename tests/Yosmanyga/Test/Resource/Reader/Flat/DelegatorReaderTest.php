@@ -32,18 +32,15 @@ class DelegatorReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
-        $internalReader1 = $this->getMock('Yosmanyga\Resource\Reader\Flat\ReaderInterface');
-        $internalReader2 = $this->getMock('Yosmanyga\Resource\Reader\Flat\ReaderInterface');
-        $internalReader3 = $this->getMock('Yosmanyga\Resource\Reader\Flat\ReaderInterface');
-        $internalReader2->expects($this->once())->method('supports')->will($this->returnValue(true));
-        $reader = new DelegatorReader(array($internalReader1, $internalReader2, $internalReader3));
-        $this->assertTrue($reader->supports(new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalReader2, 1 => $internalReader1, 2 => $internalReader3), 'readers', $reader);
+        $resource = new Resource();
 
-        $internalReader1 = $this->getMock('Yosmanyga\Resource\Reader\Flat\ReaderInterface');
-        $internalReader1->expects($this->once())->method('supports')->will($this->returnValue(false));
-        $reader = new DelegatorReader(array($internalReader1));
-        $this->assertFalse($reader->supports(new Resource()));
+        $reader = $this->getMock('Yosmanyga\Resource\Reader\Flat\DelegatorReader', array('pickReader'));
+        $reader->expects($this->once())->method('pickReader')->with($resource)->will($this->returnValue(true));
+        $this->assertTrue($reader->supports($resource));
+
+        $reader = $this->getMock('Yosmanyga\Resource\Reader\Flat\DelegatorReader', array('pickReader'));
+        $reader->expects($this->once())->method('pickReader')->with($resource)->will($this->returnValue(false));
+        $this->assertFalse($reader->supports($resource));
     }
 
     /**

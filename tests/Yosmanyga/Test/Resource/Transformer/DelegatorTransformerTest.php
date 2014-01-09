@@ -40,18 +40,16 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
-        $internalTransformer1 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
-        $internalTransformer2 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
-        $internalTransformer3 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
-        $internalTransformer2->expects($this->once())->method('supports')->will($this->returnValue(true));
-        $delegatorTransformer = new DelegatorTransformer(array($internalTransformer1,$internalTransformer2, $internalTransformer3));
-        $this->assertTrue($delegatorTransformer->supports(new Resource(), new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalTransformer2, 1 => $internalTransformer1, 2 => $internalTransformer3), 'transformers', $delegatorTransformer);
+        $resource = new Resource();
+        $parentResource = new Resource();
 
-        $internalTransformer1 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
-        $internalTransformer1->expects($this->once())->method('supports')->will($this->returnValue(false));
-        $delegatorTransformer = new DelegatorTransformer(array($internalTransformer1));
-        $this->assertFalse($delegatorTransformer->supports(new Resource(), new Resource()));
+        $transformer = $this->getMock('Yosmanyga\Resource\Transformer\DelegatorTransformer', array('pickTransformer'));
+        $transformer->expects($this->once())->method('pickTransformer')->with($resource, $parentResource)->will($this->returnValue(true));
+        $this->assertTrue($transformer->supports($resource, $parentResource));
+
+        $transformer = $this->getMock('Yosmanyga\Resource\Transformer\DelegatorTransformer', array('pickTransformer'));
+        $transformer->expects($this->once())->method('pickTransformer')->with($resource, $parentResource)->will($this->returnValue(false));
+        $this->assertFalse($transformer->supports($resource, $parentResource));
     }
 
     /**

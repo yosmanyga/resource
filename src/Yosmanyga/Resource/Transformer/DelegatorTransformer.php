@@ -30,17 +30,11 @@ class DelegatorTransformer implements TransformerInterface
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
-        foreach ($this->transformers as $i => $transformer) {
-            if ($transformer->supports($resource, $parentResource)) {
-                if (0 != $i) {
-                    // Move transformer to top to improve next pick
-                    unset($this->transformers[$i]);
-                    array_unshift($this->transformers, $transformer);
-                }
-
+        try {
+            if ($this->pickTransformer($resource, $parentResource)) {
                 return true;
             }
-        }
+        } catch (\RuntimeException $e) {}
 
         return false;
     }
@@ -60,7 +54,7 @@ class DelegatorTransformer implements TransformerInterface
      *                                      the resource
      * @return \Yosmanyga\Resource\Transformer\TransformerInterface
      */
-    private function pickTransformer(Resource $resource, Resource $parentResource)
+    protected function pickTransformer(Resource $resource, Resource $parentResource)
     {
         foreach ($this->transformers as $i => $transformer) {
             if ($transformer->supports($resource, $parentResource)) {

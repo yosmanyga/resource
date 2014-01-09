@@ -19,17 +19,11 @@ class DelegatorCompiler implements CompilerInterface
      */
     public function supports($definition)
     {
-        foreach ($this->compilers as $i => $compiler) {
-            if ($compiler->supports($definition)) {
-                if (0 != $i) {
-                    // Move compiler to top to improve next pick
-                    unset($this->compilers[$i]);
-                    array_unshift($this->compilers, $compiler);
-                }
-
+        try {
+            if ($this->pickCompiler($definition)) {
                 return true;
             }
-        }
+        } catch (\RuntimeException $e) {}
 
         return false;
     }
@@ -48,7 +42,7 @@ class DelegatorCompiler implements CompilerInterface
      *                                                                   resource
      * @return \Yosmanyga\Resource\Compiler\CompilerInterface
      */
-    private function pickCompiler($definition)
+    protected function pickCompiler($definition)
     {
         foreach ($this->compilers as $i => $compiler) {
             if ($compiler->supports($definition)) {

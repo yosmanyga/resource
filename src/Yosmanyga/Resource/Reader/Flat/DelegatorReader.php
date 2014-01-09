@@ -26,17 +26,11 @@ class DelegatorReader implements ReaderInterface
      */
     public function supports(Resource $resource)
     {
-        foreach ($this->readers as $i => $reader) {
-            if ($reader->supports($resource)) {
-                if (0 != $i) {
-                    // Move reader to top to improve next pick
-                    unset($this->readers[$i]);
-                    array_unshift($this->readers, $reader);
-                }
-
+        try {
+            if ($this->pickReader($resource)) {
                 return true;
             }
-        }
+        } catch (\RuntimeException $e) {}
 
         return false;
     }
@@ -55,7 +49,7 @@ class DelegatorReader implements ReaderInterface
      *                                      resource
      * @return \Yosmanyga\Resource\Reader\Flat\ReaderInterface
      */
-    private function pickReader($resource)
+    protected function pickReader($resource)
     {
         foreach ($this->readers as $i => $reader) {
             if ($reader->supports($resource)) {

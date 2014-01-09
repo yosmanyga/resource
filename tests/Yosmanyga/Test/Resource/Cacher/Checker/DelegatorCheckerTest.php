@@ -36,18 +36,15 @@ class DelegatorCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
-        $internalChecker1 = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
-        $internalChecker2 = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
-        $internalChecker3 = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
-        $internalChecker2->expects($this->once())->method('supports')->will($this->returnValue(true));
-        $checker = new DelegatorChecker(array($internalChecker1, $internalChecker2, $internalChecker3));
-        $this->assertTrue($checker->supports(new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalChecker2, 1 => $internalChecker1, 2 => $internalChecker3), 'checkers', $checker);
+        $resource = new Resource();
 
-        $internalChecker1 = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
-        $internalChecker1->expects($this->once())->method('supports')->will($this->returnValue(false));
-        $checker = new DelegatorChecker(array($internalChecker1));
-        $this->assertFalse($checker->supports(new Resource()));
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\DelegatorChecker', array('pickChecker'));
+        $checker->expects($this->once())->method('pickChecker')->with($resource)->will($this->returnValue(true));
+        $this->assertTrue($checker->supports($resource));
+
+        $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\DelegatorChecker', array('pickChecker'));
+        $checker->expects($this->once())->method('pickChecker')->with($resource)->will($this->returnValue(false));
+        $this->assertFalse($checker->supports($resource));
     }
 
     /**

@@ -24,17 +24,11 @@ class DelegatorNormalizer implements NormalizerInterface
      */
     public function supports($data, Resource $resource)
     {
-        foreach ($this->normalizers as $i => $normalizer) {
-            if ($normalizer->supports($data, $resource)) {
-                if (0 != $i) {
-                    // Move normalizer to top to improve next pick
-                    unset($this->normalizers[$i]);
-                    array_unshift($this->normalizers, $normalizer);
-                }
-
+        try {
+            if ($this->pickNormalizer($data, $resource)) {
                 return true;
             }
-        }
+        } catch (\RuntimeException $e) {}
 
         return false;
     }
@@ -54,7 +48,7 @@ class DelegatorNormalizer implements NormalizerInterface
      *                                      the resource
      * @return \Yosmanyga\Resource\Normalizer\NormalizerInterface
      */
-    private function pickNormalizer($data, Resource $resource)
+    protected function pickNormalizer($data, Resource $resource)
     {
         foreach ($this->normalizers as $i => $normalizer) {
             if ($normalizer->supports($data, $resource)) {
