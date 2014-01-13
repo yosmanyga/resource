@@ -58,7 +58,7 @@ class ComposerVendorFileTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $file
+     * @param  string                    $file
      * @throws \InvalidArgumentException if $file has invalid syntax
      * @return array
      */
@@ -74,7 +74,7 @@ class ComposerVendorFileTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $vendor
+     * @param  string                    $vendor
      * @throws \InvalidArgumentException if $vendor is not found
      * @return string
      */
