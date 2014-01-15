@@ -67,3 +67,6 @@ loading.
 # Documentation
 
 Read the documentation for more information.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/yosmanyga/resource/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
