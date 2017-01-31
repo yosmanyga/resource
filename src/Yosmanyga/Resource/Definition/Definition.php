@@ -22,13 +22,13 @@ abstract class Definition implements DefinitionInterface
     {
         $r = new \ReflectionClass($this);
         $properties = $r->getProperties();
-        $allowedKeys = array();
+        $optionalKeys = array();
         foreach ($properties as $property) {
-            $allowedKeys[] = $property->name;
+            $optionalKeys[] = $property->name;
         }
 
         $validator = new ExceptionValidator(new ArrayValidator(array(
-            'allowedKeys' => $allowedKeys,
+            'optionalKeys' => $optionalKeys,
             'allowExtra' => false
         )));
 
