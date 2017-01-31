@@ -5,7 +5,7 @@ namespace Yosmanyga\Test\Resource\Normalizer;
 use Yosmanyga\Resource\Normalizer\SuddenAnnotationFileDelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
-class SuddenAnnotationFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
+class SuddenAnnotationFileNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Yosmanyga\Resource\Normalizer\SuddenAnnotationFileDelegatorNormalizer::supports
@@ -15,10 +15,10 @@ class SuddenAnnotationFileDelegatorNormalizerTest extends \PHPUnit_Framework_Tes
         $normalizer = new SuddenAnnotationFileDelegatorNormalizer();
 
         // Right type
-        $this->assertTrue($normalizer->supports(null, new Resource(array(), 'annotation')));
+        $this->assertTrue($normalizer->supports(null, new Resource([], 'annotation')));
         // Wrong type
-        $this->assertFalse($normalizer->supports(null, new Resource(array(), 'foo')));
+        $this->assertFalse($normalizer->supports(null, new Resource([], 'foo')));
         // No type
-        $this->assertFalse($normalizer->supports(null, new Resource(array())));
+        $this->assertFalse($normalizer->supports(null, new Resource([])));
     }
 }

@@ -19,19 +19,19 @@ class DelegatorReader implements ReaderInterface
     /**
      * @param \Yosmanyga\Resource\Reader\Iterator\ReaderInterface[] $readers
      */
-    public function __construct($readers = array())
+    public function __construct($readers = [])
     {
-        $this->readers = $readers ?: array(
+        $this->readers = $readers ?: [
             new IniFileReader(),
             new YamlFileReader(),
             new XmlFileReader(),
             new SuddenAnnotationFileReader(),
-            new DirectoryReader()
-        );
+            new DirectoryReader(),
+        ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -39,13 +39,14 @@ class DelegatorReader implements ReaderInterface
             if ($this->pickReader($resource)) {
                 return true;
             }
-        } catch (\RuntimeException $e) {}
+        } catch (\RuntimeException $e) {
+        }
 
         return false;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(Resource $resource)
     {
@@ -54,7 +55,7 @@ class DelegatorReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -62,7 +63,7 @@ class DelegatorReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -70,7 +71,7 @@ class DelegatorReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close()
     {
@@ -80,9 +81,11 @@ class DelegatorReader implements ReaderInterface
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @throws \RuntimeException            If no reader is able to support the
-     *                                      resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
+     * @throws \RuntimeException If no reader is able to support the
+     *                           resource
+     *
      * @return \Yosmanyga\Resource\Reader\Iterator\ReaderInterface
      */
     protected function pickReader($resource)

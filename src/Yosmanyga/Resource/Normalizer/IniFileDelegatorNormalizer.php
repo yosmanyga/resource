@@ -7,7 +7,7 @@ use Yosmanyga\Resource\Resource;
 class IniFileDelegatorNormalizer extends DelegatorNormalizer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($data, Resource $resource)
     {
@@ -19,7 +19,7 @@ class IniFileDelegatorNormalizer extends DelegatorNormalizer
             return false;
         }
 
-        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('ini'))) {
+        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), ['ini'])) {
             return true;
         }
 

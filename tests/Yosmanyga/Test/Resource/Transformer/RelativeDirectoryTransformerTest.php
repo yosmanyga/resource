@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Test\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer;
 
 class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,10 +13,10 @@ class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $transformer = new RelativeDirectoryTransformer();
-        $this->assertAttributeEquals(array('@'), 'firstCharacters', $transformer);
+        $this->assertAttributeEquals(['@'], 'firstCharacters', $transformer);
 
-        $transformer = new RelativeDirectoryTransformer(array('foo'));
-        $this->assertAttributeEquals(array('foo'), 'firstCharacters', $transformer);
+        $transformer = new RelativeDirectoryTransformer(['foo']);
+        $this->assertAttributeEquals(['foo'], 'firstCharacters', $transformer);
     }
 
     /**
@@ -31,19 +31,19 @@ class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('dir' => '/bar/foo1')),
+            new Resource(['dir' => '/bar/foo1']),
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('dir' => 'c:/bar/foo1')),
+            new Resource(['dir' => 'c:/bar/foo1']),
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('dir' => '@bar/foo1')),
+            new Resource(['dir' => '@bar/foo1']),
             new Resource()
         ));
         $this->assertTrue($transformer->supports(
-            new Resource(array('dir' => 'bar/foo1')),
+            new Resource(['dir' => 'bar/foo1']),
             new Resource()
         ));
     }
@@ -55,10 +55,10 @@ class RelativeDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
     {
         $transformer = new RelativeDirectoryTransformer();
         $this->assertEquals(
-            new Resource(array('file' => '/bar/foo1')),
+            new Resource(['file' => '/bar/foo1']),
             $transformer->transform(
-                new Resource(array('dir' => 'foo1')),
-                new Resource(array('file' => '/bar/foo2.x'))
+                new Resource(['dir' => 'foo1']),
+                new Resource(['file' => '/bar/foo2.x'])
             )
         );
     }

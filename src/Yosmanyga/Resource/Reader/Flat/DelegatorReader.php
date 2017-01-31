@@ -14,15 +14,15 @@ class DelegatorReader implements ReaderInterface
     /**
      * @param \Yosmanyga\Resource\Reader\Flat\ReaderInterface[] $readers
      */
-    public function __construct($readers = array())
+    public function __construct($readers = [])
     {
-        $this->readers = $readers ?: array(
-            new FileReader()
-        );
+        $this->readers = $readers ?: [
+            new FileReader(),
+        ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -30,13 +30,14 @@ class DelegatorReader implements ReaderInterface
             if ($this->pickReader($resource)) {
                 return true;
             }
-        } catch (\RuntimeException $e) {}
+        } catch (\RuntimeException $e) {
+        }
 
         return false;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function read(Resource $resource)
     {
@@ -44,9 +45,11 @@ class DelegatorReader implements ReaderInterface
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @throws \RuntimeException            If no reader is able to support the
-     *                                      resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
+     * @throws \RuntimeException If no reader is able to support the
+     *                           resource
+     *
      * @return \Yosmanyga\Resource\Reader\Flat\ReaderInterface
      */
     protected function pickReader($resource)

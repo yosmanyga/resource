@@ -32,9 +32,9 @@ class FileVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $checker = new FileVersionChecker($storer);
 
         // No file metadata
-        $this->assertFalse($checker->supports(new Resource(array())));
+        $this->assertFalse($checker->supports(new Resource([])));
         // Right metadata
-        $this->assertTrue($checker->supports(new Resource(array('file' => 'foo'))));
+        $this->assertTrue($checker->supports(new Resource(['file' => 'foo'])));
     }
 
     /**
@@ -42,7 +42,7 @@ class FileVersionCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $resource = new Resource(array('file' => __FILE__));
+        $resource = new Resource(['file' => __FILE__]);
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('add')->with(filemtime($resource->getMetadata('file')), $resource);
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
@@ -55,7 +55,7 @@ class FileVersionCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheck()
     {
-        $resource = new Resource(array('file' => sprintf("%s/Fixtures/foo.yml", dirname(__FILE__))));
+        $resource = new Resource(['file' => sprintf('%s/Fixtures/foo.yml', dirname(__FILE__))]);
 
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(false));

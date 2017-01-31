@@ -7,7 +7,7 @@ use Yosmanyga\Resource\Resource;
 class DirectoryNormalizer extends DelegatorNormalizer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($data, Resource $resource)
     {
@@ -19,7 +19,7 @@ class DirectoryNormalizer extends DelegatorNormalizer
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function normalize($data, Resource $resource)
     {
@@ -27,7 +27,8 @@ class DirectoryNormalizer extends DelegatorNormalizer
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
      * @return \Yosmanyga\Resource\Resource
      */
     private function convertResource(Resource $resource)

@@ -23,13 +23,14 @@ class CheckFileStorer extends FileStorer
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
      * @return string
      */
     protected function getFilename(Resource $resource)
     {
         return sprintf(
-            "%s/%s%s",
+            '%s/%s%s',
             $this->dir,
             md5(serialize($resource)),
             $this->suffix

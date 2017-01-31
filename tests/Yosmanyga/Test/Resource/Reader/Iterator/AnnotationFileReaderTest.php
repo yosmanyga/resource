@@ -2,9 +2,9 @@
 
 namespace Yosmanyga\Test\Resource\Reader\Iterator;
 
-use Yosmanyga\Resource\Util\DocParser;
 use Yosmanyga\Resource\Reader\Iterator\AnnotationFileReader;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Util\DocParser;
 
 class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,11 +29,11 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new AnnotationFileReader();
 
         // Right type
-        $this->assertTrue($reader->supports(new Resource(array(), 'annotation')));
+        $this->assertTrue($reader->supports(new Resource([], 'annotation')));
         // Wrong type
-        $this->assertFalse($reader->supports(new Resource(array(), 'foo')));
+        $this->assertFalse($reader->supports(new Resource([], 'foo')));
         // No type
-        $this->assertFalse($reader->supports(new Resource(array())));
+        $this->assertFalse($reader->supports(new Resource([])));
     }
 
     /**
@@ -41,25 +41,25 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpen()
     {
-        $resource = new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => '/AnnotationX/'));
+        $resource = new Resource(['file' => sprintf('%s/Fixtures/Foo.php', dirname(__FILE__)), 'annotation' => '/AnnotationX/']);
         $reader = new AnnotationFileReader();
 
         $reader->open($resource);
         $this->assertEquals(
-            array(
-                'key' => 0,
-                'value' => array(
+            [
+                'key'   => 0,
+                'value' => [
                     'class' => 'Yosmanyga\Test\Resource\Reader\Iterator\Fixtures\Foo',
-                    'key' => 'AnnotationX',
-                    'value' => array(
+                    'key'   => 'AnnotationX',
+                    'value' => [
                         'foo11' => 'bar11',
-                        'foo12' => 'bar12'
-                    ),
-                    'metadata' => array(
-                        'class' => 'Yosmanyga\Test\Resource\Reader\Iterator\Fixtures\Foo'
-                    )
-                )
-            ),
+                        'foo12' => 'bar12',
+                    ],
+                    'metadata' => [
+                        'class' => 'Yosmanyga\Test\Resource\Reader\Iterator\Fixtures\Foo',
+                    ],
+                ],
+            ],
             $reader->current()
         );
     }
@@ -71,7 +71,7 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithNotFoundFileMetadata()
     {
         $reader = new AnnotationFileReader();
-        $reader->open(new Resource(array('file' => '')));
+        $reader->open(new Resource(['file' => '']));
     }
 
     /**
@@ -81,7 +81,7 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithInvalidFileMetadata()
     {
         $reader = new AnnotationFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/FooInvalid.php", dirname(__FILE__)))));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/FooInvalid.php', dirname(__FILE__))]));
     }
 
     /**
@@ -91,24 +91,24 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testNext()
     {
         $reader = new AnnotationFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => '/AnnotationX/')));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/Foo.php', dirname(__FILE__)), 'annotation' => '/AnnotationX/']));
 
         $reader->next();
         $this->assertEquals(
-            array(
-                'key' => 1,
-                'value' => array(
+            [
+                'key'   => 1,
+                'value' => [
                     'method' => 'bar',
-                    'key' => 'AnnotationX',
-                    'value' => array(
+                    'key'    => 'AnnotationX',
+                    'value'  => [
                         'foo21' => 'bar21',
-                        'foo22' => 'bar22'
-                    ),
-                    'metadata' => array(
-                        'class' => 'Yosmanyga\Test\Resource\Reader\Iterator\Fixtures\Foo'
-                    )
-                )
-            ),
+                        'foo22' => 'bar22',
+                    ],
+                    'metadata' => [
+                        'class' => 'Yosmanyga\Test\Resource\Reader\Iterator\Fixtures\Foo',
+                    ],
+                ],
+            ],
             $reader->current()
         );
         $reader->next();
@@ -142,7 +142,7 @@ class AnnotationFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testClose()
     {
         $reader = new AnnotationFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/Foo.php", dirname(__FILE__)), 'annotation' => '/AnnotationX/')));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/Foo.php', dirname(__FILE__)), 'annotation' => '/AnnotationX/']));
         $reader->close();
         $reader->current();
     }

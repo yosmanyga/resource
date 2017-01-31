@@ -2,9 +2,9 @@
 
 namespace Yosmanyga\Resource\Transformer;
 
-use Yosmanyga\Resource\Resource;
-use Composer\Repository\FilesystemRepository;
 use Composer\Json\JsonFile;
+use Composer\Repository\FilesystemRepository;
+use Yosmanyga\Resource\Resource;
 
 class ComposerVendorFileTransformer implements TransformerInterface
 {
@@ -23,12 +23,12 @@ class ComposerVendorFileTransformer implements TransformerInterface
      */
     public function __construct($file = '')
     {
-        $this->file = $file ?: sprintf("%s/../../../../../../../vendor/composer/installed.json", __DIR__);
+        $this->file = $file ?: sprintf('%s/../../../../../../../vendor/composer/installed.json', __DIR__);
         $this->repository = new FilesystemRepository(new JsonFile($this->file));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
@@ -40,26 +40,28 @@ class ComposerVendorFileTransformer implements TransformerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function transform(Resource $resource, Resource $parentResource)
     {
         list($vendor, $path) = $this->parseFile($resource->getMetadata('file'));
 
         $file = sprintf(
-            "%s/%s/%s%s",
+            '%s/%s/%s%s',
             dirname(dirname($this->file)),
             $vendor,
             $this->resolveSrc($vendor),
             $path
         );
 
-        return new Resource(array('file' => $file));
+        return new Resource(['file' => $file]);
     }
 
     /**
-     * @param  string                    $file
+     * @param string $file
+     *
      * @throws \InvalidArgumentException if $file has invalid syntax
+     *
      * @return array
      */
     private function parseFile($file)
@@ -67,15 +69,17 @@ class ComposerVendorFileTransformer implements TransformerInterface
         $data = sscanf($file, '@%[^:]:%[^?]');
 
         if (empty($data[0])) {
-            throw new \InvalidArgumentException(sprintf("File \"%s\" has invalid syntax", $file));
+            throw new \InvalidArgumentException(sprintf('File "%s" has invalid syntax', $file));
         }
 
         return $data;
     }
 
     /**
-     * @param  string                    $vendor
+     * @param string $vendor
+     *
      * @throws \InvalidArgumentException if $vendor is not found
+     *
      * @return string
      */
     private function resolveSrc($vendor)
@@ -94,7 +98,7 @@ class ComposerVendorFileTransformer implements TransformerInterface
         }
 
         if (null === $src) {
-            throw new \InvalidArgumentException(sprintf("Vendor \"%s\" not found", $vendor));
+            throw new \InvalidArgumentException(sprintf('Vendor "%s" not found', $vendor));
         }
 
         return $src;

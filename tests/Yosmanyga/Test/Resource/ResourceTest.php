@@ -11,12 +11,12 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
-        $resource = new Resource(array(
+        $resource = new Resource([
             'foo1' => 'bar1',
-            'foo2' => 'bar2'
-        ), 'foo');
+            'foo2' => 'bar2',
+        ], 'foo');
 
-        $this->assertEquals(array('foo1' => 'bar1', 'foo2' => 'bar2'), $resource->getMetadata());
+        $this->assertEquals(['foo1' => 'bar1', 'foo2' => 'bar2'], $resource->getMetadata());
         $this->assertEquals('foo', $resource->getType());
     }
 
@@ -37,7 +37,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($resource->hasMetadata('foo1'));
         $this->assertEquals('bar1', $resource->getMetadata('foo1'));
-        $this->assertEquals(array('foo1' => 'bar1', 'foo2' => 'bar2'), $resource->getMetadata());
+        $this->assertEquals(['foo1' => 'bar1', 'foo2' => 'bar2'], $resource->getMetadata());
         $this->assertFalse($resource->hasMetadata('foo3'));
         $this->assertEquals('foo', $resource->getType());
         $this->assertTrue($resource->hasType());
@@ -45,6 +45,5 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $resource = new Resource();
 
         $this->assertFalse($resource->hasType());
-
     }
 }

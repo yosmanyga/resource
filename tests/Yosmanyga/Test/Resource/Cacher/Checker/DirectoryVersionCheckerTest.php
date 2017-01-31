@@ -2,10 +2,10 @@
 
 namespace Yosmanyga\Test\Resource\Cacher\VersionChecker;
 
+use Symfony\Component\Finder\Finder;
 use Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker;
 use Yosmanyga\Resource\Cacher\Storer\CheckFileStorer;
 use Yosmanyga\Resource\Resource;
-use Symfony\Component\Finder\Finder;
 
 class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,9 +37,9 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $checker = new DirectoryVersionChecker($storer);
 
         // No dir metadata
-        $this->assertFalse($checker->supports(new Resource(array())));
+        $this->assertFalse($checker->supports(new Resource([])));
         // Right metadata
-        $this->assertTrue($checker->supports(new Resource(array('dir' => 'foo'))));
+        $this->assertTrue($checker->supports(new Resource(['dir' => 'foo'])));
     }
 
     /**
@@ -52,8 +52,8 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $checker = new DirectoryVersionChecker($storer);
         $m = new \ReflectionMethod($checker, 'calculateDirVersion');
         $m->setAccessible(true);
-        $resource = new Resource(array('dir' => sprintf("%s/Fixtures", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '== 0', 'type' => 'yaml'));
-        /** @var \PHPUnit_Framework_MockObject_MockObject $storer */
+        $resource = new Resource(['dir' => sprintf('%s/Fixtures', dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '== 0', 'type' => 'yaml']);
+        /* @var \PHPUnit_Framework_MockObject_MockObject $storer */
         $storer->expects($this->once())->method('add')->with($m->invoke($checker, $resource), $resource);
         $checker->add($resource);
     }
@@ -63,7 +63,7 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheck()
     {
-        $resource = new Resource(array('dir' => sprintf("%s/Fixtures", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '== 0', 'type' => 'yaml'));
+        $resource = new Resource(['dir' => sprintf('%s/Fixtures', dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '== 0', 'type' => 'yaml']);
 
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(false));
@@ -84,7 +84,7 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         /** @var \PHPUnit_Framework_MockObject_MockObject $storer */
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(true));
-        $storer->expects($this->once())->method('get')->with($resource)->will($this->returnValue(array('123' => 123)));
+        $storer->expects($this->once())->method('get')->with($resource)->will($this->returnValue(['123' => 123]));
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $checker = new DirectoryVersionChecker($storer);
         $this->assertFalse($checker->check($resource));
@@ -100,41 +100,41 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $m->setAccessible(true);
 
         // With filter and depth metadata
-        $resource = new Resource(array('dir' => sprintf("%s/Fixtures", dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '== 0', 'type' => 'yaml'));
+        $resource = new Resource(['dir' => sprintf('%s/Fixtures', dirname(__FILE__)), 'filter' => '*.yml', 'depth' => '== 0', 'type' => 'yaml']);
         $iterator = $this->getMock('\AppendIterator');
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $finder = $this->getMockBuilder('Symfony\Component\Finder\Finder')->disableOriginalConstructor()->getMock();
         /** @var \Symfony\Component\Finder\Finder $finder */
         $checker = new DirectoryVersionChecker($storer, $finder);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $finder */
+        /* @var \PHPUnit_Framework_MockObject_MockObject $finder */
         $finder->expects($this->once())->method('files')->will($this->returnSelf());
-        $finder->expects($this->once())->method('in')->with(sprintf("%s/Fixtures", dirname(__FILE__)));
+        $finder->expects($this->once())->method('in')->with(sprintf('%s/Fixtures', dirname(__FILE__)));
         $finder->expects($this->once())->method('name')->with('*.yml');
         $finder->expects($this->once())->method('depth')->with('== 0');
         $finder->expects($this->once())->method('getIterator')->will($this->returnValue($iterator));
-        $this->assertEquals(array(), $m->invoke($checker, $resource));
+        $this->assertEquals([], $m->invoke($checker, $resource));
 
         // No filter metadata, no depth metadata
-        $resource = new Resource(array('dir' => sprintf("%s/Fixtures", dirname(__FILE__)), 'type' => 'yaml'));
+        $resource = new Resource(['dir' => sprintf('%s/Fixtures', dirname(__FILE__)), 'type' => 'yaml']);
         $iterator = $this->getMock('\AppendIterator');
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $finder = $this->getMockBuilder('Symfony\Component\Finder\Finder')->disableOriginalConstructor()->getMock();
         /** @var \Symfony\Component\Finder\Finder $finder */
         $checker = new DirectoryVersionChecker($storer, $finder);
-        /** @var \PHPUnit_Framework_MockObject_MockObject $finder */
+        /* @var \PHPUnit_Framework_MockObject_MockObject $finder */
         $finder->expects($this->once())->method('files')->will($this->returnSelf());
-        $finder->expects($this->once())->method('in')->with(sprintf("%s/Fixtures", dirname(__FILE__)));
+        $finder->expects($this->once())->method('in')->with(sprintf('%s/Fixtures', dirname(__FILE__)));
         $finder->expects($this->once())->method('depth')->with('>= 0');
         $finder->expects($this->once())->method('getIterator')->will($this->returnValue($iterator));
-        $this->assertEquals(array(), $m->invoke($checker, $resource));
+        $this->assertEquals([], $m->invoke($checker, $resource));
 
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $checker = new DirectoryVersionChecker($storer);
-        $versions = array();
-        $versions[md5(sprintf("%s/Fixtures/foo.yml", dirname(__FILE__)))] = filemtime(sprintf("%s/Fixtures/foo.yml", dirname(__FILE__)));
+        $versions = [];
+        $versions[md5(sprintf('%s/Fixtures/foo.yml', dirname(__FILE__)))] = filemtime(sprintf('%s/Fixtures/foo.yml', dirname(__FILE__)));
         $this->assertEquals($versions, $m->invoke($checker, $resource));
     }
 
@@ -150,6 +150,6 @@ class DirectoryVersionCheckerTest extends \PHPUnit_Framework_TestCase
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         $checker = new DirectoryVersionChecker($storer);
-        $m->invoke($checker, new Resource(array('dir' => '')));
+        $m->invoke($checker, new Resource(['dir' => '']));
     }
 }

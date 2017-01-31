@@ -43,7 +43,7 @@ class FileStorerTest extends \PHPUnit_Framework_TestCase
         $m->setAccessible(true);
         $storer = new FileStorer('foo');
         $resource = new Resource();
-        $filename = sprintf("foo/%s", md5(serialize($resource)));
+        $filename = sprintf('foo/%s', md5(serialize($resource)));
         $this->assertEquals($filename, $m->invoke($storer, new Resource()));
     }
 }

@@ -7,7 +7,7 @@ use Yosmanyga\Resource\Resource;
 class XmlFileDelegatorNormalizer extends DelegatorNormalizer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($data, Resource $resource)
     {
@@ -19,7 +19,7 @@ class XmlFileDelegatorNormalizer extends DelegatorNormalizer
             return false;
         }
 
-        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('xml'))) {
+        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), ['xml'])) {
             return true;
         }
 

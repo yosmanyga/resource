@@ -32,9 +32,9 @@ class SerializedDataCheckerTest extends \PHPUnit_Framework_TestCase
         $checker = new SerializedDataChecker($storer);
 
         // No data metadata
-        $this->assertFalse($checker->supports(new Resource(array())));
+        $this->assertFalse($checker->supports(new Resource([])));
         // Right metadata
-        $this->assertTrue($checker->supports(new Resource(array('data' => 'foo'))));
+        $this->assertTrue($checker->supports(new Resource(['data' => 'foo'])));
     }
 
     /**
@@ -42,7 +42,7 @@ class SerializedDataCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $resource = new Resource(array('data' => 'foo'));
+        $resource = new Resource(['data' => 'foo']);
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('add')->with(serialize($resource->getMetadata('data')), $resource);
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
@@ -55,7 +55,7 @@ class SerializedDataCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheck()
     {
-        $resource = new Resource(array('data' => 'foo'));
+        $resource = new Resource(['data' => 'foo']);
 
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(false));

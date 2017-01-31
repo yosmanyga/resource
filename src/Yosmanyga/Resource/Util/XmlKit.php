@@ -5,7 +5,8 @@ namespace Yosmanyga\Resource\Util;
 class XmlKit
 {
     /**
-     * Copied from Symfony\Component\Config\Util\XmlUtils
+     * Copied from Symfony\Component\Config\Util\XmlUtils.
+     *
      * @author Fabien Potencier <fabien@symfony.com>
      * @author Martin Hasoň <martin.hason@gmail.com>
      *
@@ -24,7 +25,7 @@ class XmlKit
      *  * The nested-tags are converted to keys (<foo><foo>bar</foo></foo>)
      *
      * @param \DomElement $element     A \DomElement instance
-     * @param Boolean     $checkPrefix Check prefix in an element or an attribute name
+     * @param bool        $checkPrefix Check prefix in an element or an attribute name
      * @codeCoverageIgnore
      *
      * @return array A PHP array
@@ -33,9 +34,9 @@ class XmlKit
     {
         $prefix = (string) $element->prefix;
         $empty = true;
-        $config = array();
+        $config = [];
         foreach ($element->attributes as $name => $node) {
-            if ($checkPrefix && !in_array((string) $node->prefix, array('', $prefix), true)) {
+            if ($checkPrefix && !in_array((string) $node->prefix, ['', $prefix], true)) {
                 continue;
             }
             $config[$name] = $this->phpize($node->value);
@@ -57,7 +58,7 @@ class XmlKit
                 $key = $node->localName;
                 if (isset($config[$key])) {
                     if (!is_array($config[$key]) || !is_int(key($config[$key]))) {
-                        $config[$key] = array($config[$key]);
+                        $config[$key] = [$config[$key]];
                     }
                     $config[$key][] = $value;
                 } else {
@@ -81,7 +82,8 @@ class XmlKit
     }
 
     /**
-     * Copied from Symfony\Component\Config\Util\XmlUtils
+     * Copied from Symfony\Component\Config\Util\XmlUtils.
+     *
      * @author Fabien Potencier <fabien@symfony.com>
      * @author Martin Hasoň <martin.hason@gmail.com>
      *
@@ -99,7 +101,7 @@ class XmlKit
 
         switch (true) {
             case 'null' === $lowercaseValue:
-                return null;
+                return;
             case ctype_digit($value):
                 $raw = $value;
                 $cast = intval($value);
@@ -126,16 +128,17 @@ class XmlKit
     }
 
     /**
-     * @param  array $nodes
+     * @param array $nodes
+     *
      * @return array
      */
     public function extractContent($nodes)
     {
         if (isset($nodes['name'])) {
-            $nodes = array($nodes);
+            $nodes = [$nodes];
         }
 
-        $content = array();
+        $content = [];
         foreach ($nodes as $node) {
             $name = $node['name'];
             unset($node['name']);

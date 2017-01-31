@@ -12,8 +12,9 @@ interface CacherInterface
     /**
      * Caches given data from given resource.
      *
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @param  mixed                        $data
+     * @param \Yosmanyga\Resource\Resource $resource
+     * @param mixed                        $data
+     *
      * @return mixed
      */
     public function store($data, Resource $resource);
@@ -21,7 +22,8 @@ interface CacherInterface
     /**
      * Gets cached data from given resource.
      *
-     * @param  \Yosmanyga\Resource\Resource $resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
      * @return mixed
      */
     public function retrieve(Resource $resource);
@@ -29,10 +31,11 @@ interface CacherInterface
     /**
      * Returns whether cacher has cached data for given resource.
      *
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @return mixed                        true if the cacher has the cached
-     *                                      data for given resource, false
-     *                                      otherwise
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
+     * @return mixed true if the cacher has the cached
+     *               data for given resource, false
+     *               otherwise
      */
     public function check(Resource $resource);
 }

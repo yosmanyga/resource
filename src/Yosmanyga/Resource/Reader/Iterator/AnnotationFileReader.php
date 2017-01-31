@@ -27,7 +27,7 @@ class AnnotationFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -39,7 +39,7 @@ class AnnotationFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(Resource $resource)
     {
@@ -57,11 +57,11 @@ class AnnotationFileReader implements ReaderInterface
         }
 
         $this->inMemoryReader = new InMemoryReader();
-        $this->inMemoryReader->open(new Resource(array('data' => $data), 'in_memory'));
+        $this->inMemoryReader->open(new Resource(['data' => $data], 'in_memory'));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -73,7 +73,7 @@ class AnnotationFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -85,7 +85,7 @@ class AnnotationFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close()
     {

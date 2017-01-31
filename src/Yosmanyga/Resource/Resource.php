@@ -18,7 +18,7 @@ class Resource
      * @param array  $metadata
      * @param string $type
      */
-    public function __construct($metadata = array(), $type = '')
+    public function __construct($metadata = [], $type = '')
     {
         $this->metadata = $metadata;
         $this->type = $type;
@@ -34,7 +34,8 @@ class Resource
     }
 
     /**
-     * @param  null|string  $key
+     * @param null|string $key
+     *
      * @return string|array
      */
     public function getMetadata($key = null)
@@ -47,8 +48,9 @@ class Resource
     }
 
     /**
-     * @param  string  $key
-     * @return boolean
+     * @param string $key
+     *
+     * @return bool
      */
     public function hasMetadata($key)
     {
@@ -72,7 +74,7 @@ class Resource
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasType()
     {

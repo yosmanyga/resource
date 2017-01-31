@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Test\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\AbsoluteFileTransformer;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Transformer\AbsoluteFileTransformer;
 
 class AbsoluteFileTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,15 +19,15 @@ class AbsoluteFileTransformerTest extends \PHPUnit_Framework_TestCase
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('file' => 'bar/foo1.x')),
+            new Resource(['file' => 'bar/foo1.x']),
             new Resource()
         ));
         $this->assertTrue($transformer->supports(
-            new Resource(array('file' => '/bar/foo1.x')),
+            new Resource(['file' => '/bar/foo1.x']),
             new Resource()
         ));
         $this->assertTrue($transformer->supports(
-            new Resource(array('file' => 'c:/bar/foo1.x')),
+            new Resource(['file' => 'c:/bar/foo1.x']),
             new Resource()
         ));
     }
@@ -39,9 +39,9 @@ class AbsoluteFileTransformerTest extends \PHPUnit_Framework_TestCase
     {
         $transformer = new AbsoluteFileTransformer();
         $this->assertEquals(
-            new Resource(array('file' => '/bar/foo1.x')),
+            new Resource(['file' => '/bar/foo1.x']),
             $transformer->transform(
-                new Resource(array('file' => '/bar/foo1.x')),
+                new Resource(['file' => '/bar/foo1.x']),
                 new Resource()
             )
         );

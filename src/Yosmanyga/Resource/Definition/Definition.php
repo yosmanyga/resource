@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Resource\Definition;
 
-use Yosmanyga\Validation\Validator\ExceptionValidator;
 use Yosmanyga\Validation\Validator\ArrayValidator;
+use Yosmanyga\Validation\Validator\ExceptionValidator;
 
 abstract class Definition implements DefinitionInterface
 {
@@ -22,15 +22,15 @@ abstract class Definition implements DefinitionInterface
     {
         $r = new \ReflectionClass($this);
         $properties = $r->getProperties();
-        $optionalKeys = array();
+        $optionalKeys = [];
         foreach ($properties as $property) {
             $optionalKeys[] = $property->name;
         }
 
-        $validator = new ExceptionValidator(new ArrayValidator(array(
+        $validator = new ExceptionValidator(new ArrayValidator([
             'optionalKeys' => $optionalKeys,
-            'allowExtra' => false
-        )));
+            'allowExtra'   => false,
+        ]));
 
         return $validator->validate($data);
     }
@@ -39,7 +39,7 @@ abstract class Definition implements DefinitionInterface
     {
         $r = new \ReflectionClass($this);
         $properties = $r->getProperties();
-        $export = array();
+        $export = [];
         foreach ($properties as $property) {
             if (null !== $property->getValue($this)) {
                 $export[$property->name] = $property->getValue($this);

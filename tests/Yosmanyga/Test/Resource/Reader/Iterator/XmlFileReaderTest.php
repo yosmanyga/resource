@@ -37,16 +37,16 @@ class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new XmlFileReader();
 
         // Right type
-        $this->assertTrue($reader->supports(new Resource(array(), 'xml')));
+        $this->assertTrue($reader->supports(new Resource([], 'xml')));
         // Wrong type
-        $this->assertFalse($reader->supports(new Resource(array(), 'foo')));
+        $this->assertFalse($reader->supports(new Resource([], 'foo')));
         // No type, file metadata and right extension
-        $extensions = array('xml');
+        $extensions = ['xml'];
         foreach ($extensions as $extension) {
-            $this->assertTrue($reader->supports(new Resource(array('file' => "foo.$extension"))));
+            $this->assertTrue($reader->supports(new Resource(['file' => "foo.$extension"])));
         }
         // No type, file metadata and wrong extension
-        $this->assertFalse($reader->supports(new Resource(array('file' => 'foo.bar'))));
+        $this->assertFalse($reader->supports(new Resource(['file' => 'foo.bar'])));
     }
 
     /**
@@ -54,11 +54,11 @@ class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpen()
     {
-        $resource = new Resource(array('file' => sprintf("%s/Fixtures/foo.xml", dirname(__FILE__))));
+        $resource = new Resource(['file' => sprintf('%s/Fixtures/foo.xml', dirname(__FILE__))]);
         $reader = new XmlFileReader();
 
         $reader->open($resource);
-        $this->assertEquals(array('value' => array('id' => 'foo1', 'foo11' => 'bar11', 'foo12' => 'bar12')), $reader->current());
+        $this->assertEquals(['value' => ['id' => 'foo1', 'foo11' => 'bar11', 'foo12' => 'bar12']], $reader->current());
     }
 
     /**
@@ -68,7 +68,7 @@ class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithNotFoundFileMetadata()
     {
         $reader = new XmlFileReader();
-        $reader->open(new Resource(array('file' => '')));
+        $reader->open(new Resource(['file' => '']));
     }
 
     /**
@@ -78,7 +78,7 @@ class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithInvalidFileMetadata()
     {
         $reader = new XmlFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/foo_invalid.xml", dirname(__FILE__)))));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/foo_invalid.xml', dirname(__FILE__))]));
     }
 
     /**
@@ -89,9 +89,9 @@ class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new XmlFileReader();
 
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/foo.xml", dirname(__FILE__)))));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/foo.xml', dirname(__FILE__))]));
         $reader->next();
-        $this->assertEquals(array('value' => array('id' => 'foo2', 'foo21' => 'bar21', 'foo22' => 'bar22')), $reader->current());
+        $this->assertEquals(['value' => ['id' => 'foo2', 'foo21' => 'bar21', 'foo22' => 'bar22']], $reader->current());
         $reader->next();
         $this->assertFalse($reader->current());
     }
@@ -123,7 +123,7 @@ class XmlFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testClose()
     {
         $reader = new XmlFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/foo.xml", dirname(__FILE__)))));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/foo.xml', dirname(__FILE__))]));
         $reader->close();
         $reader->current();
     }

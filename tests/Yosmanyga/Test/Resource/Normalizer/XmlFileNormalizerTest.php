@@ -5,7 +5,7 @@ namespace Yosmanyga\Test\Resource\Normalizer;
 use Yosmanyga\Resource\Normalizer\XmlFileDelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
-class XmlFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
+class XmlFileNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Yosmanyga\Resource\Normalizer\XmlFileDelegatorNormalizer::supports
@@ -15,15 +15,15 @@ class XmlFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
         $normalizer = new XmlFileDelegatorNormalizer();
 
         // Right type
-        $this->assertTrue($normalizer->supports(null, new Resource(array(), 'xml')));
+        $this->assertTrue($normalizer->supports(null, new Resource([], 'xml')));
         // Wrong type
-        $this->assertFalse($normalizer->supports(null, new Resource(array(), 'foo')));
+        $this->assertFalse($normalizer->supports(null, new Resource([], 'foo')));
         // No type, file metadata and right extension
-        $extensions = array('xml');
+        $extensions = ['xml'];
         foreach ($extensions as $extension) {
-            $this->assertTrue($normalizer->supports(null, new Resource(array('file' => "foo.$extension"))));
+            $this->assertTrue($normalizer->supports(null, new Resource(['file' => "foo.$extension"])));
         }
         // No type, file metadata and wrong extension
-        $this->assertFalse($normalizer->supports(null, new Resource(array('file' => 'foo.bar'))));
+        $this->assertFalse($normalizer->supports(null, new Resource(['file' => 'foo.bar'])));
     }
 }

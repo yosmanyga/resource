@@ -6,8 +6,8 @@ use Yosmanyga\Resource\Cacher\Checker\CheckerInterface;
 use Yosmanyga\Resource\Cacher\Checker\DelegatorChecker;
 use Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker;
 use Yosmanyga\Resource\Cacher\Checker\FileVersionChecker;
-use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
 use Yosmanyga\Resource\Cacher\Storer\FileStorer;
+use Yosmanyga\Resource\Cacher\Storer\StorerInterface;
 use Yosmanyga\Resource\Resource;
 
 class Cacher implements CacherInterface
@@ -28,15 +28,15 @@ class Cacher implements CacherInterface
      */
     public function __construct(CheckerInterface $checker = null, StorerInterface $storer = null)
     {
-        $this->checker = $checker ?: new DelegatorChecker(array(
+        $this->checker = $checker ?: new DelegatorChecker([
             new FileVersionChecker(),
-            new DirectoryVersionChecker()
-        ));
+            new DirectoryVersionChecker(),
+        ]);
         $this->storer = $storer ?: new FileStorer();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function store($data, Resource $resource)
     {
@@ -45,7 +45,7 @@ class Cacher implements CacherInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function retrieve(Resource $resource)
     {
@@ -53,7 +53,7 @@ class Cacher implements CacherInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function check(Resource $resource)
     {

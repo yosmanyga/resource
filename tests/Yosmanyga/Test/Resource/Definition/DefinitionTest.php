@@ -12,7 +12,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
     public function testImport()
     {
         $definition = new Definition();
-        $definition->import(array('foo1' => 'bar1'));
+        $definition->import(['foo1' => 'bar1']);
         $this->assertAttributeEquals('bar1', 'foo1', $definition);
     }
 
@@ -23,7 +23,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
     {
         $definition = new Definition();
         $definition->foo2 = 'bar2';
-        $this->assertEquals(array('foo2' => 'bar2'), $definition->export());
+        $this->assertEquals(['foo2' => 'bar2'], $definition->export());
     }
 
     /**
@@ -35,6 +35,6 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
         $definition = new Definition();
         $m = new \ReflectionMethod($definition, 'validate');
         $m->setAccessible(true);
-        $m->invoke($definition, array('foo3'));
+        $m->invoke($definition, ['foo3']);
     }
 }

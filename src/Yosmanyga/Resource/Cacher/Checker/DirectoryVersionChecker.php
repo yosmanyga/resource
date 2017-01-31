@@ -2,9 +2,9 @@
 
 namespace Yosmanyga\Resource\Cacher\Checker;
 
+use Symfony\Component\Finder\Finder;
 use Yosmanyga\Resource\Cacher\Storer\CheckFileStorer;
 use Yosmanyga\Resource\Resource;
-use Symfony\Component\Finder\Finder;
 
 class DirectoryVersionChecker implements CheckerInterface
 {
@@ -29,7 +29,7 @@ class DirectoryVersionChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -41,7 +41,7 @@ class DirectoryVersionChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add(Resource $resource)
     {
@@ -52,7 +52,7 @@ class DirectoryVersionChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function check(Resource $resource)
     {
@@ -81,7 +81,7 @@ class DirectoryVersionChecker implements CheckerInterface
             $this->finder->depth('>= 0');
         }
 
-        $version = array();
+        $version = [];
         /** @var \SplFileInfo $file */
         foreach ($this->finder->getIterator() as $file) {
             $version[md5($file->getRealPath())] = filemtime($file);

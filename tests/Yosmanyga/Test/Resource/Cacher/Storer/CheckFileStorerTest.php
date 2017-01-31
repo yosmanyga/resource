@@ -28,7 +28,7 @@ class CheckFileStorerTest extends \PHPUnit_Framework_TestCase
         $m = new \ReflectionMethod($storer, 'getFilename');
         $m->setAccessible(true);
         $resource = new Resource();
-        $filename = sprintf("foo/%s.meta", md5(serialize($resource)));
+        $filename = sprintf('foo/%s.meta', md5(serialize($resource)));
         $this->assertEquals($filename, $m->invoke($storer, new Resource()));
     }
 }

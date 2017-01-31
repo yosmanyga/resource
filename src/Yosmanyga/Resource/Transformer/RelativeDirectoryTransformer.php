@@ -8,13 +8,13 @@ class RelativeDirectoryTransformer implements TransformerInterface
 {
     private $firstCharacters;
 
-    public function __construct($firstCharacters = array())
+    public function __construct($firstCharacters = [])
     {
-        $this->firstCharacters = $firstCharacters ?: array('@');
+        $this->firstCharacters = $firstCharacters ?: ['@'];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
@@ -32,16 +32,16 @@ class RelativeDirectoryTransformer implements TransformerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function transform(Resource $resource, Resource $parentResource)
     {
         $file = sprintf(
-            "%s/%s",
+            '%s/%s',
             dirname($parentResource->getMetadata('file')),
             $resource->getMetadata('dir')
         );
 
-        return new Resource(array('file' => $file));
+        return new Resource(['file' => $file]);
     }
 }

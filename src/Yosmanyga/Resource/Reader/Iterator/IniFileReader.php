@@ -12,7 +12,7 @@ class IniFileReader implements ReaderInterface
     private $inMemoryReader;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -24,7 +24,7 @@ class IniFileReader implements ReaderInterface
             return false;
         }
 
-        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('ini'))) {
+        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), ['ini'])) {
             return true;
         }
 
@@ -32,7 +32,7 @@ class IniFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(Resource $resource)
     {
@@ -49,11 +49,11 @@ class IniFileReader implements ReaderInterface
         }
 
         $this->inMemoryReader = new InMemoryReader();
-        $this->inMemoryReader->open(new Resource(array('data' => $data), 'in_memory'));
+        $this->inMemoryReader->open(new Resource(['data' => $data], 'in_memory'));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -65,7 +65,7 @@ class IniFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -77,7 +77,7 @@ class IniFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close()
     {
