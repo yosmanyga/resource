@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Test\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\RelativeFileTransformer;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Transformer\RelativeFileTransformer;
 
 class RelativeFileTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,10 +13,10 @@ class RelativeFileTransformerTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $transformer = new RelativeFileTransformer();
-        $this->assertAttributeEquals(array('@'), 'firstCharacters', $transformer);
+        $this->assertAttributeEquals(['@'], 'firstCharacters', $transformer);
 
-        $transformer = new RelativeFileTransformer(array('foo'));
-        $this->assertAttributeEquals(array('foo'), 'firstCharacters', $transformer);
+        $transformer = new RelativeFileTransformer(['foo']);
+        $this->assertAttributeEquals(['foo'], 'firstCharacters', $transformer);
     }
 
     /**
@@ -31,19 +31,19 @@ class RelativeFileTransformerTest extends \PHPUnit_Framework_TestCase
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('file' => '/bar/foo1.x')),
+            new Resource(['file' => '/bar/foo1.x']),
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('file' => 'c:/bar/foo1.x')),
+            new Resource(['file' => 'c:/bar/foo1.x']),
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('file' => '@bar/foo1.x')),
+            new Resource(['file' => '@bar/foo1.x']),
             new Resource()
         ));
         $this->assertTrue($transformer->supports(
-            new Resource(array('file' => 'bar/foo1.x')),
+            new Resource(['file' => 'bar/foo1.x']),
             new Resource()
         ));
     }
@@ -55,10 +55,10 @@ class RelativeFileTransformerTest extends \PHPUnit_Framework_TestCase
     {
         $transformer = new RelativeFileTransformer();
         $this->assertEquals(
-            new Resource(array('file' => '/bar/foo1.x')),
+            new Resource(['file' => '/bar/foo1.x']),
             $transformer->transform(
-                new Resource(array('file' => 'foo1.x')),
-                new Resource(array('file' => '/bar/foo2.x'))
+                new Resource(['file' => 'foo1.x']),
+                new Resource(['file' => '/bar/foo2.x'])
             )
         );
     }

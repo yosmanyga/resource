@@ -14,13 +14,13 @@ class DelegatorNormalizer implements NormalizerInterface
     /**
      * @param \Yosmanyga\Resource\Normalizer\NormalizerInterface[] $normalizers
      */
-    public function __construct($normalizers = array())
+    public function __construct($normalizers = [])
     {
         $this->normalizers = $normalizers;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($data, Resource $resource)
     {
@@ -28,13 +28,14 @@ class DelegatorNormalizer implements NormalizerInterface
             if ($this->pickNormalizer($data, $resource)) {
                 return true;
             }
-        } catch (\RuntimeException $e) {}
+        } catch (\RuntimeException $e) {
+        }
 
         return false;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function normalize($data, Resource $resource)
     {
@@ -42,10 +43,12 @@ class DelegatorNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param  mixed                        $data
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @throws \RuntimeException            If no normalizer is able to support
-     *                                      the resource
+     * @param mixed                        $data
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
+     * @throws \RuntimeException If no normalizer is able to support
+     *                           the resource
+     *
      * @return \Yosmanyga\Resource\Normalizer\NormalizerInterface
      */
     protected function pickNormalizer($data, Resource $resource)

@@ -7,7 +7,7 @@ use Yosmanyga\Resource\Resource;
 class FileReader implements ReaderInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -28,7 +28,7 @@ class FileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function read(Resource $resource)
     {

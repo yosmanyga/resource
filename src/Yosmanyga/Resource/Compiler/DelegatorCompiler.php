@@ -9,13 +9,13 @@ class DelegatorCompiler implements CompilerInterface
      */
     private $compilers;
 
-    public function __construct($compilers = array())
+    public function __construct($compilers = [])
     {
         $this->compilers = $compilers;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($definition)
     {
@@ -23,13 +23,14 @@ class DelegatorCompiler implements CompilerInterface
             if ($this->pickCompiler($definition)) {
                 return true;
             }
-        } catch (\RuntimeException $e) {}
+        } catch (\RuntimeException $e) {
+        }
 
         return false;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function compile($definition)
     {
@@ -37,9 +38,11 @@ class DelegatorCompiler implements CompilerInterface
     }
 
     /**
-     * @param  mixed                                          $definition
-     * @throws \RuntimeException                              If no compiler is able to support the
-     *                                                                   resource
+     * @param mixed $definition
+     *
+     * @throws \RuntimeException If no compiler is able to support the
+     *                           resource
+     *
      * @return \Yosmanyga\Resource\Compiler\CompilerInterface
      */
     protected function pickCompiler($definition)

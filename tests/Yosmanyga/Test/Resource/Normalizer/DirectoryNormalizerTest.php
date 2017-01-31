@@ -12,22 +12,22 @@ class DirectoryNormalizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports()
     {
-        $resource = new Resource(array('dir' => '/foo', 'type' => 'foo'));
+        $resource = new Resource(['dir' => '/foo', 'type' => 'foo']);
 
         $normalizer = new DirectoryNormalizer();
         // No dir metadata
-        $this->assertFalse($normalizer->supports('', new Resource(array('type' => 'foo'))));
+        $this->assertFalse($normalizer->supports('', new Resource(['type' => 'foo'])));
         // No type metadata
-        $this->assertFalse($normalizer->supports('', new Resource(array('dir' => '/foo'))));
+        $this->assertFalse($normalizer->supports('', new Resource(['dir' => '/foo'])));
 
         $internalNormalizer1 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
         $internalNormalizer1->expects($this->once())->method('supports')->will($this->returnValue(true));
-        $normalizer = new DirectoryNormalizer(array($internalNormalizer1));
-        $this->assertTrue($normalizer->supports(array(), $resource));
+        $normalizer = new DirectoryNormalizer([$internalNormalizer1]);
+        $this->assertTrue($normalizer->supports([], $resource));
         $internalNormalizer1 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
         $internalNormalizer1->expects($this->once())->method('supports')->will($this->returnValue(false));
-        $normalizer = new DirectoryNormalizer(array($internalNormalizer1));
-        $this->assertFalse($normalizer->supports(array(), $resource));
+        $normalizer = new DirectoryNormalizer([$internalNormalizer1]);
+        $this->assertFalse($normalizer->supports([], $resource));
     }
 
     /**
@@ -38,8 +38,8 @@ class DirectoryNormalizerTest extends \PHPUnit_Framework_TestCase
         $internalNormalizer1 = $this->getMock('Yosmanyga\Resource\Normalizer\NormalizerInterface');
         $internalNormalizer1->expects($this->once())->method('supports')->will($this->returnValue(true));
         $internalNormalizer1->expects($this->once())->method('normalize');
-        $normalizer = new DirectoryNormalizer(array($internalNormalizer1));
-        $normalizer->normalize(array(), new Resource(array('type' => 'foo')));
+        $normalizer = new DirectoryNormalizer([$internalNormalizer1]);
+        $normalizer->normalize([], new Resource(['type' => 'foo']));
     }
 
     /**
@@ -51,9 +51,9 @@ class DirectoryNormalizerTest extends \PHPUnit_Framework_TestCase
         $r = new \ReflectionClass('Yosmanyga\Resource\Normalizer\DirectoryNormalizer');
         $m = $r->getMethod('convertResource');
         $m->setAccessible(true);
-        $resource = new Resource(array('dir' => '/foo', 'filter' => '*.php', 'type' => 'annotation'));
+        $resource = new Resource(['dir' => '/foo', 'filter' => '*.php', 'type' => 'annotation']);
         $this->assertEquals(
-            new Resource(array('dir' => '/foo', 'filter' => '*.php', 'type' => 'annotation'), 'annotation'),
+            new Resource(['dir' => '/foo', 'filter' => '*.php', 'type' => 'annotation'], 'annotation'),
             $m->invoke($normalizer, $resource)
         );
     }

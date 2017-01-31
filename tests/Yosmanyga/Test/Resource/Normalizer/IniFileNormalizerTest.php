@@ -5,7 +5,7 @@ namespace Yosmanyga\Test\Resource\Normalizer;
 use Yosmanyga\Resource\Normalizer\IniFileDelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
-class IniFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
+class IniFileNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Yosmanyga\Resource\Normalizer\IniFileDelegatorNormalizer::supports
@@ -15,15 +15,15 @@ class IniFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
         $normalizer = new IniFileDelegatorNormalizer();
 
         // Right type
-        $this->assertTrue($normalizer->supports(null, new Resource(array(), 'ini')));
+        $this->assertTrue($normalizer->supports(null, new Resource([], 'ini')));
         // Wrong type
-        $this->assertFalse($normalizer->supports(null, new Resource(array(), 'foo')));
+        $this->assertFalse($normalizer->supports(null, new Resource([], 'foo')));
         // No type, file metadata and right extension
-        $extensions = array('ini');
+        $extensions = ['ini'];
         foreach ($extensions as $extension) {
-            $this->assertTrue($normalizer->supports(null, new Resource(array('file' => "foo.$extension"))));
+            $this->assertTrue($normalizer->supports(null, new Resource(['file' => "foo.$extension"])));
         }
         // No type, file metadata and wrong extension
-        $this->assertFalse($normalizer->supports(null, new Resource(array('file' => 'foo.bar'))));
+        $this->assertFalse($normalizer->supports(null, new Resource(['file' => 'foo.bar'])));
     }
 }

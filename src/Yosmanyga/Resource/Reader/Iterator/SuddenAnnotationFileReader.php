@@ -9,11 +9,11 @@ class SuddenAnnotationFileReader extends AnnotationFileReader
         $data = $this->docParser->parse($file, $annotation);
 
         if (!$data) {
-            return array();
+            return [];
         }
 
-        return array(
-            0 => $data
-        );
+        return [
+            0 => $data,
+        ];
     }
 }

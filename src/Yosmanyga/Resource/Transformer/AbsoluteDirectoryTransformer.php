@@ -7,7 +7,7 @@ use Yosmanyga\Resource\Resource;
 class AbsoluteDirectoryTransformer implements TransformerInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
@@ -19,7 +19,7 @@ class AbsoluteDirectoryTransformer implements TransformerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function transform(Resource $resource, Resource $parentResource)
     {

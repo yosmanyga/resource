@@ -41,7 +41,7 @@ class TtlCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $resource = new Resource(array('file' => __FILE__));
+        $resource = new Resource(['file' => __FILE__]);
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('add')->with();
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
@@ -54,7 +54,7 @@ class TtlCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheck()
     {
-        $resource = new Resource(array('file' => __FILE__));
+        $resource = new Resource(['file' => __FILE__]);
 
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(false));

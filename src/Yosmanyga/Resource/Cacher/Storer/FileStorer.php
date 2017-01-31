@@ -20,7 +20,7 @@ class FileStorer implements StorerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add($data, Resource $resource)
     {
@@ -28,7 +28,7 @@ class FileStorer implements StorerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function has(Resource $resource)
     {
@@ -38,7 +38,7 @@ class FileStorer implements StorerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get(Resource $resource)
     {
@@ -48,13 +48,14 @@ class FileStorer implements StorerInterface
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
      * @return string
      */
     protected function getFilename(Resource $resource)
     {
         return sprintf(
-            "%s/%s",
+            '%s/%s',
             $this->dir,
             md5(serialize($resource))
         );

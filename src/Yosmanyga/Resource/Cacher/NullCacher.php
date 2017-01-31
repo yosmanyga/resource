@@ -7,22 +7,21 @@ use Yosmanyga\Resource\Resource;
 class NullCacher implements CacherInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function store($data, Resource $resource)
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function retrieve(Resource $resource)
     {
-        return null;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function check(Resource $resource)
     {

@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Resource\Reader\Iterator;
 
-use Yosmanyga\Resource\Util\XmlKit;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Util\XmlKit;
 
 class XmlFileReader implements ReaderInterface
 {
@@ -23,7 +23,7 @@ class XmlFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -35,7 +35,7 @@ class XmlFileReader implements ReaderInterface
             return false;
         }
 
-        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('xml'))) {
+        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), ['xml'])) {
             return true;
         }
 
@@ -43,7 +43,7 @@ class XmlFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(Resource $resource)
     {
@@ -61,18 +61,17 @@ class XmlFileReader implements ReaderInterface
             while ($this->xmlReader->read()) {
                 $name = $this->xmlReader->name;
                 $depth = $this->xmlReader->depth;
-                if (1 == $depth && !in_array($name, array("", "#text"))) {
+                if (1 == $depth && !in_array($name, ['', '#text'])) {
                     break;
                 }
             }
         } catch (\Exception $e) {
             throw new \InvalidArgumentException($e->getMessage(), 0, $e);
         }
-
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -88,11 +87,11 @@ class XmlFileReader implements ReaderInterface
         $data = $this->xmlReader->expand();
         $data = $this->xmlKit->convertDomElementToArray($data);
 
-        return array('value' => $data);
+        return ['value' => $data];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -103,14 +102,14 @@ class XmlFileReader implements ReaderInterface
         while ($this->xmlReader->next()) {
             $name = $this->xmlReader->name;
             $depth = $this->xmlReader->depth;
-            if (1 == $depth && !in_array($name, array("", "#text"))) {
+            if (1 == $depth && !in_array($name, ['', '#text'])) {
                 break;
             }
         }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close()
     {

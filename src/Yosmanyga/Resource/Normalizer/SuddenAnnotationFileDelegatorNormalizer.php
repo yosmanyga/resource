@@ -7,7 +7,7 @@ use Yosmanyga\Resource\Resource;
 class SuddenAnnotationFileDelegatorNormalizer extends DelegatorNormalizer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($data, Resource $resource)
     {

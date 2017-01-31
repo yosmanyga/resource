@@ -22,7 +22,7 @@ class SerializedDataChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -34,7 +34,7 @@ class SerializedDataChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add(Resource $resource)
     {
@@ -45,7 +45,7 @@ class SerializedDataChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function check(Resource $resource)
     {

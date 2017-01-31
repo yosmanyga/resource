@@ -14,19 +14,19 @@ class DelegatorTransformer implements TransformerInterface
     /**
      * @param \Yosmanyga\Resource\Transformer\TransformerInterface[] $transformers
      */
-    public function __construct($transformers = array())
+    public function __construct($transformers = [])
     {
-        $this->transformers = $transformers ?: array(
+        $this->transformers = $transformers ?: [
             new RelativeFileTransformer(),
             new RelativeDirectoryTransformer(),
             new AbsoluteFileTransformer(),
             new AbsoluteDirectoryTransformer(),
-            new ComposerVendorFileTransformer()
-        );
+            new ComposerVendorFileTransformer(),
+        ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource, Resource $parentResource)
     {
@@ -34,13 +34,14 @@ class DelegatorTransformer implements TransformerInterface
             if ($this->pickTransformer($resource, $parentResource)) {
                 return true;
             }
-        } catch (\RuntimeException $e) {}
+        } catch (\RuntimeException $e) {
+        }
 
         return false;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function transform(Resource $resource, Resource $parentResource)
     {
@@ -48,10 +49,12 @@ class DelegatorTransformer implements TransformerInterface
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @param  \Yosmanyga\Resource\Resource $parentResource
-     * @throws \RuntimeException            If no transformer is able to support
-     *                                      the resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     * @param \Yosmanyga\Resource\Resource $parentResource
+     *
+     * @throws \RuntimeException If no transformer is able to support
+     *                           the resource
+     *
      * @return \Yosmanyga\Resource\Transformer\TransformerInterface
      */
     protected function pickTransformer(Resource $resource, Resource $parentResource)

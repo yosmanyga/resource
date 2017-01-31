@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Test\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\ComposerVendorFileTransformer;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Transformer\ComposerVendorFileTransformer;
 
 class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
         $transformer = new ComposerVendorFileTransformer();
         $class = new \ReflectionClass($transformer);
         $this->assertAttributeEquals(
-            sprintf("%s/../../../../../../../vendor/composer/installed.json", dirname($class->getFileName())),
+            sprintf('%s/../../../../../../../vendor/composer/installed.json', dirname($class->getFileName())),
             'file',
             $transformer
         );
@@ -41,7 +41,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
         $transformer = new ComposerVendorFileTransformer();
 
         $this->assertTrue($transformer->supports(
-            new Resource(array('file' => '@foo')),
+            new Resource(['file' => '@foo']),
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
@@ -49,7 +49,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('file' => 'foo')),
+            new Resource(['file' => 'foo']),
             new Resource()
         ));
     }
@@ -70,22 +70,22 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('owner1/package1'));
         $package1
             ->expects($this->once())->method('getAutoload')
-            ->will($this->returnValue(array('psr-0' => array('src/'))));
+            ->will($this->returnValue(['psr-0' => ['src/']]));
         $repository = $this
             ->getMockBuilder('\Composer\Repository\FilesystemRepository')
             ->disableOriginalConstructor()
             ->getMock();
         $repository
             ->expects($this->once())->method('getPackages')
-            ->will($this->returnValue(array($package1)));
+            ->will($this->returnValue([$package1]));
         $property = new \ReflectionProperty($transformer, 'repository');
         $property->setAccessible(true);
         $property->setValue($transformer, $repository);
 
         $this->assertEquals(
-            new Resource(array('file' => sprintf("%s/../../../../../../../vendor/owner1/package1/src/a/path", dirname($class->getFileName())))),
+            new Resource(['file' => sprintf('%s/../../../../../../../vendor/owner1/package1/src/a/path', dirname($class->getFileName()))]),
             $transformer->transform(
-                new Resource(array('file' => '@owner1/package1:a/path')),
+                new Resource(['file' => '@owner1/package1:a/path']),
                 new Resource()
             )
         );
@@ -99,7 +99,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
         $transformer = new ComposerVendorFileTransformer();
         $method = new \ReflectionMethod($transformer, 'parseFile');
         $method->setAccessible(true);
-        $this->assertEquals(array('foo/bar', '/a/path'), $method->invoke($transformer, '@foo/bar:/a/path'));
+        $this->assertEquals(['foo/bar', '/a/path'], $method->invoke($transformer, '@foo/bar:/a/path'));
     }
 
     /**
@@ -129,14 +129,14 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('owner1/package1'));
         $package1
             ->expects($this->once())->method('getAutoload')
-            ->will($this->returnValue(array('psr-0' => array('src/'))));
+            ->will($this->returnValue(['psr-0' => ['src/']]));
         $repository = $this
             ->getMockBuilder('\Composer\Repository\FilesystemRepository')
             ->disableOriginalConstructor()
             ->getMock();
         $repository
             ->expects($this->once())->method('getPackages')
-            ->will($this->returnValue(array($package1)));
+            ->will($this->returnValue([$package1]));
         $property = new \ReflectionProperty($transformer, 'repository');
         $property->setAccessible(true);
         $property->setValue($transformer, $repository);
@@ -168,7 +168,7 @@ class ComposerVendorFileTransformerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $repository
             ->expects($this->once())->method('getPackages')
-            ->will($this->returnValue(array($package1)));
+            ->will($this->returnValue([$package1]));
         $property = new \ReflectionProperty($transformer, 'repository');
         $property->setAccessible(true);
         $property->setValue($transformer, $repository);

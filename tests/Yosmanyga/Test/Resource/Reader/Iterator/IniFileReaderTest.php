@@ -15,16 +15,16 @@ class IniFileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new IniFileReader();
 
         // Right type
-        $this->assertTrue($reader->supports(new Resource(array(), 'ini')));
+        $this->assertTrue($reader->supports(new Resource([], 'ini')));
         // Wrong type
-        $this->assertFalse($reader->supports(new Resource(array(), 'foo')));
+        $this->assertFalse($reader->supports(new Resource([], 'foo')));
         // No type, file metadata and right extension
-        $extensions = array('ini');
+        $extensions = ['ini'];
         foreach ($extensions as $extension) {
-            $this->assertTrue($reader->supports(new Resource(array('file' => "foo.$extension"))));
+            $this->assertTrue($reader->supports(new Resource(['file' => "foo.$extension"])));
         }
         // No type, file metadata and wrong extension
-        $this->assertFalse($reader->supports(new Resource(array('file' => 'foo.bar'))));
+        $this->assertFalse($reader->supports(new Resource(['file' => 'foo.bar'])));
     }
 
     /**
@@ -32,11 +32,11 @@ class IniFileReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpen()
     {
-        $resource = new Resource(array('file' => sprintf("%s/Fixtures/foo.ini", dirname(__FILE__))));
+        $resource = new Resource(['file' => sprintf('%s/Fixtures/foo.ini', dirname(__FILE__))]);
         $reader = new IniFileReader();
 
         $reader->open($resource);
-        $this->assertEquals(array('key' => 'foo1', 'value' => array('foo11' => 'bar11', 'foo12' => 'bar12')), $reader->current());
+        $this->assertEquals(['key' => 'foo1', 'value' => ['foo11' => 'bar11', 'foo12' => 'bar12']], $reader->current());
     }
 
     /**
@@ -46,7 +46,7 @@ class IniFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithNotFoundFileMetadata()
     {
         $reader = new IniFileReader();
-        $reader->open(new Resource(array('file' => '')));
+        $reader->open(new Resource(['file' => '']));
     }
 
     /**
@@ -56,7 +56,7 @@ class IniFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithInvalidFileMetadata()
     {
         $reader = new IniFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/foo_invalid.ini", dirname(__FILE__)))));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/foo_invalid.ini', dirname(__FILE__))]));
     }
 
     /**
@@ -67,9 +67,9 @@ class IniFileReaderTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new IniFileReader();
 
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/foo.ini", dirname(__FILE__)))));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/foo.ini', dirname(__FILE__))]));
         $reader->next();
-        $this->assertEquals(array('key' => 'foo2', 'value' => array('foo21' => 'bar21', 'foo22' => 'bar22')), $reader->current());
+        $this->assertEquals(['key' => 'foo2', 'value' => ['foo21' => 'bar21', 'foo22' => 'bar22']], $reader->current());
         $reader->next();
         $this->assertFalse($reader->current());
     }
@@ -101,7 +101,7 @@ class IniFileReaderTest extends \PHPUnit_Framework_TestCase
     public function testClose()
     {
         $reader = new IniFileReader();
-        $reader->open(new Resource(array('file' => sprintf("%s/Fixtures/foo.ini", dirname(__FILE__)))));
+        $reader->open(new Resource(['file' => sprintf('%s/Fixtures/foo.ini', dirname(__FILE__))]));
         $reader->close();
         $reader->current();
     }

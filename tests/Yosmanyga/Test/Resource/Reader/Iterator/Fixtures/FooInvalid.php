@@ -21,6 +21,5 @@ class FooInvalids
      */
     public function bar()
     {
-
     }
 }

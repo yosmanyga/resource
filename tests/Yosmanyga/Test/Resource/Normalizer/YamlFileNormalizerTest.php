@@ -5,7 +5,7 @@ namespace Yosmanyga\Test\Resource\Normalizer;
 use Yosmanyga\Resource\Normalizer\YamlFileDelegatorNormalizer;
 use Yosmanyga\Resource\Resource;
 
-class YamlFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
+class YamlFileNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Yosmanyga\Resource\Normalizer\YamlFileDelegatorNormalizer::supports
@@ -15,15 +15,15 @@ class YamlFileDelegatorNormalizerTest extends \PHPUnit_Framework_TestCase
         $normalizer = new YamlFileDelegatorNormalizer();
 
         // Right type
-        $this->assertTrue($normalizer->supports(null, new Resource(array(), 'yaml')));
+        $this->assertTrue($normalizer->supports(null, new Resource([], 'yaml')));
         // Wrong type
-        $this->assertFalse($normalizer->supports(null, new Resource(array(), 'foo')));
+        $this->assertFalse($normalizer->supports(null, new Resource([], 'foo')));
         // No type, file metadata and right extension
-        $extensions = array('yaml', 'yml');
+        $extensions = ['yaml', 'yml'];
         foreach ($extensions as $extension) {
-            $this->assertTrue($normalizer->supports(null, new Resource(array('file' => "foo.$extension"))));
+            $this->assertTrue($normalizer->supports(null, new Resource(['file' => "foo.$extension"])));
         }
         // No type, file metadata and wrong extension
-        $this->assertFalse($normalizer->supports(null, new Resource(array('file' => 'foo.bar'))));
+        $this->assertFalse($normalizer->supports(null, new Resource(['file' => 'foo.bar'])));
     }
 }

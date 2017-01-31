@@ -7,7 +7,7 @@ use Yosmanyga\Resource\Resource;
 class YamlFileDelegatorNormalizer extends DelegatorNormalizer
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports($data, Resource $resource)
     {
@@ -19,7 +19,7 @@ class YamlFileDelegatorNormalizer extends DelegatorNormalizer
             return false;
         }
 
-        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('yaml', 'yml'))) {
+        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), ['yaml', 'yml'])) {
             return true;
         }
 

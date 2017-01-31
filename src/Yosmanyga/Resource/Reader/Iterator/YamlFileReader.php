@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Resource\Reader\Iterator;
 
-use Yosmanyga\Resource\Resource;
 use Symfony\Component\Yaml\Yaml;
+use Yosmanyga\Resource\Resource;
 
 class YamlFileReader implements ReaderInterface
 {
@@ -13,7 +13,7 @@ class YamlFileReader implements ReaderInterface
     private $inMemoryReader;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -25,7 +25,7 @@ class YamlFileReader implements ReaderInterface
             return false;
         }
 
-        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), array('yaml', 'yml'))) {
+        if ($resource->hasMetadata('file') && in_array(pathinfo($resource->getMetadata('file'), PATHINFO_EXTENSION), ['yaml', 'yml'])) {
             return true;
         }
 
@@ -33,7 +33,7 @@ class YamlFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(Resource $resource)
     {
@@ -50,11 +50,11 @@ class YamlFileReader implements ReaderInterface
         }
 
         $this->inMemoryReader = new InMemoryReader();
-        $this->inMemoryReader->open(new Resource(array('data' => $data), 'in_memory'));
+        $this->inMemoryReader->open(new Resource(['data' => $data], 'in_memory'));
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -66,7 +66,7 @@ class YamlFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -78,7 +78,7 @@ class YamlFileReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close()
     {

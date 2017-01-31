@@ -4,8 +4,8 @@ namespace Yosmanyga\Test\Resource\Cacher;
 
 use Yosmanyga\Resource\Cacher\Cacher;
 use Yosmanyga\Resource\Cacher\Checker\DelegatorChecker;
-use Yosmanyga\Resource\Cacher\Checker\FileVersionChecker;
 use Yosmanyga\Resource\Cacher\Checker\DirectoryVersionChecker;
+use Yosmanyga\Resource\Cacher\Checker\FileVersionChecker;
 use Yosmanyga\Resource\Cacher\Storer\FileStorer;
 use Yosmanyga\Resource\Resource;
 
@@ -18,10 +18,10 @@ class CacherTest extends \PHPUnit_Framework_TestCase
     {
         $cacher = new Cacher();
         $this->assertAttributeEquals(
-            new DelegatorChecker(array(
+            new DelegatorChecker([
                 new FileVersionChecker(),
-                new DirectoryVersionChecker()
-            )),
+                new DirectoryVersionChecker(),
+            ]),
             'checker',
             $cacher
         );
@@ -41,7 +41,7 @@ class CacherTest extends \PHPUnit_Framework_TestCase
      */
     public function testStore()
     {
-        $data = array();
+        $data = [];
         $resource = new Resource();
 
         $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
@@ -87,7 +87,7 @@ class CacherTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cacher->check($resource));
 
         $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
-        /** @var \PHPUnit_Framework_MockObject_MockObject $checker */
+        /* @var \PHPUnit_Framework_MockObject_MockObject $checker */
         $checker->expects($this->once())->method('check')->with($resource)->will($this->returnValue(false));
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
@@ -96,10 +96,10 @@ class CacherTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($cacher->check($resource));
 
         $checker = $this->getMock('Yosmanyga\Resource\Cacher\Checker\CheckerInterface');
-        /** @var \PHPUnit_Framework_MockObject_MockObject $checker */
+        /* @var \PHPUnit_Framework_MockObject_MockObject $checker */
         $checker->expects($this->once())->method('check')->with($resource)->will($this->returnValue(true));
         $storer = $this->getMock('Yosmanyga\Resource\Cacher\Storer\StorerInterface');
-        /** @var \PHPUnit_Framework_MockObject_MockObject $storer */
+        /* @var \PHPUnit_Framework_MockObject_MockObject $storer */
         $storer->expects($this->once())->method('has')->with($resource)->will($this->returnValue(false));
         /** @var \Yosmanyga\Resource\Cacher\Storer\StorerInterface $storer */
         /** @var \Yosmanyga\Resource\Cacher\Checker\CheckerInterface $checker */

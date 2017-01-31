@@ -11,33 +11,33 @@ class XmlKitTest extends \PHPUnit_Framework_TestCase
         $xmlNodeNormalizer = new XmlKit();
 
         $this->assertEquals(
-            array(
-                'tag1' => 'value1'
-            ),
+            [
+                'tag1' => 'value1',
+            ],
             $xmlNodeNormalizer->extractContent(
-                array(
-                    'name' => 'tag1',
-                    'value' => 'value1'
-                )
+                [
+                    'name'  => 'tag1',
+                    'value' => 'value1',
+                ]
             )
         );
 
         $this->assertEquals(
-            array(
+            [
                 'tag1' => 'value1',
-                'tag2' => 'value2'
-            ),
+                'tag2' => 'value2',
+            ],
             $xmlNodeNormalizer->extractContent(
-                array(
-                    array(
-                        'name' => 'tag1',
-                        'value' => 'value1'
-                    ),
-                    array(
-                        'name' => 'tag2',
-                        'value' => 'value2'
-                    )
-                )
+                [
+                    [
+                        'name'  => 'tag1',
+                        'value' => 'value1',
+                    ],
+                    [
+                        'name'  => 'tag2',
+                        'value' => 'value2',
+                    ],
+                ]
             )
         );
     }

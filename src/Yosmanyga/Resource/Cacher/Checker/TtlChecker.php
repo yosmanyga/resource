@@ -14,7 +14,7 @@ class TtlChecker implements CheckerInterface
     private $storer;
 
     /**
-     * @var integer
+     * @var int
      */
     private $ttl;
 
@@ -25,7 +25,7 @@ class TtlChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -33,7 +33,7 @@ class TtlChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add(Resource $resource)
     {
@@ -44,7 +44,7 @@ class TtlChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function check(Resource $resource)
     {

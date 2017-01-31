@@ -15,13 +15,13 @@ class InMemoryReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new InMemoryReader();
 
         // Right type
-        $this->assertTrue($reader->supports(new Resource(array(), 'in_memory')));
+        $this->assertTrue($reader->supports(new Resource([], 'in_memory')));
         // Wrong type
-        $this->assertFalse($reader->supports(new Resource(array(), 'foo')));
+        $this->assertFalse($reader->supports(new Resource([], 'foo')));
         // No type and data metadata
-        $this->assertTrue($reader->supports(new Resource(array('data' => array()))));
+        $this->assertTrue($reader->supports(new Resource(['data' => []])));
         // No type and no data metadata
-        $this->assertFalse($reader->supports(new Resource(array())));
+        $this->assertFalse($reader->supports(new Resource([])));
     }
 
     /**
@@ -29,12 +29,12 @@ class InMemoryReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpen()
     {
-        $data = array('foo1' => 'bar1', 'foo2' => 'bar2');
-        $resource = new Resource(array('data' => $data), 'in_memory');
+        $data = ['foo1' => 'bar1', 'foo2' => 'bar2'];
+        $resource = new Resource(['data' => $data], 'in_memory');
         $reader = new InMemoryReader();
 
         $reader->open($resource);
-        $this->assertEquals(array('key' => 'foo1', 'value' => 'bar1'), $reader->current());
+        $this->assertEquals(['key' => 'foo1', 'value' => 'bar1'], $reader->current());
     }
 
     /**
@@ -44,7 +44,7 @@ class InMemoryReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithInvalidDataMetadata()
     {
         $reader = new InMemoryReader();
-        $reader->open(new Resource(array('data' => 'foo')));
+        $reader->open(new Resource(['data' => 'foo']));
     }
 
     /**
@@ -65,9 +65,9 @@ class InMemoryReaderTest extends \PHPUnit_Framework_TestCase
     {
         $reader = new InMemoryReader();
 
-        $reader->open(new Resource(array('data' => array('foo1' => 'bar1', 'foo2' => 'bar2')), 'in_memory'));
+        $reader->open(new Resource(['data' => ['foo1' => 'bar1', 'foo2' => 'bar2']], 'in_memory'));
         $reader->next();
-        $this->assertEquals(array('key' => 'foo2', 'value' => 'bar2'), $reader->current());
+        $this->assertEquals(['key' => 'foo2', 'value' => 'bar2'], $reader->current());
         $reader->next();
         $this->assertFalse($reader->current());
     }
@@ -99,7 +99,7 @@ class InMemoryReaderTest extends \PHPUnit_Framework_TestCase
     public function testClose()
     {
         $reader = new InMemoryReader();
-        $reader->open(new Resource(array('data' => array()), 'in_memory'));
+        $reader->open(new Resource(['data' => []], 'in_memory'));
         $reader->close();
         $reader->current();
     }

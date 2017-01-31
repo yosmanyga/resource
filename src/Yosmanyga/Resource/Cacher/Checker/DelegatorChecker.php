@@ -14,17 +14,17 @@ class DelegatorChecker implements CheckerInterface
     /**
      * @param \Yosmanyga\Resource\Cacher\Checker\CheckerInterface[] $checkers
      */
-    public function __construct($checkers = array())
+    public function __construct($checkers = [])
     {
-        $this->checkers = $checkers ?: array(
+        $this->checkers = $checkers ?: [
             new FileVersionChecker(),
             new DirectoryVersionChecker(),
-            new SerializedDataChecker()
-        );
+            new SerializedDataChecker(),
+        ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -32,13 +32,14 @@ class DelegatorChecker implements CheckerInterface
             if ($this->pickChecker($resource)) {
                 return true;
             }
-        } catch (\RuntimeException $e) {}
+        } catch (\RuntimeException $e) {
+        }
 
         return false;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add(Resource $resource)
     {
@@ -46,7 +47,7 @@ class DelegatorChecker implements CheckerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function check(Resource $resource)
     {
@@ -54,9 +55,11 @@ class DelegatorChecker implements CheckerInterface
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @throws \RuntimeException            If no checker is able to support the
-     *                                      resource
+     * @param \Yosmanyga\Resource\Resource $resource
+     *
+     * @throws \RuntimeException If no checker is able to support the
+     *                           resource
+     *
      * @return \Yosmanyga\Resource\Cacher\Checker\CheckerInterface
      */
     protected function pickChecker($resource)

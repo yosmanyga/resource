@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Test\Resource\Reader\Flat;
 
-use Yosmanyga\Resource\Resource;
 use Yosmanyga\Resource\Reader\Flat\FileReader;
+use Yosmanyga\Resource\Resource;
 
 class FileReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,13 +15,13 @@ class FileReaderTest extends \PHPUnit_Framework_TestCase
         $reader = new FileReader();
 
         // Right type
-        $this->assertTrue($reader->supports(new Resource(array(), 'file')));
+        $this->assertTrue($reader->supports(new Resource([], 'file')));
         // Wrong type
-        $this->assertFalse($reader->supports(new Resource(array(), 'foo')));
+        $this->assertFalse($reader->supports(new Resource([], 'foo')));
         // No type and file metadata
-        $this->assertTrue($reader->supports(new Resource(array('file' => '/foo.bar'))));
+        $this->assertTrue($reader->supports(new Resource(['file' => '/foo.bar'])));
         // No type and no file metadata
-        $this->assertFalse($reader->supports(new Resource(array())));
+        $this->assertFalse($reader->supports(new Resource([])));
     }
 
     /**
@@ -30,7 +30,7 @@ class FileReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $reader = new FileReader();
-        $content = $reader->read(new Resource(array('file' => sprintf("%s/Fixtures/foo.html", dirname(__FILE__)))));
+        $content = $reader->read(new Resource(['file' => sprintf('%s/Fixtures/foo.html', dirname(__FILE__))]));
         $this->assertEquals("foo\nbar", $content);
     }
 
@@ -41,7 +41,7 @@ class FileReaderTest extends \PHPUnit_Framework_TestCase
     public function testOpenThrowsExceptionWithInvalidFile()
     {
         $reader = new FileReader();
-        $file = sprintf("%s/Fixtures/fuu.html", dirname(__FILE__));
-        $reader->read(new Resource(array('file' => $file)));
+        $file = sprintf('%s/Fixtures/fuu.html', dirname(__FILE__));
+        $reader->read(new Resource(['file' => $file]));
     }
 }

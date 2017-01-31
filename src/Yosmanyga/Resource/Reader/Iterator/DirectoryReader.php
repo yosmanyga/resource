@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Resource\Reader\Iterator;
 
-use Yosmanyga\Resource\Resource;
 use Symfony\Component\Finder\Finder;
+use Yosmanyga\Resource\Resource;
 
 class DirectoryReader implements ReaderInterface
 {
@@ -31,21 +31,21 @@ class DirectoryReader implements ReaderInterface
      * @param \Yosmanyga\Resource\Reader\Iterator\ReaderInterface[] $readers
      * @param \Symfony\Component\Finder\Finder                      $finder
      */
-    public function __construct($readers = array(), $finder = null)
+    public function __construct($readers = [], $finder = null)
     {
-        $readers = $readers ?: array(
+        $readers = $readers ?: [
             new IniFileReader(),
             new YamlFileReader(),
             new XmlFileReader(),
             new SuddenAnnotationFileReader(),
-        );
+        ];
 
         $this->delegatorReader = new DelegatorReader($readers);
         $this->finder = $finder ?: new Finder();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -65,7 +65,7 @@ class DirectoryReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(Resource $resource)
     {
@@ -77,7 +77,7 @@ class DirectoryReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -99,7 +99,7 @@ class DirectoryReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -107,7 +107,7 @@ class DirectoryReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close()
     {
@@ -140,8 +140,9 @@ class DirectoryReader implements ReaderInterface
     }
 
     /**
-     * @param  \Yosmanyga\Resource\Resource $resource
-     * @param  \SplFileInfo                 $file
+     * @param \Yosmanyga\Resource\Resource $resource
+     * @param \SplFileInfo                 $file
+     *
      * @return \Yosmanyga\Resource\Resource
      */
     private function convertResource(Resource $resource, \SplFileInfo $file)
@@ -149,9 +150,9 @@ class DirectoryReader implements ReaderInterface
         return new Resource(
             array_merge(
                 $resource->getMetadata(),
-                array(
-                    'file' => $file->getRealpath()
-                )
+                [
+                    'file' => $file->getRealpath(),
+                ]
             ),
             $resource->getMetadata('type')
         );

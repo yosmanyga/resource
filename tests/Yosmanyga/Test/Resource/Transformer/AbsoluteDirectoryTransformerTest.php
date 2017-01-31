@@ -2,8 +2,8 @@
 
 namespace Yosmanyga\Test\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\AbsoluteDirectoryTransformer;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Transformer\AbsoluteDirectoryTransformer;
 
 class AbsoluteDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,15 +19,15 @@ class AbsoluteDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
             new Resource()
         ));
         $this->assertFalse($transformer->supports(
-            new Resource(array('dir' => 'bar/foo1')),
+            new Resource(['dir' => 'bar/foo1']),
             new Resource()
         ));
         $this->assertTrue($transformer->supports(
-            new Resource(array('dir' => '/bar/foo1')),
+            new Resource(['dir' => '/bar/foo1']),
             new Resource()
         ));
         $this->assertTrue($transformer->supports(
-            new Resource(array('dir' => 'c:/bar/foo1')),
+            new Resource(['dir' => 'c:/bar/foo1']),
             new Resource()
         ));
     }
@@ -39,9 +39,9 @@ class AbsoluteDirectoryTransformerTest extends \PHPUnit_Framework_TestCase
     {
         $transformer = new AbsoluteDirectoryTransformer();
         $this->assertEquals(
-            new Resource(array('file' => '/bar/foo1.x')),
+            new Resource(['file' => '/bar/foo1.x']),
             $transformer->transform(
-                new Resource(array('file' => '/bar/foo1.x')),
+                new Resource(['file' => '/bar/foo1.x']),
                 new Resource()
             )
         );

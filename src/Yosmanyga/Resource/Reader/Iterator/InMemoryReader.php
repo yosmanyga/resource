@@ -12,7 +12,7 @@ class InMemoryReader implements ReaderInterface
     private $data;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function supports(Resource $resource)
     {
@@ -33,7 +33,7 @@ class InMemoryReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(Resource $resource)
     {
@@ -45,7 +45,7 @@ class InMemoryReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -59,11 +59,11 @@ class InMemoryReader implements ReaderInterface
             return false;
         }
 
-        return array('key' => $key, 'value' => current($this->data));
+        return ['key' => $key, 'value' => current($this->data)];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -75,7 +75,7 @@ class InMemoryReader implements ReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close()
     {

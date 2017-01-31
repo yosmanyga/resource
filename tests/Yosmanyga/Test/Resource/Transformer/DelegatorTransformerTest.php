@@ -2,13 +2,13 @@
 
 namespace Yosmanyga\Test\Resource\Transformer;
 
-use Yosmanyga\Resource\Transformer\DelegatorTransformer;
-use Yosmanyga\Resource\Transformer\RelativeFileTransformer;
-use Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer;
-use Yosmanyga\Resource\Transformer\AbsoluteFileTransformer;
-use Yosmanyga\Resource\Transformer\AbsoluteDirectoryTransformer;
-use Yosmanyga\Resource\Transformer\ComposerVendorFileTransformer;
 use Yosmanyga\Resource\Resource;
+use Yosmanyga\Resource\Transformer\AbsoluteDirectoryTransformer;
+use Yosmanyga\Resource\Transformer\AbsoluteFileTransformer;
+use Yosmanyga\Resource\Transformer\ComposerVendorFileTransformer;
+use Yosmanyga\Resource\Transformer\DelegatorTransformer;
+use Yosmanyga\Resource\Transformer\RelativeDirectoryTransformer;
+use Yosmanyga\Resource\Transformer\RelativeFileTransformer;
 
 class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,20 +19,20 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
     {
         $delegatorTransformer = new DelegatorTransformer();
         $this->assertAttributeEquals(
-            array(
+            [
                 new RelativeFileTransformer(),
                 new RelativeDirectoryTransformer(),
                 new AbsoluteFileTransformer(),
                 new AbsoluteDirectoryTransformer(),
-                new ComposerVendorFileTransformer()
-            ),
+                new ComposerVendorFileTransformer(),
+            ],
             'transformers',
             $delegatorTransformer
         );
 
         $internalTransformer1 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
-        $delegatorTransformer = new DelegatorTransformer(array($internalTransformer1));
-        $this->assertAttributeEquals(array($internalTransformer1), 'transformers', $delegatorTransformer);
+        $delegatorTransformer = new DelegatorTransformer([$internalTransformer1]);
+        $this->assertAttributeEquals([$internalTransformer1], 'transformers', $delegatorTransformer);
     }
 
     /**
@@ -43,11 +43,11 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
         $resource = new Resource();
         $parentResource = new Resource();
 
-        $transformer = $this->getMock('Yosmanyga\Resource\Transformer\DelegatorTransformer', array('pickTransformer'));
+        $transformer = $this->getMock('Yosmanyga\Resource\Transformer\DelegatorTransformer', ['pickTransformer']);
         $transformer->expects($this->once())->method('pickTransformer')->with($resource, $parentResource)->will($this->returnValue(true));
         $this->assertTrue($transformer->supports($resource, $parentResource));
 
-        $transformer = $this->getMock('Yosmanyga\Resource\Transformer\DelegatorTransformer', array('pickTransformer'));
+        $transformer = $this->getMock('Yosmanyga\Resource\Transformer\DelegatorTransformer', ['pickTransformer']);
         $transformer->expects($this->once())->method('pickTransformer')->with($resource, $parentResource)->will($this->returnValue(false));
         $this->assertFalse($transformer->supports($resource, $parentResource));
     }
@@ -60,7 +60,7 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
         $internalTransformer1 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
         $internalTransformer1->expects($this->once())->method('supports')->will($this->returnValue(true));
         $internalTransformer1->expects($this->once())->method('transform');
-        $delegatorTransformer = new DelegatorTransformer(array($internalTransformer1));
+        $delegatorTransformer = new DelegatorTransformer([$internalTransformer1]);
         $delegatorTransformer->transform(new Resource(), new Resource());
     }
 
@@ -76,9 +76,9 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
         $internalTransformer2 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
         $internalTransformer3 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
         $internalTransformer2->expects($this->once())->method('supports')->will($this->returnValue(true));
-        $delegatorTransformer = new DelegatorTransformer(array($internalTransformer1, $internalTransformer2, $internalTransformer3));
+        $delegatorTransformer = new DelegatorTransformer([$internalTransformer1, $internalTransformer2, $internalTransformer3]);
         $this->assertEquals($internalTransformer2, $m->invoke($delegatorTransformer, new Resource(), new Resource()));
-        $this->assertAttributeEquals(array(0 => $internalTransformer2, 1 => $internalTransformer1, 2 => $internalTransformer3), 'transformers', $delegatorTransformer);
+        $this->assertAttributeEquals([0 => $internalTransformer2, 1 => $internalTransformer1, 2 => $internalTransformer3], 'transformers', $delegatorTransformer);
     }
 
     /**
@@ -92,7 +92,7 @@ class DelegatorTransformerTest extends \PHPUnit_Framework_TestCase
         $m->setAccessible(true);
         $internalTransformer1 = $this->getMock('Yosmanyga\Resource\Transformer\TransformerInterface');
         $internalTransformer1->expects($this->once())->method('supports')->will($this->returnValue(false));
-        $delegatorTransformer = new DelegatorTransformer(array($internalTransformer1));
+        $delegatorTransformer = new DelegatorTransformer([$internalTransformer1]);
         $m->invoke($delegatorTransformer, new Resource(), new Resource());
     }
 }
